@@ -620,8 +620,27 @@ body.app-ready .app-entry{
   display:grid;
   place-items:center;
   box-shadow:none;
+  overflow:visible;
 }
 .app-entry__media::before,
+.app-entry__media::after{
+  content:"";
+  position:absolute;
+  pointer-events:none;
+  border-radius:50%;
+}
+.app-entry__media::before{
+  inset:15%;
+  border-radius:42% 58% 54% 46% / 45% 41% 59% 55%;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(222, 215, 255, .18), transparent 28%),
+    radial-gradient(circle at 72% 68%, rgba(116, 55, 180, .26), transparent 34%),
+    radial-gradient(circle at 48% 50%, rgba(61, 26, 112, .16), transparent 66%);
+  filter:blur(34px);
+  opacity:.74;
+  transform:scale(1.14);
+  animation:entryHaloMorph 5.8s ease-in-out infinite;
+}
 .app-entry__media::after{
   display:none;
 }
@@ -635,6 +654,9 @@ body.app-ready .app-entry{
   border:none;
   filter:saturate(108%) contrast(108%) brightness(.96);
   mix-blend-mode:screen;
+  transform-origin:center;
+  will-change:transform;
+  animation:entryVideoSpin 4s linear infinite;
 }
 .app-entry__actions{
   width:100%;
@@ -645,6 +667,8 @@ body.app-ready .app-entry{
   margin-top:-54px;
 }
 .app-entry__cta{
+  position:relative;
+  overflow:hidden;
   min-width:250px;
   min-height:56px;
   padding:0 24px;
@@ -658,10 +682,25 @@ body.app-ready .app-entry{
   backdrop-filter:blur(18px) saturate(150%);
   -webkit-backdrop-filter:blur(18px) saturate(150%);
   box-shadow:0 18px 34px rgba(34,16,54,.28), inset 0 1px 0 rgba(255,255,255,.18), inset 0 -1px 0 rgba(255,255,255,.05);
+  transition:transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+.app-entry__cta::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(110deg, transparent 0 28%, rgba(255,255,255,.18) 48%, transparent 68%);
+  transform:translateX(-135%);
+  opacity:.7;
+  animation:entryCtaShine 4.8s linear infinite;
+  pointer-events:none;
 }
 .app-entry__cta:hover{
   transform:translateY(-2px);
-  box-shadow:0 24px 40px rgba(34,16,54,.34), inset 0 1px 0 rgba(255,255,255,.22), inset 0 -1px 0 rgba(255,255,255,.06);
+  border-color:rgba(231,214,255,.34);
+  box-shadow:0 24px 40px rgba(34,16,54,.34), inset 0 1px 0 rgba(255,255,255,.22), inset 0 -1px 0 rgba(255,255,255,.06), 0 0 22px rgba(118,74,198,.16);
+}
+.app-entry__cta:active{
+  transform:scale(.985);
 }
 .wrap{
   max-width:1380px;
@@ -1265,6 +1304,27 @@ figure.svg-demo{
   50%{ transform:translate3d(2%, 1%, 0) rotate(3deg) scale(1.08); }
   100%{ transform:translate3d(-2%, -1%, 0) rotate(0deg) scale(1); }
 }
+@keyframes entryHaloMorph{
+  0%,100%{
+    transform:scale(1.08) rotate(0deg);
+    opacity:.7;
+    border-radius:42% 58% 54% 46% / 45% 41% 59% 55%;
+  }
+  50%{
+    transform:scale(1.18) rotate(10deg);
+    opacity:.96;
+    border-radius:58% 42% 46% 54% / 39% 61% 43% 57%;
+  }
+}
+@keyframes entryVideoSpin{
+  from{ transform:rotate(0deg) scale(1.045); }
+  to{ transform:rotate(360deg) scale(1.045); }
+}
+@keyframes entryCtaShine{
+  0%, 55%{ transform:translateX(-135%); }
+  72%{ transform:translateX(135%); }
+  100%{ transform:translateX(135%); }
+}
 </style>
 </head>
 <body class="prelaunch">
@@ -1276,7 +1336,7 @@ figure.svg-demo{
     <span class="app-entry__badge">Prompt Studio Mobile</span>
     <h1>Prompt Studio</h1>
     <div class="app-entry__media" aria-hidden="true">
-      <video class="app-entry__video" autoplay muted loop playsinline preload="auto">
+      <video class="app-entry__video" id="entryVideo" autoplay muted loop playsinline webkit-playsinline preload="auto">
         <source src="./media/entry-liquid.mp4" type="video/mp4">
       </video>
     </div>
@@ -5222,7 +5282,38 @@ function buildVideoPrompt(state, variation){
   var body = document.body;
   var entry = document.getElementById('appEntry');
   var startBtn = document.getElementById('startAppButton');
+  var entryVideo = document.getElementById('entryVideo');
   if(!body || !entry || !startBtn) return;
+
+  if(entryVideo){
+    var loopGuard = false;
+    function restartEntryVideo(){
+      if(loopGuard) return;
+      loopGuard = true;
+      try{
+        entryVideo.currentTime = 0.02;
+        var playResult = entryVideo.play();
+        if(playResult && typeof playResult.catch === 'function'){
+          playResult.catch(function(){});
+        }
+      } catch(_err){}
+      window.setTimeout(function(){ loopGuard = false; }, 80);
+    }
+
+    entryVideo.addEventListener('ended', restartEntryVideo);
+    entryVideo.addEventListener('timeupdate', function(){
+      if(!entryVideo.duration || loopGuard) return;
+      if(entryVideo.duration - entryVideo.currentTime < 0.045){
+        restartEntryVideo();
+      }
+    });
+    entryVideo.addEventListener('loadeddata', function(){
+      var playResult = entryVideo.play();
+      if(playResult && typeof playResult.catch === 'function'){
+        playResult.catch(function(){});
+      }
+    });
+  }
 
   function openApp(){
     body.classList.remove('prelaunch');
