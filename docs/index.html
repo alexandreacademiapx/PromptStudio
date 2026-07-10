@@ -663,6 +663,7 @@ body.app-ready .app-entry{
   transform-origin:center;
   will-change:transform;
   animation:entryVideoFloat 6.2s ease-in-out infinite;
+  opacity:1;
 }
 .app-entry__actions{
   width:100%;
@@ -1379,8 +1380,8 @@ figure.svg-demo{
     <span class="app-entry__badge">Prompt Studio Mobile</span>
     <h1>Prompt Studio</h1>
     <div class="app-entry__media" aria-hidden="true">
-      <video class="app-entry__video" id="entryVideo" autoplay muted loop playsinline webkit-playsinline preload="auto">
-        <source src="./media/entry-liquid.mp4" type="video/mp4">
+      <video class="app-entry__video" id="entryVideo" autoplay loop muted playsinline webkit-playsinline preload="auto">
+        <source src="./media/entry-liquid-source.mp4" type="video/mp4">
       </video>
     </div>
     <p>Essa abertura segura a interface antes de carregar a bancada principal e melhora a entrada no iPhone e no iPad.</p>
@@ -5329,20 +5330,12 @@ function buildVideoPrompt(state, variation){
   if(!body || !entry || !startBtn) return;
 
   if(entryVideo){
-    function playEntryVideo(){
-      var playResult = entryVideo.play();
-      if(playResult && typeof playResult.catch === 'function'){
-        playResult.catch(function(){});
-      }
+    entryVideo.muted = true;
+    entryVideo.playsInline = true;
+    var playResult = entryVideo.play();
+    if(playResult && typeof playResult.catch === 'function'){
+      playResult.catch(function(){});
     }
-
-    entryVideo.addEventListener('loadeddata', playEntryVideo);
-    entryVideo.addEventListener('canplay', playEntryVideo);
-    document.addEventListener('visibilitychange', function(){
-      if(!document.hidden){
-        playEntryVideo();
-      }
-    });
   }
 
   function openApp(){
