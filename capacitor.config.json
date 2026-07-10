@@ -1,0 +1,9 @@
+{
+  "appId": "com.alexandremachado.promptstudio",
+  "appName": "Prompt Studio",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "server": {
+    "iosScheme": "capacitor"
+  }
+}
