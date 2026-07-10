@@ -777,15 +777,26 @@ body.app-ready .app-entry{
   background:transparent;
   border:none;
   box-shadow:none;
+  cursor:default;
+  animation:none;
 }
+.hero-logo:hover{animation:none;}
 .hero-logo::before{
   display:none;
 }
 .hero-logo .glow{
-  width:176px;
-  height:176px;
-  background:radial-gradient(circle, rgba(100,49,159,.30), rgba(100,49,159,.06) 44%, transparent 70%);
-  filter:blur(26px);
+  display:none;
+}
+.hero-logo__video{
+  position:relative;
+  z-index:1;
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  border-radius:26px;
+  background:#0a090d;
+  box-shadow:0 18px 38px rgba(0,0,0,.34);
 }
 .hero-copy{
   position:relative;
@@ -1469,7 +1480,9 @@ figure.svg-demo{
   <div class="hero-stage">
     <div class="hero-logo" id="heroLogo">
       <span class="glow"></span>
-      <div class="play3d" id="play3d"></div>
+      <video class="hero-logo__video" autoplay loop muted playsinline webkit-playsinline preload="auto" poster="./media/entry-liquid-alpha.webp" aria-label="Forma 3D em rotação">
+        <source src="./media/entry-liquid.mp4" type="video/mp4">
+      </video>
     </div>
     <div class="hero-copy">
       <span class="hero-kicker">Direction Console</span>
