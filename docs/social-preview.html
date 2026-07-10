@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:1200px;height:630px;overflow:hidden;background:#07030c}
+body{font-family:"Space Grotesk",sans-serif;color:#f5efff}
+.card{position:relative;width:1200px;height:630px;overflow:hidden;background:
+  radial-gradient(ellipse at 72% 47%,rgba(116,58,215,.42) 0,rgba(64,18,104,.18) 24%,transparent 51%),
+  radial-gradient(circle at 7% 94%,rgba(65,18,95,.33),transparent 31%),#07030c}
+.glow{position:absolute;border-radius:50%;filter:blur(1px);opacity:.75}
+.glow.one{width:640px;height:640px;right:-130px;top:-120px;background:radial-gradient(circle,rgba(149,91,255,.32),transparent 67%)}
+.glow.two{width:380px;height:380px;left:310px;bottom:-190px;background:radial-gradient(circle,rgba(120,36,212,.24),transparent 70%)}
+.grain{position:absolute;inset:0;opacity:.32;background-image:radial-gradient(rgba(255,255,255,.16) .6px,transparent .7px);background-size:7px 7px;mix-blend-mode:soft-light}
+.line{position:absolute;left:72px;right:72px;top:70px;height:1px;background:linear-gradient(90deg,transparent,rgba(204,173,255,.45),transparent)}
+.wordmark{position:absolute;left:82px;top:106px;font-family:"JetBrains Mono",monospace;font-size:35px;letter-spacing:10px;font-weight:500;color:#f3edff}
+.wordmark b{font-weight:700}
+.eyebrow{position:absolute;left:85px;top:196px;font-family:"JetBrains Mono",monospace;font-size:14px;letter-spacing:2.4px;color:#ae8cf7}
+h1{position:absolute;left:82px;top:226px;margin:0;width:565px;font-size:54px;line-height:1.08;letter-spacing:-2px;font-weight:500}
+h1 strong{font-weight:700;color:#d8c8ff}
+.caption{position:absolute;left:85px;top:412px;width:400px;font-size:19px;line-height:1.45;color:rgba(237,228,255,.72)}
+.url{position:absolute;left:85px;bottom:72px;font-family:"JetBrains Mono",monospace;font-size:15px;letter-spacing:1.6px;color:#bc9cff}
+.orbital{position:absolute;right:70px;top:47px;width:540px;height:540px;border:1px solid rgba(188,145,255,.17);border-radius:50%;transform:rotate(-13deg)}
+.orbital:before,.orbital:after{content:"";position:absolute;border:1px solid rgba(188,145,255,.12);border-radius:50%;inset:42px}.orbital:after{inset:91px}
+.mark{position:absolute;right:105px;top:117px;width:455px;height:455px;object-fit:contain;filter:drop-shadow(0 34px 44px rgba(0,0,0,.62)) drop-shadow(0 0 42px rgba(136,71,255,.45));transform:rotate(-6deg)}
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="glow one"></div><div class="glow two"></div><div class="grain"></div><div class="line"></div>
+  <div class="wordmark">PROMPT <b>STUDIO</b></div>
+  <div class="eyebrow">DIREÇÃO CRIATIVA</div>
+  <h1>Prompts de imagem e vídeo com <strong>leitura de cena.</strong></h1>
+  <p class="caption">Transforme intenção visual em direção clara para criar com mais consistência.</p>
+  <div class="url">STUDIOPROMPTS.COM.BR</div>
+  <div class="orbital"></div>
+  <img class="mark" src="media/entry-liquid-alpha.webp" alt="">
+</main>
+</body>
+</html>
