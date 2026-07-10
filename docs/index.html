@@ -475,6 +475,11 @@ body{
 body.prelaunch{
   overflow:hidden;
 }
+body.app-ready{
+  overflow-x:hidden;
+  overflow-y:auto;
+  overscroll-behavior-y:auto;
+}
 body::before{
   content:"";
   position:fixed;
@@ -610,6 +615,7 @@ body.app-ready .app-entry{
   color:#f7f2ff;
   text-align:center;
   opacity:.94;
+  animation:entryTitleStrobe 5s steps(1, end) infinite;
 }
 .app-entry__media{
   position:relative;
@@ -656,7 +662,7 @@ body.app-ready .app-entry{
   mix-blend-mode:screen;
   transform-origin:center;
   will-change:transform;
-  animation:entryVideoSpin 4s linear infinite;
+  animation:entryVideoFloat 6.2s ease-in-out infinite;
 }
 .app-entry__actions{
   width:100%;
@@ -1316,9 +1322,46 @@ figure.svg-demo{
     border-radius:58% 42% 46% 54% / 39% 61% 43% 57%;
   }
 }
-@keyframes entryVideoSpin{
-  from{ transform:rotate(0deg) scale(1.045); }
-  to{ transform:rotate(360deg) scale(1.045); }
+@keyframes entryVideoFloat{
+  0%,100%{
+    transform:translate3d(0, 0, 0) scale(1.03);
+    filter:saturate(108%) contrast(108%) brightness(.96);
+  }
+  35%{
+    transform:translate3d(1.8%, -1.6%, 0) scale(1.055);
+    filter:saturate(112%) contrast(110%) brightness(.99);
+  }
+  68%{
+    transform:translate3d(-1.6%, 1.3%, 0) scale(1.04);
+    filter:saturate(106%) contrast(106%) brightness(.94);
+  }
+}
+@keyframes entryTitleStrobe{
+  0%, 93%, 100%{
+    opacity:.94;
+    text-shadow:0 0 0 rgba(255,255,255,0), 0 0 0 rgba(180,132,255,0);
+    filter:none;
+  }
+  94%{
+    opacity:1;
+    text-shadow:0 0 14px rgba(246,238,255,.35), 0 0 28px rgba(150,96,255,.16);
+    filter:brightness(1.14);
+  }
+  95%{
+    opacity:.78;
+    text-shadow:none;
+    filter:brightness(.94);
+  }
+  96%{
+    opacity:1;
+    text-shadow:0 0 16px rgba(246,238,255,.42), 0 0 30px rgba(150,96,255,.22);
+    filter:brightness(1.18);
+  }
+  97%{
+    opacity:.88;
+    text-shadow:0 0 10px rgba(246,238,255,.20);
+    filter:brightness(1.02);
+  }
 }
 @keyframes entryCtaShine{
   0%, 55%{ transform:translateX(-135%); }
@@ -5286,31 +5329,18 @@ function buildVideoPrompt(state, variation){
   if(!body || !entry || !startBtn) return;
 
   if(entryVideo){
-    var loopGuard = false;
-    function restartEntryVideo(){
-      if(loopGuard) return;
-      loopGuard = true;
-      try{
-        entryVideo.currentTime = 0.02;
-        var playResult = entryVideo.play();
-        if(playResult && typeof playResult.catch === 'function'){
-          playResult.catch(function(){});
-        }
-      } catch(_err){}
-      window.setTimeout(function(){ loopGuard = false; }, 80);
-    }
-
-    entryVideo.addEventListener('ended', restartEntryVideo);
-    entryVideo.addEventListener('timeupdate', function(){
-      if(!entryVideo.duration || loopGuard) return;
-      if(entryVideo.duration - entryVideo.currentTime < 0.045){
-        restartEntryVideo();
-      }
-    });
-    entryVideo.addEventListener('loadeddata', function(){
+    function playEntryVideo(){
       var playResult = entryVideo.play();
       if(playResult && typeof playResult.catch === 'function'){
         playResult.catch(function(){});
+      }
+    }
+
+    entryVideo.addEventListener('loadeddata', playEntryVideo);
+    entryVideo.addEventListener('canplay', playEntryVideo);
+    document.addEventListener('visibilitychange', function(){
+      if(!document.hidden){
+        playEntryVideo();
       }
     });
   }
@@ -5318,7 +5348,14 @@ function buildVideoPrompt(state, variation){
   function openApp(){
     body.classList.remove('prelaunch');
     body.classList.add('app-ready');
+    body.style.overflow = '';
+    body.style.overflowY = 'auto';
+    document.documentElement.style.overflowY = 'auto';
+    entry.setAttribute('aria-hidden', 'true');
     window.scrollTo({ top:0, behavior:'auto' });
+    window.setTimeout(function(){
+      entry.style.display = 'none';
+    }, 560);
   }
 
   startBtn.addEventListener('click', openApp);
