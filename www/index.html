@@ -630,39 +630,22 @@ body.app-ready .app-entry{
 }
 .app-entry__media::before,
 .app-entry__media::after{
-  content:"";
-  position:absolute;
-  pointer-events:none;
-  border-radius:50%;
-}
-.app-entry__media::before{
-  inset:15%;
-  border-radius:42% 58% 54% 46% / 45% 41% 59% 55%;
-  background:
-    radial-gradient(circle at 34% 28%, rgba(222, 215, 255, .18), transparent 28%),
-    radial-gradient(circle at 72% 68%, rgba(116, 55, 180, .26), transparent 34%),
-    radial-gradient(circle at 48% 50%, rgba(61, 26, 112, .16), transparent 66%);
-  filter:blur(34px);
-  opacity:.74;
-  transform:scale(1.14);
-  animation:entryHaloMorph 5.8s ease-in-out infinite;
-}
-.app-entry__media::after{
   display:none;
 }
 .app-entry__video{
   position:relative;
   z-index:1;
+  display:block;
   width:100%;
   height:100%;
   object-fit:cover;
   border-radius:0;
   border:none;
-  filter:saturate(108%) contrast(108%) brightness(.96);
-  mix-blend-mode:screen;
-  transform-origin:center;
-  will-change:transform;
-  animation:entryVideoFloat 6.2s ease-in-out infinite;
+  filter:none;
+  mix-blend-mode:normal;
+  transform:none;
+  will-change:auto;
+  animation:none;
   opacity:1;
 }
 .app-entry__actions{
@@ -1310,32 +1293,6 @@ figure.svg-demo{
   0%{ transform:translate3d(-2%, -1%, 0) rotate(0deg) scale(1); }
   50%{ transform:translate3d(2%, 1%, 0) rotate(3deg) scale(1.08); }
   100%{ transform:translate3d(-2%, -1%, 0) rotate(0deg) scale(1); }
-}
-@keyframes entryHaloMorph{
-  0%,100%{
-    transform:scale(1.08) rotate(0deg);
-    opacity:.7;
-    border-radius:42% 58% 54% 46% / 45% 41% 59% 55%;
-  }
-  50%{
-    transform:scale(1.18) rotate(10deg);
-    opacity:.96;
-    border-radius:58% 42% 46% 54% / 39% 61% 43% 57%;
-  }
-}
-@keyframes entryVideoFloat{
-  0%,100%{
-    transform:translate3d(0, 0, 0) scale(1.03);
-    filter:saturate(108%) contrast(108%) brightness(.96);
-  }
-  35%{
-    transform:translate3d(1.8%, -1.6%, 0) scale(1.055);
-    filter:saturate(112%) contrast(110%) brightness(.99);
-  }
-  68%{
-    transform:translate3d(-1.6%, 1.3%, 0) scale(1.04);
-    filter:saturate(106%) contrast(106%) brightness(.94);
-  }
 }
 @keyframes entryTitleStrobe{
   0%, 93%, 100%{
