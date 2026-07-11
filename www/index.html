@@ -787,16 +787,15 @@ body.app-ready .app-entry{
 .hero-logo .glow{
   display:none;
 }
-.hero-logo__video{
+.hero-logo__media{
   position:relative;
   z-index:1;
   display:block;
   width:100%;
   height:100%;
   object-fit:contain;
-  border-radius:26px;
-  background:#0a090d;
-  box-shadow:0 18px 38px rgba(0,0,0,.34);
+  background:transparent;
+  filter:drop-shadow(0 16px 26px rgba(46,12,81,.34));
 }
 .hero-copy{
   position:relative;
@@ -1338,6 +1337,59 @@ figure.svg-demo{
   .quick-float__grid{ grid-template-columns:1fr; }
   .quick-float__card{ max-height:min(68vh, 560px); overflow:auto; }
 }
+.guide-mobile-nav{display:none;}
+@media (max-width:760px){
+  .guide-mobile-nav{
+    position:sticky;
+    top:max(8px, env(safe-area-inset-top, 0px));
+    z-index:18;
+    display:flex;
+    gap:8px;
+    width:calc(100% + 32px);
+    margin:0 -16px 22px;
+    padding:10px 16px 12px;
+    overflow-x:auto;
+    overscroll-behavior-x:contain;
+    scrollbar-width:none;
+    background:linear-gradient(180deg, rgba(15,7,24,.97), rgba(15,7,24,.88));
+    border-bottom:1px solid rgba(177,132,238,.12);
+    backdrop-filter:blur(18px) saturate(135%);
+    -webkit-backdrop-filter:blur(18px) saturate(135%);
+  }
+  .guide-mobile-nav::-webkit-scrollbar{display:none;}
+  .guide-mobile-chip{
+    flex:0 0 auto;
+    min-height:44px;
+    padding:0 16px;
+    border:1px solid rgba(177,132,238,.16);
+    border-radius:999px;
+    background:rgba(100,49,159,.10);
+    color:#cbbdde;
+    font:600 11px/1 "JetBrains Mono",monospace;
+    letter-spacing:.05em;
+    transition:transform 160ms ease, background-color 180ms ease, border-color 180ms ease, color 180ms ease;
+  }
+  .guide-mobile-chip.is-active{
+    color:#fff;
+    background:rgba(100,49,159,.62);
+    border-color:rgba(206,174,255,.48);
+    box-shadow:0 10px 24px rgba(55,18,88,.28), inset 0 1px 0 rgba(255,255,255,.12);
+  }
+  .guide-mobile-chip:active{transform:scale(.97);}
+  #panel-guia .guide-sec.guide-mobile-section{display:none;}
+  #panel-guia .guide-sec.guide-mobile-section.is-mobile-active{
+    display:block;
+    animation:guideMobileIn 180ms ease-out both;
+  }
+}
+@keyframes guideMobileIn{
+  from{opacity:0;transform:translateY(7px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@media (prefers-reduced-motion:reduce){
+  #panel-guia .guide-sec.guide-mobile-section.is-mobile-active{animation:none;}
+  .guide-mobile-chip{transition:none;}
+}
 @keyframes psyPulse{
   0%{ transform:translate3d(-2%, -1%, 0) rotate(0deg) scale(1); }
   50%{ transform:translate3d(2%, 1%, 0) rotate(3deg) scale(1.08); }
@@ -1480,9 +1532,7 @@ figure.svg-demo{
   <div class="hero-stage">
     <div class="hero-logo" id="heroLogo">
       <span class="glow"></span>
-      <video class="hero-logo__video" autoplay loop muted playsinline webkit-playsinline preload="auto" poster="./media/entry-liquid-alpha.webp" aria-label="Forma 3D em rotação">
-        <source src="./media/entry-liquid.mp4" type="video/mp4">
-      </video>
+      <img class="hero-logo__media" src="./media/entry-liquid-alpha.webp" alt="Forma 3D em rotação" decoding="async">
     </div>
     <div class="hero-copy">
       <span class="hero-kicker">Direction Console</span>
@@ -5612,6 +5662,74 @@ function buildVideoPrompt(state, variation){
   window.addEventListener('touchend', endDrag, { passive:true });
 })();
 /* === UI MOTION V2 END === */
+
+/* === GUIA MOBILE: chips por secao === */
+(function(){
+  var guide = document.getElementById('panel-guia');
+  if(!guide) return;
+
+  var sections = Array.prototype.filter.call(guide.children, function(child){
+    return child.classList && child.classList.contains('guide-sec');
+  });
+  var groups = [
+    { id:'inicio', label:'Início', sections:[0] },
+    { id:'preencher', label:'Preencher', sections:[1] },
+    { id:'personas', label:'Personas', sections:[2,3] },
+    { id:'exemplo', label:'Exemplo', sections:[4] },
+    { id:'termos', label:'Termos', sections:[5] },
+    { id:'planos', label:'Planos', sections:[6] },
+    { id:'lentes', label:'Lentes', sections:[7] },
+    { id:'referencia', label:'Referência', sections:[8] }
+  ];
+  if(sections.length < 9) return;
+
+  var nav = document.createElement('div');
+  nav.className = 'guide-mobile-nav';
+  nav.setAttribute('role', 'tablist');
+  nav.setAttribute('aria-label', 'Seções do guia');
+
+  groups.forEach(function(group){
+    group.sections.forEach(function(index){
+      sections[index].classList.add('guide-mobile-section');
+      sections[index].setAttribute('data-guide-group', group.id);
+    });
+
+    var button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'guide-mobile-chip';
+    button.textContent = group.label;
+    button.setAttribute('role', 'tab');
+    button.setAttribute('data-guide-target', group.id);
+    button.setAttribute('aria-selected', 'false');
+    nav.appendChild(button);
+  });
+
+  guide.insertBefore(nav, sections[0]);
+
+  function activateGuideGroup(id, centerChip){
+    sections.forEach(function(section){
+      section.classList.toggle('is-mobile-active', section.getAttribute('data-guide-group') === id);
+    });
+    Array.prototype.forEach.call(nav.children, function(button){
+      var active = button.getAttribute('data-guide-target') === id;
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-selected', active ? 'true' : 'false');
+      if(active && centerChip){
+        var left = button.offsetLeft - ((nav.clientWidth - button.offsetWidth) / 2);
+        nav.scrollTo({ left:Math.max(0, left), behavior:'smooth' });
+      }
+    });
+  }
+
+  nav.addEventListener('click', function(event){
+    var button = event.target.closest('.guide-mobile-chip');
+    if(!button) return;
+    activateGuideGroup(button.getAttribute('data-guide-target'), true);
+  });
+
+  activateGuideGroup('inicio', false);
+})();
+/* === GUIA MOBILE END === */
 
 /* === TABS: troca Gerador / Guia === */
 (function(){
