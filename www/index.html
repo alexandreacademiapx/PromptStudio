@@ -796,7 +796,10 @@ body.app-ready .app-entry{
   object-fit:contain;
   background:transparent;
   filter:drop-shadow(0 16px 26px rgba(46,12,81,.34));
+  opacity:0;
+  transition:opacity 180ms ease-out;
 }
+.hero-logo__media.is-running{opacity:1;}
 .hero-copy{
   position:relative;
   z-index:1;
@@ -1585,7 +1588,7 @@ figure.svg-demo{
   <div class="hero-stage">
     <div class="hero-logo" id="heroLogo">
       <span class="glow"></span>
-      <img class="hero-logo__media" src="./media/entry-liquid-alpha.webp" alt="Forma 3D em rotação" decoding="async">
+      <img class="hero-logo__media" data-animated-src="./media/entry-liquid-alpha.webp" alt="Forma 3D em rotação" decoding="async">
     </div>
     <div class="hero-copy">
       <span class="hero-kicker">Direction Console</span>
@@ -5438,6 +5441,9 @@ function buildVideoPrompt(state, variation){
   var entry = document.getElementById('appEntry');
   var startBtn = document.getElementById('startAppButton');
   var entryBackgroundVideo = document.getElementById('entryBackgroundVideo');
+  var heroMedia = document.querySelector('.hero-logo__media');
+  var heroMediaSrc = heroMedia ? heroMedia.getAttribute('data-animated-src') : '';
+  var opened = false;
   if(!body || !entry || !startBtn) return;
 
   [entryBackgroundVideo].forEach(function(video){
@@ -5450,7 +5456,20 @@ function buildVideoPrompt(state, variation){
     }
   });
 
+  function startHeroAnimation(){
+    if(!heroMedia || !heroMediaSrc) return;
+    heroMedia.classList.remove('is-running');
+    heroMedia.onload = function(){
+      heroMedia.classList.add('is-running');
+      heroMedia.onload = null;
+    };
+    heroMedia.src = heroMediaSrc + '#hero-' + Date.now();
+  }
+
   function openApp(){
+    if(opened) return;
+    opened = true;
+    startHeroAnimation();
     body.classList.remove('prelaunch');
     body.classList.add('app-ready');
     body.style.overflow = '';
