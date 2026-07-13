@@ -5,51 +5,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;width:1200px;height:630px;overflow:hidden;background:#030205}
-body{font-family:"Space Grotesk",sans-serif;color:#f7f3ff}
-.card{position:relative;width:1200px;height:630px;overflow:hidden;background:#050309}
-.light{position:absolute;inset:0;background:radial-gradient(ellipse 52% 88% at 81% 51%,rgba(100,49,159,.48),rgba(45,17,72,.14) 55%,transparent 78%)}
-.beam{position:absolute;right:-120px;top:-220px;width:740px;height:1060px;transform:rotate(18deg);background:linear-gradient(90deg,transparent,rgba(132,75,218,.08),transparent);filter:blur(3px)}
+html,body{margin:0;width:1200px;height:630px;overflow:hidden;background:#020104}
+body{font-family:"JetBrains Mono",monospace;color:#f8f4ff}
+.card{position:relative;width:1200px;height:630px;overflow:hidden;background:#040207}
+.aura{position:absolute;inset:0;background:radial-gradient(ellipse 47% 84% at 50% 52%,rgba(105,48,191,.58) 0,rgba(67,24,112,.28) 34%,rgba(17,7,28,.54) 63%,transparent 82%)}
+.light{position:absolute;left:50%;top:50%;width:700px;height:700px;border-radius:50%;transform:translate(-50%,-48%);background:radial-gradient(circle,rgba(147,91,255,.15),transparent 68%);filter:blur(2px)}
 .grain{position:absolute;inset:0;opacity:.22;background-image:radial-gradient(rgba(255,255,255,.18) .55px,transparent .65px);background-size:6px 6px;mix-blend-mode:soft-light}
-.edge{position:absolute;inset:24px;border:1px solid rgba(205,174,255,.14);border-radius:34px}
-.copy{position:absolute;left:78px;top:72px;width:610px}
-.eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:34px;font-family:"JetBrains Mono",monospace;font-size:14px;letter-spacing:3.6px;color:#b994ff}
-.eyebrow:before{content:"";width:38px;height:2px;background:#9c63f5;box-shadow:0 0 18px rgba(156,99,245,.85)}
-.brand{margin:0;font-family:"JetBrains Mono",monospace;font-size:54px;line-height:1;letter-spacing:8px;font-weight:500;white-space:nowrap}
-.brand strong{font-weight:700;color:#cdb6ff}
-.statement{margin:42px 0 0;width:570px;font-size:39px;line-height:1.14;letter-spacing:-1.25px;font-weight:500;color:#eee8f8}
-.statement strong{font-weight:700;color:#fff}
-.features{display:flex;gap:10px;margin-top:36px}
-.feature{padding:10px 15px;border:1px solid rgba(210,184,255,.2);border-radius:999px;background:rgba(255,255,255,.035);font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:1.4px;color:#cbb8e8}
-.url{position:absolute;left:80px;bottom:60px;font-family:"JetBrains Mono",monospace;font-size:14px;letter-spacing:2px;color:#8f78aa}
-.visual{position:absolute;right:48px;top:45px;width:500px;height:540px;display:grid;place-items:center}
-.halo{position:absolute;width:430px;height:430px;border:1px solid rgba(194,153,255,.18);border-radius:50%}
-.halo:before,.halo:after{content:"";position:absolute;inset:38px;border:1px solid rgba(194,153,255,.12);border-radius:50%}
-.halo:after{inset:86px;border-color:rgba(194,153,255,.08)}
-.halo-line{position:absolute;width:445px;height:1px;background:linear-gradient(90deg,transparent,rgba(191,153,255,.34),transparent);transform:rotate(-31deg)}
-.mark{position:relative;width:430px;height:430px;object-fit:contain;filter:drop-shadow(0 36px 50px rgba(0,0,0,.7)) drop-shadow(0 0 52px rgba(128,62,231,.56));transform:rotate(-5deg)}
-.status{position:absolute;right:62px;bottom:48px;display:flex;align-items:center;gap:8px;font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:1.5px;color:#ae98c5}
-.status:before{content:"";width:7px;height:7px;border-radius:50%;background:#b47aff;box-shadow:0 0 16px #a868ff}
+.frame{position:absolute;inset:24px;border:1px solid rgba(205,174,255,.14);border-radius:34px}
+.halo{position:absolute;left:50%;top:51%;width:550px;height:550px;transform:translate(-50%,-50%);border:1px solid rgba(201,165,255,.18);border-radius:50%}
+.halo:before,.halo:after{content:"";position:absolute;border:1px solid rgba(201,165,255,.11);border-radius:50%;inset:48px}
+.halo:after{inset:104px;border-color:rgba(201,165,255,.07)}
+.axis-x,.axis-y{position:absolute;left:50%;top:50%;background:linear-gradient(90deg,transparent,rgba(191,153,255,.25),transparent)}
+.axis-x{width:680px;height:1px;transform:translate(-50%,-50%) rotate(-28deg)}
+.axis-y{width:1px;height:520px;transform:translate(-50%,-50%) rotate(-28deg);background:linear-gradient(180deg,transparent,rgba(191,153,255,.18),transparent)}
+.brand{position:absolute;z-index:2;left:50%;top:54px;transform:translateX(-50%);margin:0;font-size:39px;line-height:1;letter-spacing:10px;font-weight:500;white-space:nowrap;text-shadow:0 0 24px rgba(164,107,255,.28)}
+.brand strong{font-weight:700;color:#d2bdff}
+.mark{position:absolute;z-index:1;left:50%;top:-26px;width:760px;height:760px;transform:translateX(-50%) rotate(-4deg);object-fit:contain;filter:drop-shadow(0 38px 54px rgba(0,0,0,.72)) drop-shadow(0 0 58px rgba(132,65,238,.64))}
+.tag{position:absolute;z-index:2;left:50%;bottom:46px;transform:translateX(-50%);font-size:12px;letter-spacing:3px;color:#a991c2;white-space:nowrap}
 </style>
 </head>
 <body>
 <main class="card">
-  <div class="light"></div><div class="beam"></div><div class="grain"></div><div class="edge"></div>
-  <section class="copy">
-    <div class="eyebrow">DIRE&Ccedil;&Atilde;O CRIATIVA PARA IA</div>
-    <h1 class="brand">PROMPT <strong>STUDIO</strong></h1>
-    <p class="statement">Crie prompts de imagem e v&iacute;deo com <strong>clareza de cena.</strong></p>
-    <div class="features"><span class="feature">GERADOR</span><span class="feature">GUIA</span><span class="feature">BANCO DE TERMOS</span></div>
-  </section>
-  <div class="url">STUDIOPROMPTS.COM.BR</div>
-  <section class="visual">
-    <div class="halo"></div><div class="halo-line"></div>
-    <img class="mark" src="media/entry-liquid-alpha.webp" alt="">
-  </section>
-  <div class="status">PROMPT ENGINE ONLINE</div>
+  <div class="aura"></div><div class="light"></div><div class="grain"></div><div class="frame"></div>
+  <div class="halo"></div><div class="axis-x"></div><div class="axis-y"></div>
+  <h1 class="brand">PROMPT <strong>STUDIO</strong></h1>
+  <img class="mark" src="media/entry-liquid-alpha.webp" alt="">
+  <div class="tag">DIRE&Ccedil;&Atilde;O CRIATIVA PARA IA</div>
 </main>
 </body>
 </html>
