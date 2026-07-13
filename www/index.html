@@ -1789,7 +1789,7 @@ figure.svg-demo{
   <div class="panel stage-card stage-card-scene">
     <div class="persona-row field">
       <label>Persona <span class="hint">— preenche só o Sujeito, clique e edite</span></label>
-      <div class="persona-chips">
+      <div class="persona-chips" id="personaChipsMain">
         <button type="button" class="persona-chip" data-persona="motorista"><span class="dot"></span>Motorista</button>
         <button type="button" class="persona-chip" data-persona="ajudante"><span class="dot"></span>Ajudante</button>
         <button type="button" class="persona-chip" data-persona="empresario"><span class="dot"></span>Empresarial</button>
@@ -5655,6 +5655,7 @@ function buildVideoPrompt(state, variation){
   applyMode();
 
   var personaChips = document.querySelectorAll('.persona-chip[data-persona]');
+  var personaChipGroup = document.getElementById('personaChipsMain');
   var lblSujeito = document.getElementById('lblSujeito');
   var hintSujeito = document.getElementById('hintSujeito');
   var itemEmphasisField = document.getElementById('itemEmphasisField');
@@ -5742,8 +5743,7 @@ function buildVideoPrompt(state, variation){
     emphasisChips.forEach(function(e){ e.classList.remove('active'); });
   }
 
-  personaChips.forEach(function(chip){
-    chip.addEventListener('click', function(){
+  function activatePersonaChip(chip){
       var key = chip.getAttribute('data-persona');
       activePersona = key;
       fSujeito.value = key ? (PERSONAS[key] || '') : '';
@@ -5804,8 +5804,14 @@ function buildVideoPrompt(state, variation){
       applyMode();
       if(key === 'character_sheet') characterFields.presentation.focus();
       else fSujeito.focus();
+  }
+  if(personaChipGroup){
+    personaChipGroup.addEventListener('click', function(event){
+      var chip = event.target.closest('.persona-chip[data-persona]');
+      if(!chip || !personaChipGroup.contains(chip)) return;
+      activatePersonaChip(chip);
     });
-  });
+  }
 
   // Fundo do produto (single-select).
   var productBg = 'studio';
