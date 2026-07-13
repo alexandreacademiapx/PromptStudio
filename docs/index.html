@@ -6083,7 +6083,6 @@ function buildVideoPrompt(state, variation){
   var quickTabs = document.querySelectorAll('.quick-float__tab');
   var quickPanels = document.querySelectorAll('.quick-float__panel');
   var revealTargets = document.querySelectorAll('.hero-stage, .stage-card, .guide-sec, .guide-card, .fill-card, .scene-card, .term-cat');
-  var compactTouch = (window.matchMedia && window.matchMedia('(max-width: 820px)').matches) || (window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
   var floatStateKey = 'promptStudio.quickFloat';
 
   revealTargets.forEach(function(el){ el.classList.add('scroll-reveal'); });
@@ -6248,7 +6247,8 @@ function buildVideoPrompt(state, variation){
   }
 
   var savedState = loadFloatState();
-  setMinimized(savedState ? !!savedState.minimized : compactTouch);
+  // O guia aberto cobre controles do Gerador em telas menores; comece recolhido em toda sessão.
+  setMinimized(true);
   if(savedState){
     floatWrap.style.left = savedState.left || '';
     floatWrap.style.top = savedState.top || '';
