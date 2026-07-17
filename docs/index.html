@@ -873,9 +873,10 @@ body::after{
   filter:saturate(126%) contrast(120%) blur(.18px);
 }
 body.prelaunch .wrap{
-  opacity:.22;
-  filter:blur(12px) saturate(.72);
-  transform:scale(.985);
+  opacity:0;
+  visibility:hidden;
+  filter:none;
+  transform:none;
   pointer-events:none;
 }
 body.prelaunch .quick-float{
@@ -895,8 +896,8 @@ body.prelaunch .quick-float{
   place-items:center;
   padding:0;
   background:#000;
-  backdrop-filter:blur(18px) saturate(118%);
-  -webkit-backdrop-filter:blur(18px) saturate(118%);
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
   transition:opacity 520ms ease, visibility 520ms ease, transform 520ms ease;
   overflow:hidden;
 }
@@ -1062,6 +1063,28 @@ body.app-ready .app-entry{
 }
 .app-entry__cta:active{
   transform:scale(.985);
+}
+.low-power .app-entry__background,
+.low-power #liquidCanvas{
+  display:none;
+}
+.low-power .amb::after,
+.low-power .app-entry h1,
+.low-power .app-entry__cta::before{
+  animation:none !important;
+}
+.low-power .app-entry__cta{
+  background:#24122f;
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+}
+.low-power .scroll-reveal,
+.low-power .scroll-reveal.in-view{
+  animation:none !important;
+  transition:none !important;
+  transform:none !important;
+  filter:none !important;
+  opacity:1 !important;
 }
 .wrap{
   max-width:1380px;
@@ -2466,8 +2489,34 @@ figure.svg-demo{
   var body = document.body;
   var entry = document.getElementById('appEntry');
   var startBtn = document.getElementById('startAppButton');
+  var nav = window.navigator || {};
+  var connection = nav.connection || nav.mozConnection || nav.webkitConnection;
+  var lowPower = !!(
+    (typeof nav.deviceMemory === 'number' && nav.deviceMemory <= 4) ||
+    (typeof nav.hardwareConcurrency === 'number' && nav.hardwareConcurrency <= 4) ||
+    (connection && connection.saveData)
+  );
   var opening = false;
   if(!body || !entry || !startBtn) return;
+
+  if(lowPower){
+    document.documentElement.className += ' low-power';
+    window.promptStudioLowPower = true;
+    var backgroundVideo = document.getElementById('entryBackgroundVideo');
+    if(backgroundVideo){
+      backgroundVideo.pause();
+      backgroundVideo.removeAttribute('autoplay');
+    }
+    var replaceAnimatedMedia = function(){
+      var animatedMedia = document.querySelectorAll('img[src$="entry-liquid-alpha.webp"], img[data-animated-src$="entry-liquid-alpha.webp"]');
+      for(var i = 0; i < animatedMedia.length; i++){
+        animatedMedia[i].removeAttribute('data-animated-src');
+        animatedMedia[i].src = './media/apple-touch-icon-v2.png';
+      }
+    };
+    replaceAnimatedMedia();
+    if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', replaceAnimatedMedia, false);
+  }
 
   function openEntry(){
     if(opening || /(^|\s)app-ready(\s|$)/.test(body.className)) return;
@@ -7884,17 +7933,20 @@ function buildVideoPrompt(state, variation){
   var opened = false;
   if(!body || !entry || !startBtn) return;
 
-  [entryBackgroundVideo].forEach(function(video){
-    if(!video) return;
-    video.muted = true;
-    video.playsInline = true;
-    var playResult = video.play();
-    if(playResult && typeof playResult.catch === 'function'){
-      playResult.catch(function(){});
-    }
-  });
+  if(!window.promptStudioLowPower){
+    [entryBackgroundVideo].forEach(function(video){
+      if(!video) return;
+      video.muted = true;
+      video.playsInline = true;
+      var playResult = video.play();
+      if(playResult && typeof playResult.catch === 'function'){
+        playResult.catch(function(){});
+      }
+    });
+  }
 
   function startHeroAnimation(){
+    if(window.promptStudioLowPower) return;
     if(!heroMedia || !heroMediaSrc) return;
     heroMedia.classList.remove('is-running');
     heroMedia.onload = function(){
@@ -7975,7 +8027,7 @@ function buildVideoPrompt(state, variation){
   updateScrollFx();
   window.addEventListener('scroll', updateScrollFx, { passive:true });
 
-  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var reduceMotion = !!window.promptStudioLowPower || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   if(!reduceMotion && amb && liquidCanvas){
     var ctx = liquidCanvas.getContext('2d');
     var blobs = [
