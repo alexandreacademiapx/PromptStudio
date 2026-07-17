@@ -1013,12 +1013,15 @@ body.app-ready .app-entry{
   opacity:1;
 }
 .app-entry__actions{
+  position:relative;
+  z-index:4;
   width:100%;
   display:flex;
   justify-content:center;
   align-self:end;
   margin-bottom:84px;
   margin-top:-54px;
+  pointer-events:auto;
 }
 .app-entry__cta{
   position:relative;
@@ -1037,6 +1040,10 @@ body.app-ready .app-entry{
   -webkit-backdrop-filter:blur(18px) saturate(150%);
   box-shadow:0 18px 34px rgba(34,16,54,.28), inset 0 1px 0 rgba(255,255,255,.18), inset 0 -1px 0 rgba(255,255,255,.05);
   transition:transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
+  pointer-events:auto;
+  touch-action:manipulation;
+  user-select:none;
+  -webkit-user-select:none;
 }
 .app-entry__cta::before{
   content:"";
@@ -2454,6 +2461,35 @@ figure.svg-demo{
     </div>
   </div>
 </div>
+<script id="app-entry-early-boot">
+(function(){
+  var body = document.body;
+  var entry = document.getElementById('appEntry');
+  var startBtn = document.getElementById('startAppButton');
+  var opening = false;
+  if(!body || !entry || !startBtn) return;
+
+  function openEntry(){
+    if(opening || /(^|\s)app-ready(\s|$)/.test(body.className)) return;
+    opening = true;
+    body.className = body.className.replace(/(^|\s)prelaunch(?=\s|$)/g, ' ').replace(/\s+/g, ' ').replace(/^\s|\s$/g, '') + ' app-ready';
+    body.style.overflow = '';
+    body.style.overflowY = '';
+    document.documentElement.style.overflowY = 'auto';
+    entry.setAttribute('aria-hidden', 'true');
+    if(window.scrollTo) window.scrollTo(0, 0);
+    window.setTimeout(function(){ entry.style.display = 'none'; }, 560);
+  }
+
+  window.openPromptStudioApp = openEntry;
+  startBtn.addEventListener('pointerup', openEntry, false);
+  startBtn.addEventListener('click', openEntry, false);
+  startBtn.addEventListener('touchend', function(event){
+    if(event && event.cancelable) event.preventDefault();
+    openEntry();
+  }, false);
+})();
+</script>
 <div class="wrap">
 
 <div class="quick-float" id="quickFloat" aria-live="polite">
