@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-BPrJvFa3vWweKUNSf+vGAWyo6gWf1HJ65x/bho6uxhU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self' blob:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-src 'none'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-8Y9gGVQ4QwYjOuPx+pMQUZ9NCN/k2GzGmuR+neY7jzI='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self' blob:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-src 'none'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="format-detection" content="telephone=no">
@@ -3156,6 +3156,35 @@ select:focus{
   .app-entry__media{width:min(330px, 78vw);}
 }
 /* === DARK STAR IDENTITY END === */
+/* === FULLSCREEN ENTRY VIDEO START === */
+.app-entry::after{
+  background:rgba(0,0,0,.34);
+}
+.app-entry__background{
+  opacity:1;
+  object-fit:cover;
+  object-position:center;
+  background:#000;
+}
+.app-entry__panel{
+  width:min(540px, calc(100vw - 40px));
+  min-height:min(820px, calc(100dvh - 40px));
+  grid-template-rows:auto minmax(0,1fr) auto;
+  text-shadow:0 2px 22px rgba(0,0,0,.9);
+}
+.app-entry__actions{
+  margin-top:0;
+}
+@media(max-width:760px){
+  .app-entry__panel{
+    width:100vw;
+    min-height:100dvh;
+  }
+  .app-entry__actions{
+    margin-top:0;
+  }
+}
+/* === FULLSCREEN ENTRY VIDEO END === */
 /* === DARK 3D PREVIEW END === */
 /* === CAMPAIGN LAB END === */
 </style>
@@ -3168,17 +3197,12 @@ select:focus{
   <canvas id="liquidCanvas" aria-hidden="true"></canvas>
 </div>
 <div class="app-entry" id="appEntry">
-  <video class="app-entry__background" id="entryBackgroundVideo" autoplay loop muted playsinline webkit-playsinline preload="auto" aria-hidden="true">
-    <source src="./media/entry-background.mp4" type="video/mp4">
+  <video class="app-entry__background brand-motion-video" id="entryBackgroundVideo" autoplay loop muted playsinline webkit-playsinline preload="auto" poster="./media/site-background-dark-poster.jpg" aria-hidden="true">
+    <source src="./media/site-background-dark.mp4" type="video/mp4">
   </video>
   <div class="app-entry__panel">
     <span class="app-entry__badge">Prompt Studio Mobile</span>
     <h1><span class="app-entry__title-prompt">Prompt</span><span class="app-entry__title-studio">Studio</span></h1>
-    <div class="app-entry__media" aria-hidden="true">
-      <video class="app-entry__video brand-motion-video" id="entryMarkVideo" autoplay loop muted playsinline webkit-playsinline preload="metadata" poster="./media/site-background-dark-poster.jpg" aria-hidden="true">
-        <source src="./media/site-background-dark.mp4" type="video/mp4">
-      </video>
-    </div>
     <p>Essa abertura segura a interface antes de carregar a bancada principal e melhora a entrada no iPhone e no iPad.</p>
     <div class="app-entry__meta" aria-hidden="true">
       <span>Gerador<strong>Prompt de imagem e vídeo.</strong></span>
@@ -8966,7 +8990,6 @@ function buildVideoPrompt(state, variation){
   var entry = document.getElementById('appEntry');
   var startBtn = document.getElementById('startAppButton');
   var entryBackgroundVideo = document.getElementById('entryBackgroundVideo');
-  var entryMarkVideo = document.getElementById('entryMarkVideo');
   var heroMarkVideo = document.getElementById('heroMarkVideo');
   var quickMarkVideo = document.getElementById('quickMarkVideo');
   var lowPower = !!window.promptStudioLowPower;
@@ -8983,7 +9006,7 @@ function buildVideoPrompt(state, variation){
     }
   }
 
-  [entryBackgroundVideo, entryMarkVideo].forEach(playVideo);
+  [entryBackgroundVideo].forEach(playVideo);
   [heroMarkVideo, quickMarkVideo].forEach(function(video){ if(video) video.pause(); });
 
   function openApp(){
@@ -9002,7 +9025,7 @@ function buildVideoPrompt(state, variation){
       });
     }
     window.setTimeout(function(){
-      [entryBackgroundVideo, entryMarkVideo].forEach(function(video){
+      [entryBackgroundVideo].forEach(function(video){
         if(video) video.pause();
       });
       entry.style.display = 'none';
