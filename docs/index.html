@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-MMs/D4eOedtlqtpYMhVtIbYiDVKgMJ83qXydlY6Z7j0='; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self'; media-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; child-src 'none'; worker-src 'none'; manifest-src 'self'; trusted-types 'none'; require-trusted-types-for 'script'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-7xT8xigndVNM+owJn350KW6VLOMdQwE6koP4sYzX1Sc='; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self'; media-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; child-src 'none'; worker-src 'none'; manifest-src 'self'; trusted-types 'none'; require-trusted-types-for 'script'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="format-detection" content="telephone=no">
@@ -3197,9 +3197,7 @@ select:focus{
   <canvas id="liquidCanvas" aria-hidden="true"></canvas>
 </div>
 <div class="app-entry" id="appEntry">
-  <video class="app-entry__background brand-motion-video" id="entryBackgroundVideo" autoplay loop muted playsinline webkit-playsinline preload="auto" poster="./media/site-background-dark-poster.jpg" aria-hidden="true">
-    <source src="./media/site-background-dark.mp4" type="video/mp4">
-  </video>
+  <video class="app-entry__background brand-motion-video" id="entryBackgroundVideo" autoplay loop muted playsinline webkit-playsinline preload="auto" poster="./media/entry-background-poster.jpg" data-src-high="./media/entry-background-hq.mp4" data-src-low="./media/entry-background-lite.mp4" aria-hidden="true"></video>
   <div class="app-entry__panel">
     <span class="app-entry__badge">Prompt Studio Mobile</span>
     <h1><span class="app-entry__title-prompt">Prompt</span><span class="app-entry__title-studio">Studio</span></h1>
@@ -4495,9 +4493,10 @@ select:focus{
 (function(){
   var nav = window.navigator || {};
   var connection = nav.connection || nav.mozConnection || nav.webkitConnection;
+  var slowConnection = !!(connection && /(^|-)2g$/.test(connection.effectiveType || ''));
   var lowPower = (typeof nav.deviceMemory === 'number' && nav.deviceMemory <= 4) ||
     (typeof nav.hardwareConcurrency === 'number' && nav.hardwareConcurrency <= 4) ||
-    !!(connection && connection.saveData);
+    !!(connection && connection.saveData) || slowConnection;
   window.promptStudioLowPower = lowPower;
   if(lowPower) document.documentElement.classList.add('low-power');
 })();
@@ -9061,6 +9060,25 @@ function buildVideoPrompt(state, variation){
     }
   }
 
+  function configureEntryVideo(){
+    if(!entryBackgroundVideo) return;
+    var highSource = entryBackgroundVideo.getAttribute('data-src-high');
+    var lowSource = entryBackgroundVideo.getAttribute('data-src-low');
+    var selectedSource = lowPower ? lowSource : highSource;
+    if(!selectedSource) return;
+    entryBackgroundVideo.src = selectedSource;
+    entryBackgroundVideo.load();
+    if(!lowPower && lowSource){
+      entryBackgroundVideo.addEventListener('error', function(){
+        if(entryBackgroundVideo.getAttribute('src') === lowSource) return;
+        entryBackgroundVideo.src = lowSource;
+        entryBackgroundVideo.load();
+        playVideo(entryBackgroundVideo);
+      }, { once:true });
+    }
+  }
+
+  configureEntryVideo();
   [entryBackgroundVideo].forEach(playVideo);
   [heroMarkVideo, quickMarkVideo].forEach(function(video){ if(video) video.pause(); });
 
