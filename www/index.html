@@ -2,12 +2,14 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Y8BIuxE6FrtDsAamMbPUTuGh8bv1h3TRRJWOUXjJCWY='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self' blob:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-src 'none'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="format-detection" content="telephone=no">
-<meta name="theme-color" content="#12081d">
+<meta name="theme-color" content="#030506">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Prompt Studio</title>
+<title>Prompt Studio · Preview Cenário</title>
 <link rel="icon" type="image/png" sizes="64x64" href="./media/favicon-studioprompts-v2.png">
 <link rel="shortcut icon" type="image/png" href="./media/favicon-studioprompts-v2.png">
 <link rel="apple-touch-icon" sizes="180x180" href="./media/apple-touch-icon-v2.png">
@@ -411,6 +413,10 @@ figure.svg-demo img{ display:block;width:100%;height:auto;object-fit:contain; }
 .persona-chip[data-persona="moda"] .dot{ background:#ff75b5; }
 .persona-chip[data-persona="produto"] .dot{ background:#ffb547; }
 .persona-chip[data-persona="campanha"] .dot{ background:#9f82ff; }
+.persona-chip[data-persona="background_scene"] .dot{
+  background:#75d8ff;
+  box-shadow:0 0 0 4px rgba(117,216,255,.09),0 0 16px rgba(117,216,255,.42);
+}
 .persona-chip[data-persona="character_sheet"] .dot{
   background:#d8bcff;
   box-shadow:0 0 0 4px rgba(216,188,255,.10),0 0 16px rgba(216,188,255,.58);
@@ -607,6 +613,7 @@ figure.svg-demo img{ display:block;width:100%;height:auto;object-fit:contain; }
   .treatment-card.active::after{ animation:none; }
 }
 .character-sheet-panel.hidden,
+.background-scene-panel.hidden,
 #standardSceneFields.hidden{ display:none; }
 .character-sheet-panel{
   position:relative;
@@ -722,6 +729,113 @@ figure.svg-demo img{ display:block;width:100%;height:auto;object-fit:contain; }
   background:linear-gradient(180deg,rgba(216,188,255,.82),rgba(100,49,159,.26),transparent 88%);
 }
 .is-character-sheet #btnVariarTudo{ display:none; }
+.background-scene-panel{
+  position:relative;
+  margin-top:18px;
+  padding:22px;
+  overflow:hidden;
+  border:1px solid rgba(117,216,255,.16);
+  border-radius:24px;
+  background:rgba(5,11,18,.48);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 22px 54px rgba(0,0,0,.18);
+}
+.background-scene-panel::before{
+  content:"";
+  position:absolute;
+  width:260px;
+  height:180px;
+  top:-120px;
+  right:-90px;
+  border-radius:50%;
+  background:rgba(52,145,187,.15);
+  filter:blur(40px);
+  pointer-events:none;
+}
+.background-scene-head{
+  position:relative;
+  display:flex;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:18px;
+}
+.background-scene-head h3{margin:0 0 5px;font:700 20px/1.1 "Space Grotesk",sans-serif;}
+.background-scene-head p{max-width:680px;margin:0;color:#94a6ad;font-size:12px;line-height:1.55;}
+.background-scene-badge{
+  align-self:flex-start;
+  padding:7px 10px;
+  border:1px solid rgba(117,216,255,.18);
+  border-radius:999px;
+  color:#aee9ff;
+  background:rgba(35,111,145,.12);
+  font:700 9px/1 "JetBrains Mono",monospace;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.background-locks{
+  position:relative;
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-bottom:18px;
+}
+.background-locks span{
+  padding:6px 9px;
+  border:1px solid rgba(117,216,255,.11);
+  border-radius:999px;
+  color:#a8bbc2;
+  background:rgba(255,255,255,.025);
+  font:700 9px/1 "JetBrains Mono",monospace;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.background-grid{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
+.background-grid .field{margin:0;}
+.background-grid .background-full{grid-column:1 / -1;}
+.background-mode-switch,
+.background-integration-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.background-choice{
+  min-height:42px;
+  padding:0 14px;
+  border:1px solid rgba(117,216,255,.15);
+  border-radius:999px;
+  color:#a8bbc2;
+  background:rgba(255,255,255,.025);
+  font:700 10px/1 "JetBrains Mono",monospace;
+  cursor:pointer;
+  transition:transform 160ms ease,border-color 160ms ease,background 160ms ease,color 160ms ease;
+}
+.background-choice:hover{transform:translateY(-1px);border-color:rgba(117,216,255,.38);color:#fff;}
+.background-choice.is-active{
+  border-color:rgba(117,216,255,.48);
+  color:#fff;
+  background:rgba(35,111,145,.28);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 10px 24px rgba(0,0,0,.14);
+}
+.background-workflow-note{
+  padding:12px 14px;
+  border-left:2px solid rgba(117,216,255,.55);
+  border-radius:0 12px 12px 0;
+  background:rgba(117,216,255,.055);
+  color:#91a4ac;
+  font-size:11px;
+  line-height:1.55;
+}
+.is-background-scene #inspirationLab{display:none;}
+.is-background-scene .standard-tech-only,
+.is-background-scene .video-only{display:none !important;}
+.is-background-scene #btnVariarTudo{display:none;}
+.is-background-scene .stage-card-tech::before{
+  background:linear-gradient(180deg,rgba(117,216,255,.7),rgba(35,111,145,.2),transparent 88%);
+}
+@media(max-width:720px){
+  .background-scene-panel{margin:16px -8px 0;padding:18px 14px;border-radius:20px;}
+  .background-scene-head{display:block;}
+  .background-scene-badge{display:inline-flex;margin-top:12px;}
+  .background-grid{grid-template-columns:1fr;}
+  .background-grid .background-full{grid-column:auto;}
+  .background-choice{flex:1 1 140px;}
+}
 @media(max-width:920px){
   .character-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
 }
@@ -896,8 +1010,6 @@ body.prelaunch .quick-float{
   place-items:center;
   padding:0;
   background:#000;
-  backdrop-filter:none;
-  -webkit-backdrop-filter:none;
   transition:opacity 520ms ease, visibility 520ms ease, transform 520ms ease;
   overflow:hidden;
 }
@@ -1014,15 +1126,12 @@ body.app-ready .app-entry{
   opacity:1;
 }
 .app-entry__actions{
-  position:relative;
-  z-index:4;
   width:100%;
   display:flex;
   justify-content:center;
   align-self:end;
   margin-bottom:84px;
   margin-top:-54px;
-  pointer-events:auto;
 }
 .app-entry__cta{
   position:relative;
@@ -1041,10 +1150,6 @@ body.app-ready .app-entry{
   -webkit-backdrop-filter:blur(18px) saturate(150%);
   box-shadow:0 18px 34px rgba(34,16,54,.28), inset 0 1px 0 rgba(255,255,255,.18), inset 0 -1px 0 rgba(255,255,255,.05);
   transition:transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
-  pointer-events:auto;
-  touch-action:manipulation;
-  user-select:none;
-  -webkit-user-select:none;
 }
 .app-entry__cta::before{
   content:"";
@@ -1063,28 +1168,6 @@ body.app-ready .app-entry{
 }
 .app-entry__cta:active{
   transform:scale(.985);
-}
-.low-power .app-entry__background,
-.low-power #liquidCanvas{
-  display:none;
-}
-.low-power .amb::after,
-.low-power .app-entry h1,
-.low-power .app-entry__cta::before{
-  animation:none !important;
-}
-.low-power .app-entry__cta{
-  background:#24122f;
-  backdrop-filter:none;
-  -webkit-backdrop-filter:none;
-}
-.low-power .scroll-reveal,
-.low-power .scroll-reveal.in-view{
-  animation:none !important;
-  transition:none !important;
-  transform:none !important;
-  filter:none !important;
-  opacity:1 !important;
 }
 .wrap{
   max-width:1380px;
@@ -1780,6 +1863,66 @@ figure.svg-demo{
   .quick-float__card{ max-height:min(68vh, 560px); overflow:auto; }
 }
 .guide-mobile-nav{display:none;}
+@media (min-width:761px){
+  .guide-mobile-nav{
+    position:sticky;
+    top:12px;
+    z-index:18;
+    display:flex;
+    gap:8px;
+    width:max-content;
+    max-width:100%;
+    margin:0 auto 26px;
+    padding:6px;
+    overflow-x:auto;
+    overscroll-behavior-x:contain;
+    scrollbar-width:none;
+    border:1px solid rgba(177,132,238,.11);
+    border-radius:999px;
+    background:rgba(10,5,17,.76);
+    backdrop-filter:blur(18px) saturate(135%);
+    -webkit-backdrop-filter:blur(18px) saturate(135%);
+    box-shadow:0 18px 44px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.045);
+  }
+  .guide-mobile-nav::-webkit-scrollbar{display:none;}
+  .guide-mobile-chip{
+    --glass-x:50%;
+    --glass-y:50%;
+    --mag-x:0px;
+    --mag-y:0px;
+    position:relative;
+    overflow:hidden;
+    flex:0 0 auto;
+    min-height:42px;
+    padding:0 16px;
+    border:1px solid transparent;
+    border-radius:999px;
+    background:transparent;
+    color:#9d8da9;
+    font:700 10px/1 "JetBrains Mono",monospace;
+    letter-spacing:.035em;
+    cursor:pointer;
+    transition:transform 160ms ease,background 180ms ease,border-color 180ms ease,color 180ms ease;
+  }
+  .guide-mobile-chip.is-active{
+    color:#fff;
+    border-color:rgba(206,174,255,.3);
+    background:rgba(100,49,159,.44);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 8px 22px rgba(45,16,72,.2);
+  }
+  .guide-mobile-chip::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:inherit;
+    background:radial-gradient(circle at var(--glass-x) var(--glass-y),rgba(247,237,255,.28),rgba(172,112,244,.1) 25%,transparent 62%);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 180ms ease;
+  }
+  #panel-guia .guide-sec.guide-mobile-section{display:none;}
+  #panel-guia .guide-sec.guide-mobile-section.is-mobile-active{display:block;animation:guideMobileIn 180ms ease-out both;}
+}
 @media (max-width:760px){
   .guide-mobile-nav{
     position:sticky;
@@ -2388,6 +2531,30 @@ figure.svg-demo{
   cursor:pointer;
 }
 .mobile-step-toggle{display:none;}
+@media(min-width:681px){
+  .mobile-step-toggle{
+    display:flex;
+    min-height:52px;
+    padding:0 0 14px;
+    align-items:center;
+  }
+  .mobile-step-toggle__index{
+    display:grid;
+    width:32px;
+    height:32px;
+    margin-right:11px;
+    place-items:center;
+    border:1px solid rgba(184,136,255,.28);
+    border-radius:50%;
+    color:#c7a6ff;
+    font:800 9px/1 "JetBrains Mono",monospace;
+  }
+  .mobile-step-toggle small{display:block;margin-top:3px;color:#7f7189;font-size:9px;}
+  .mobile-step-toggle::after{content:"−";margin-left:auto;color:#b79acb;font-size:20px;}
+  .stage-card.mobile-step-collapsed > :not(.mobile-step-toggle){display:none !important;}
+  .stage-card.mobile-step-collapsed .mobile-step-toggle{margin-bottom:0;padding-bottom:0;border-bottom:0;}
+  .stage-card.mobile-step-collapsed .mobile-step-toggle::after{content:"+";}
+}
 
 @media(max-width:900px){
   .inspiration-grid{grid-auto-columns:minmax(166px,42%);}
@@ -2455,11 +2622,493 @@ figure.svg-demo{
   .campaign-shot,
   .output-view{transition:none!important;animation:none!important;}
 }
+
+/* Mantém os vídeos, mas reduz efeitos caros em computadores com poucos recursos. */
+.low-power .amb::after{animation:none;opacity:.24;}
+.low-power #liquidCanvas{filter:saturate(112%) contrast(110%);}
+.low-power .scroll-reveal{transition:none!important;}
+.low-power .app-entry__cta,
+.low-power .guide-mobile-nav,
+.low-power .guide-mobile-chip{
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+.low-power .app-entry__cta::before{animation:none;opacity:.18;transform:none;}
+.low-power .hero-logo .glow{filter:blur(16px);}
+
+/* === DARK 3D PREVIEW START === */
+:root{
+  --bg:#030506;
+  --panel:rgba(8,11,13,.88);
+  --panel2:rgba(12,16,19,.92);
+  --col:#080b0d;
+  --border:rgba(216,232,240,.10);
+  --bmd:rgba(216,232,240,.17);
+  --bhi:rgba(232,244,250,.28);
+  --blue:#a7d8ed;
+  --violet:#d5e3e9;
+  --cyan:#9fd8ee;
+  --green:#c6d7df;
+  --amber:#dbe7ec;
+  --text:#f3f7f9;
+  --muted:#a2adb3;
+  --muted2:#66727a;
+  --accent:#c9dce5;
+  --accent-dim:rgba(174,211,228,.13);
+  --gold:#dce7ec;
+}
+body{background:#030506;}
+body::before,
+body::after{display:none;}
+.amb{
+  background:#030506;
+  isolation:isolate;
+}
+.site-background-video{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  object-position:center center;
+  opacity:.72;
+  filter:brightness(.70) contrast(1.10) saturate(.72);
+  transform:scale(1.012);
+}
+.amb::before{
+  z-index:1;
+  background:rgba(0,0,0,.58);
+}
+.amb::after{display:none;}
+#liquidCanvas{display:none;}
+.topbar{
+  background:rgba(3,5,6,.88);
+  border-color:rgba(220,236,244,.10);
+}
+.hero-stage,
+.panel,
+.studio-note,
+.tabs,
+.guide-mobile-nav,
+.quick-float__body{
+  background:rgba(6,9,11,.76);
+  border-color:rgba(220,236,244,.12);
+  box-shadow:0 24px 64px rgba(0,0,0,.36), inset 0 1px 0 rgba(255,255,255,.035);
+}
+.stage-card::before{
+  background:#b7d9e7;
+  opacity:.58;
+}
+.stage-card::after{display:none;}
+textarea,
+input[type=text],
+select,
+#promptOut{
+  background:rgba(4,7,8,.72);
+  border-color:rgba(215,232,240,.12);
+}
+textarea:focus,
+input:focus,
+select:focus{
+  background:rgba(7,11,13,.88);
+  border-color:rgba(179,220,238,.48);
+  box-shadow:0 0 0 4px rgba(151,205,228,.10);
+}
+.tab-btn.active,
+.persona-chip.active,
+.background-choice.is-active,
+.guide-mobile-chip.is-active,
+.output-tab-button.is-active,
+.quick-float__tab.is-active,
+.creative-treatment.is-active,
+.creative-intensity-button.is-active,
+.inspiration-filter.is-active{
+  color:#f7fbfd;
+  background:rgba(176,213,229,.15);
+  border-color:rgba(205,231,242,.38);
+  box-shadow:inset 0 0 0 1px rgba(239,248,252,.06), 0 10px 26px rgba(0,0,0,.26);
+}
+.tab-btn::before,
+.tab-btn::after{background:none;}
+.tab-btn:hover,
+.persona-chip:hover,
+.background-choice:hover,
+.guide-mobile-chip:hover{
+  color:#fff;
+  border-color:rgba(210,236,247,.34);
+  background:rgba(201,228,239,.09);
+}
+.persona-chip,
+.background-choice,
+.guide-mobile-chip,
+.btn-secondary{
+  background:rgba(5,8,10,.64);
+  border-color:rgba(215,232,240,.12);
+}
+.persona-chip .dot,
+#productBgChips .persona-chip .dot,
+.persona-chip[data-persona="background_scene"] .dot{
+  background:#b9dce9;
+  box-shadow:0 0 12px rgba(167,216,237,.34);
+}
+.btn-primary{
+  color:#050708;
+  background:#d7e5eb;
+  border-color:rgba(255,255,255,.54);
+  box-shadow:0 16px 34px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.72);
+}
+.btn-primary:hover{
+  background:#eef5f7;
+  box-shadow:0 18px 38px rgba(0,0,0,.40), 0 0 24px rgba(173,217,235,.14);
+}
+.studio-note__label,
+.camera-echo,
+.term-cat h4,
+.ref-col h3,
+.inspiration-eyebrow,
+.dna-eyebrow,
+.inspiration-card__type{color:#b7d9e7;}
+.studio-note h3{color:#f4f8fa;}
+.studio-note p,
+.mode-hint{color:#9eabb1;}
+.inspiration-lab{
+  background:rgba(5,8,10,.76);
+  border-color:rgba(215,232,240,.12);
+  box-shadow:0 24px 70px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.035);
+}
+.inspiration-lab::before{
+  background:#b7d9e7;
+  box-shadow:0 0 24px rgba(167,216,237,.22);
+}
+.inspiration-filters{
+  background:rgba(0,0,0,.34);
+  border-color:rgba(215,232,240,.10);
+}
+.inspiration-filter{color:#8f9ba2;}
+.inspiration-grid{
+  scrollbar-color:rgba(183,217,231,.34) transparent;
+}
+.inspiration-grid::-webkit-scrollbar-thumb{background:rgba(183,217,231,.30);}
+.inspiration-card{
+  background:#050708;
+  border-color:rgba(215,232,240,.12);
+}
+.inspiration-card:hover,
+.inspiration-card:focus-visible{
+  border-color:rgba(205,231,242,.52);
+  box-shadow:0 22px 44px rgba(0,0,0,.46), 0 0 0 1px rgba(174,215,232,.10);
+}
+.inspiration-card.is-selected{
+  border-color:#b7d9e7;
+  box-shadow:0 0 0 2px rgba(183,217,231,.16), 0 18px 46px rgba(0,0,0,.50);
+}
+.background-locks span,
+.background-scene-badge{
+  color:#d7e5eb;
+  border-color:rgba(205,231,242,.22);
+  background:rgba(178,215,230,.08);
+}
+.low-power .site-background-video{
+  opacity:.58;
+  filter:brightness(.64) contrast(1.06) saturate(.58);
+}
+@media(max-width:720px){
+  .site-background-video{
+    object-position:center center;
+    opacity:.66;
+    transform:scale(1.035);
+  }
+  .amb::before{background:rgba(0,0,0,.64);}
+}
+@media(prefers-reduced-motion:reduce){
+  .site-background-video{display:none;}
+  .amb{background:#030506 url('./media/site-background-dark-poster.jpg') center/cover no-repeat;}
+}
+
+/* Remove os roxos residuais e unifica todos os estados interativos. */
+.creative-brief,
+.character-sheet-panel,
+.visual-dna-panel{
+  background:rgba(5,8,10,.68);
+  border-color:rgba(215,232,240,.12);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 18px 42px rgba(0,0,0,.22);
+}
+.creative-brief::before,
+.character-sheet-panel::before{display:none;}
+.creative-brief-grid,
+.character-locks,
+.dna-lock-row{
+  border-color:rgba(215,232,240,.09);
+}
+.treatment-card{
+  --treatment-accent:#b9d7e3 !important;
+  background:rgba(5,8,10,.62);
+  border-color:rgba(215,232,240,.11);
+}
+.treatment-card:hover,
+.intensity-btn:hover,
+.dna-lock:hover,
+.character-choice:hover,
+.output-tab-button:hover,
+.history-card__actions button:hover{
+  color:#fff;
+  border-color:rgba(210,236,247,.34);
+  background:rgba(201,228,239,.09);
+  box-shadow:0 10px 24px rgba(0,0,0,.22);
+}
+.treatment-card.active,
+.intensity-btn.active,
+.dna-lock.is-locked,
+.character-choice.active,
+.output-tab-button.is-active{
+  color:#f7fbfd;
+  border-color:rgba(205,231,242,.38);
+  background:rgba(176,213,229,.15);
+  box-shadow:inset 0 0 0 1px rgba(239,248,252,.05),0 10px 26px rgba(0,0,0,.26);
+}
+.treatment-card.active::before{
+  box-shadow:0 0 14px rgba(183,217,231,.34);
+}
+.treatment-card__index,
+.treatment-insight,
+.dna-badge,
+.dna-lock-label,
+.dna-lock::before,
+.dna-lock.is-locked::before,
+.mobile-step-toggle__id,
+.mobile-step-toggle__icon,
+.campaign-shot__index,
+.history-card__type{
+  color:#b7d9e7;
+  text-shadow:none;
+}
+.dna-badge{
+  border-color:rgba(205,231,242,.20);
+  background:rgba(183,217,231,.06);
+}
+.dna-lock,
+.intensity-btn,
+.character-choice,
+.output-tab-button,
+.history-card__actions button{
+  color:#8f9ba2;
+  background:rgba(5,8,10,.62);
+  border-color:rgba(215,232,240,.11);
+}
+.campaign-shot,
+.recipe-item,
+.history-card{
+  background:rgba(5,8,10,.62);
+  border-color:rgba(215,232,240,.10);
+}
+.campaign-shot:hover{
+  background:rgba(201,228,239,.07);
+  border-color:rgba(210,236,247,.28);
+}
+.campaign-shot__index,
+.campaign-shot__copy,
+.recipe-item,
+.history-card,
+.history-card__actions button{
+  border-color:rgba(215,232,240,.12);
+}
+
+.quick-float__toggle{
+  color:#edf5f8;
+  background:rgba(4,7,9,.84);
+  border-color:rgba(215,232,240,.18);
+  box-shadow:0 18px 32px rgba(0,0,0,.42),inset 0 0 0 1px rgba(232,244,250,.035);
+}
+.quick-float__toggle:hover{
+  transform:translateY(-2px) scale(1.03);
+  background:rgba(205,231,242,.12);
+  border-color:rgba(220,239,247,.40);
+  box-shadow:0 22px 42px rgba(0,0,0,.46),0 0 24px rgba(174,215,232,.13),inset 0 1px 0 rgba(255,255,255,.10);
+}
+.quick-float__toggle:focus-visible{
+  outline-color:rgba(205,231,242,.88);
+}
+.quick-float__toggle img{
+  filter:drop-shadow(0 5px 10px rgba(0,0,0,.55));
+}
+.quick-float__card{
+  background:rgba(4,7,9,.92);
+  border-color:rgba(215,232,240,.14);
+  box-shadow:0 30px 72px rgba(0,0,0,.52),inset 0 1px 0 rgba(255,255,255,.035);
+}
+.quick-float__handle{
+  color:#c7d4da;
+  background:rgba(207,231,241,.06);
+  border-color:rgba(215,232,240,.10);
+}
+.quick-float__body h3{color:#f3f7f9;}
+.quick-float__body p,
+.quick-float__lead{color:#a8b4ba;}
+.quick-float__tab,
+.quick-float__item,
+.quick-float__chips span{
+  color:#aab6bc;
+  background:rgba(5,8,10,.68);
+  border-color:rgba(215,232,240,.11);
+}
+.quick-float__tab{
+  cursor:pointer;
+  transition:transform 180ms ease,color 180ms ease,background 180ms ease,border-color 180ms ease,box-shadow 180ms ease;
+}
+.quick-float__tab:hover{
+  transform:translateY(-1px);
+  color:#fff;
+  background:rgba(201,228,239,.09);
+  border-color:rgba(210,236,247,.34);
+  box-shadow:0 8px 18px rgba(0,0,0,.22);
+}
+.quick-float__tab.is-active{
+  color:#f7fbfd;
+  background:rgba(176,213,229,.15);
+  border-color:rgba(205,231,242,.38);
+  box-shadow:inset 0 0 0 1px rgba(239,248,252,.05),0 8px 20px rgba(0,0,0,.24);
+}
+.quick-float__item b{color:#eaf1f4;}
+.quick-float__item span{color:#a9b5bb;}
+.quick-float__hint{
+  color:#849198;
+  border-color:rgba(215,232,240,.09);
+}
+.hero-kicker,
+.app-entry__badge,
+.character-sheet-model{
+  color:#d6e3e9;
+  background:rgba(201,228,239,.07);
+  border-color:rgba(215,232,240,.16);
+}
+.hero-logo__media{filter:drop-shadow(0 16px 26px rgba(0,0,0,.48));}
+.app-entry__cta{
+  color:#f0f6f8;
+  background:rgba(201,228,239,.10);
+  border-color:rgba(215,232,240,.22);
+  box-shadow:0 18px 34px rgba(0,0,0,.36),inset 0 1px 0 rgba(255,255,255,.12);
+}
+.app-entry__cta:hover{
+  background:rgba(201,228,239,.16);
+  border-color:rgba(226,241,247,.38);
+  box-shadow:0 24px 40px rgba(0,0,0,.42),0 0 22px rgba(174,215,232,.12),inset 0 1px 0 rgba(255,255,255,.16);
+}
+.inspiration-status,
+.inspiration-status.is-ready{
+  color:#9eabb1;
+}
+.inspiration-status::before,
+.inspiration-status.is-ready::before{
+  background:#b7d9e7;
+  box-shadow:0 0 0 4px rgba(183,217,231,.10);
+}
+.is-character-sheet .stage-card-tech::before{
+  background:#b7d9e7;
+  opacity:.58;
+}
+.output-empty,
+.campaign-shot p,
+.campaign-shot__copy,
+.campaign-shot pre,
+.recipe-item dt,
+.recipe-item dd,
+.history-clear,
+.history-card time,
+.history-card p{
+  color:#99a6ac;
+}
+.campaign-shot h4{color:#eef4f6;}
+.mobile-step-toggle__id,
+.mobile-step-toggle__icon,
+.mobile-step-toggle::after{
+  color:#b7d9e7;
+}
+
+/* Guia desktop: Cenário de Produto em composição 2x2. */
+@media(min-width:900px){
+  #panel-guia .guide-scenario-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:18px;
+    align-items:stretch;
+  }
+  #panel-guia .guide-scenario-grid .guide-card{
+    position:relative;
+    display:flex;
+    align-items:flex-end;
+    min-height:280px;
+    aspect-ratio:1.52 / 1;
+    margin:0;
+    padding:26px;
+    overflow:hidden;
+    background:rgba(5,8,10,.76);
+    border-color:rgba(215,232,240,.12);
+    transition:transform 180ms ease,border-color 180ms ease,background 180ms ease,box-shadow 180ms ease;
+  }
+  #panel-guia .guide-scenario-grid .guide-card::before{
+    position:absolute;
+    top:22px;
+    right:24px;
+    color:rgba(183,217,231,.15);
+    font:700 clamp(46px,5vw,72px)/1 "Space Grotesk",sans-serif;
+    letter-spacing:-.06em;
+    pointer-events:none;
+  }
+  #panel-guia .guide-scenario-grid .guide-card:nth-child(1)::before{content:"01";}
+  #panel-guia .guide-scenario-grid .guide-card:nth-child(2)::before{content:"02";}
+  #panel-guia .guide-scenario-grid .guide-card:nth-child(3)::before{content:"03";}
+  #panel-guia .guide-scenario-grid .guide-card:nth-child(4)::before{content:"04";}
+  #panel-guia .guide-scenario-grid .guide-card::after{
+    content:"";
+    position:absolute;
+    inset:0 auto 0 0;
+    width:3px;
+    background:#b7d9e7;
+    opacity:.48;
+    pointer-events:none;
+  }
+  #panel-guia .guide-scenario-grid .guide-card > div{
+    position:relative;
+    z-index:1;
+    max-width:48ch;
+  }
+  #panel-guia .guide-scenario-grid .guide-card h3{
+    margin:0 0 10px;
+    font-size:17px;
+    line-height:1.25;
+  }
+  #panel-guia .guide-scenario-grid .guide-card p{
+    margin:0;
+    max-width:46ch;
+    font-size:13px;
+    line-height:1.62;
+  }
+  #panel-guia .guide-scenario-grid .guide-card:hover{
+    transform:translateY(-3px);
+    background:rgba(201,228,239,.065);
+    border-color:rgba(210,236,247,.28);
+    box-shadow:0 18px 38px rgba(0,0,0,.24);
+  }
+}
+@media(max-width:899px){
+  #panel-guia .guide-scenario-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+  #panel-guia .guide-scenario-grid .guide-card{margin:0;}
+}
+/* === DARK 3D PREVIEW END === */
 /* === CAMPAIGN LAB END === */
 </style>
 </head>
 <body class="prelaunch">
 <div class="amb">
+  <video class="site-background-video" autoplay loop muted playsinline webkit-playsinline preload="metadata" poster="./media/site-background-dark-poster.jpg" aria-hidden="true">
+    <source src="./media/site-background-dark.mp4" type="video/mp4">
+  </video>
   <canvas id="liquidCanvas" aria-hidden="true"></canvas>
 </div>
 <div class="app-entry" id="appEntry">
@@ -2484,61 +3133,6 @@ figure.svg-demo{
     </div>
   </div>
 </div>
-<script id="app-entry-early-boot">
-(function(){
-  var body = document.body;
-  var entry = document.getElementById('appEntry');
-  var startBtn = document.getElementById('startAppButton');
-  var nav = window.navigator || {};
-  var connection = nav.connection || nav.mozConnection || nav.webkitConnection;
-  var lowPower = !!(
-    (typeof nav.deviceMemory === 'number' && nav.deviceMemory <= 4) ||
-    (typeof nav.hardwareConcurrency === 'number' && nav.hardwareConcurrency <= 4) ||
-    (connection && connection.saveData)
-  );
-  var opening = false;
-  if(!body || !entry || !startBtn) return;
-
-  if(lowPower){
-    document.documentElement.className += ' low-power';
-    window.promptStudioLowPower = true;
-    var backgroundVideo = document.getElementById('entryBackgroundVideo');
-    if(backgroundVideo){
-      backgroundVideo.pause();
-      backgroundVideo.removeAttribute('autoplay');
-    }
-    var replaceAnimatedMedia = function(){
-      var animatedMedia = document.querySelectorAll('img[src$="entry-liquid-alpha.webp"], img[data-animated-src$="entry-liquid-alpha.webp"]');
-      for(var i = 0; i < animatedMedia.length; i++){
-        animatedMedia[i].removeAttribute('data-animated-src');
-        animatedMedia[i].src = './media/apple-touch-icon-v2.png';
-      }
-    };
-    replaceAnimatedMedia();
-    if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', replaceAnimatedMedia, false);
-  }
-
-  function openEntry(){
-    if(opening || /(^|\s)app-ready(\s|$)/.test(body.className)) return;
-    opening = true;
-    body.className = body.className.replace(/(^|\s)prelaunch(?=\s|$)/g, ' ').replace(/\s+/g, ' ').replace(/^\s|\s$/g, '') + ' app-ready';
-    body.style.overflow = '';
-    body.style.overflowY = '';
-    document.documentElement.style.overflowY = 'auto';
-    entry.setAttribute('aria-hidden', 'true');
-    if(window.scrollTo) window.scrollTo(0, 0);
-    window.setTimeout(function(){ entry.style.display = 'none'; }, 560);
-  }
-
-  window.openPromptStudioApp = openEntry;
-  startBtn.addEventListener('pointerup', openEntry, false);
-  startBtn.addEventListener('click', openEntry, false);
-  startBtn.addEventListener('touchend', function(event){
-    if(event && event.cancelable) event.preventDefault();
-    openEntry();
-  }, false);
-})();
-</script>
 <div class="wrap">
 
 <div class="quick-float" id="quickFloat" aria-live="polite">
@@ -2720,6 +3314,7 @@ figure.svg-demo{
         <button type="button" class="persona-chip" data-persona="retrato"><span class="dot"></span>Retrato Editorial</button>
         <button type="button" class="persona-chip" data-persona="moda"><span class="dot"></span>Moda / Lookbook</button>
         <button type="button" class="persona-chip" data-persona="produto"><span class="dot"></span>Produto</button>
+        <button type="button" class="persona-chip" data-persona="background_scene"><span class="dot"></span>Cenário de Produto</button>
         <button type="button" class="persona-chip" data-persona="campanha"><span class="dot"></span>Campanha de Marca</button>
         <button type="button" class="persona-chip" data-persona="character_sheet"><span class="dot"></span>Character Sheet</button>
         <button type="button" class="persona-chip clear" data-persona="">Limpar</button>
@@ -2805,6 +3400,125 @@ figure.svg-demo{
 
       <div class="character-locks" aria-label="Regras fixas do Character Sheet">
         <span>6 vistas únicas</span><span>mesma identidade</span><span>fundo branco</span><span>roupa sem marca</span><span>nitidez óptica</span>
+      </div>
+    </div>
+
+    <div class="background-scene-panel hidden" id="backgroundScenePanel" aria-hidden="true">
+      <div class="background-scene-head">
+        <div>
+          <h3>Cenário de Produto</h3>
+          <p>Dirija apenas o ambiente ao redor do arquivo anexado. O produto vira uma camada visual bloqueada: a IA compõe cenário, superfície, profundidade, sombra e reflexo sem redesenhar o objeto.</p>
+        </div>
+        <span class="background-scene-badge">Product lock</span>
+      </div>
+
+      <div class="background-locks" aria-label="Elementos preservados do produto">
+        <span>forma intacta</span><span>logo intacto</span><span>rótulo intacto</span><span>cores intactas</span><span>material intacto</span><span>proporção intacta</span>
+      </div>
+
+      <div class="background-grid">
+        <div class="field background-full">
+          <label>Tipo de entrega <span class="hint">— escolha o que será gerado</span></label>
+          <div class="background-mode-switch" role="radiogroup" aria-label="Tipo de entrega do cenário">
+            <button type="button" class="background-choice is-active" data-bg-control="task" data-bg-value="composite" aria-pressed="true">Produto + cenário</button>
+            <button type="button" class="background-choice" data-bg-control="task" data-bg-value="scene_only" aria-pressed="false">Somente cenário vazio</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="bgProductType">Categoria do produto <span class="hint">— orienta escala e espaço</span></label>
+          <select id="bgProductType">
+            <option value="generic">Objeto / produto genérico</option>
+            <option value="beauty">Perfume / cosmético</option>
+            <option value="watch">Relógio / joia</option>
+            <option value="eyewear">Óculos / acessório</option>
+            <option value="package">Embalagem / garrafa</option>
+            <option value="furniture">Objeto 3D</option>
+            <option value="tech">Eletrônico / tecnologia</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="bgEnvironmentStyle">Linguagem do ambiente</label>
+          <select id="bgEnvironmentStyle">
+            <option value="studio">Estúdio construído</option>
+            <option value="architectural">Arquitetônico</option>
+            <option value="natural">Natureza controlada</option>
+            <option value="retail">Display / vitrine</option>
+            <option value="surreal">Surreal plausível</option>
+            <option value="abstract">Abstrato material</option>
+          </select>
+        </div>
+
+        <div class="field background-full">
+          <label for="bgSceneIdea">Ideia do cenário <span class="hint">— descreva somente o mundo ao redor</span></label>
+          <textarea id="bgSceneIdea" maxlength="420" placeholder="ex: uma galeria monolítica de concreto claro, com um pedestal baixo recortado por luz lateral e amplo espaço negativo à direita"></textarea>
+          <div class="subhint">Não descreva o produto aqui. Fale de arquitetura, matéria, atmosfera, escala e elementos de fundo.</div>
+        </div>
+
+        <div class="field">
+          <label for="bgSurface">Superfície / base</label>
+          <select id="bgSurface">
+            <option value="matte">Base fosca neutra</option>
+            <option value="acrylic">Acrílico translúcido</option>
+            <option value="stone">Pedra / mineral</option>
+            <option value="metal">Metal escovado</option>
+            <option value="glass">Vidro limpo</option>
+            <option value="fabric">Tecido / papel</option>
+            <option value="liquid">Líquido refletivo</option>
+            <option value="floating">Sem base / suspenso</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="bgComposition">Composição</label>
+          <select id="bgComposition">
+            <option value="center">Hero central</option>
+            <option value="left_space">Produto à esquerda, respiro à direita</option>
+            <option value="right_space">Produto à direita, respiro à esquerda</option>
+            <option value="low_hero">Hero baixo, arquitetura dominante</option>
+            <option value="close">Enquadramento fechado</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="bgDepth">Profundidade</label>
+          <select id="bgDepth">
+            <option value="seamless">Seamless / sem horizonte</option>
+            <option value="layered">Set em camadas</option>
+            <option value="bokeh">Fundo suave / bokeh</option>
+            <option value="deep">Cenário profundo e legível</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="bgLighting">Luz do cenário</label>
+          <select id="bgLighting">
+            <option value="match">Combinar com a luz do produto</option>
+            <option value="soft">Comercial suave</option>
+            <option value="hard">Recorte gráfico</option>
+            <option value="lowkey">Low key controlado</option>
+            <option value="daylight">Daylight natural</option>
+            <option value="color">Acentos de cor</option>
+          </select>
+        </div>
+
+        <div class="field background-full">
+          <label for="bgPalette">Paleta e materiais do cenário <span class="hint">— opcional</span></label>
+          <input type="text" id="bgPalette" maxlength="180" placeholder="ex: cinza mineral, alumínio frio, vidro fumê e um único acento âmbar">
+        </div>
+
+        <div class="field background-full">
+          <label>Integração física <span class="hint">— pode marcar mais de uma</span></label>
+          <div class="background-integration-chips" role="group" aria-label="Integração física do produto no cenário">
+            <button type="button" class="background-choice is-active" data-bg-control="integration" data-bg-value="shadow" data-bg-multi="true" aria-pressed="true">Sombra de contato</button>
+            <button type="button" class="background-choice" data-bg-control="integration" data-bg-value="reflection" data-bg-multi="true" aria-pressed="false">Reflexo coerente</button>
+            <button type="button" class="background-choice" data-bg-control="integration" data-bg-value="atmosphere" data-bg-multi="true" aria-pressed="false">Atmosfera / haze</button>
+            <button type="button" class="background-choice" data-bg-control="integration" data-bg-value="depth_wrap" data-bg-multi="true" aria-pressed="false">Oclusão e profundidade</button>
+          </div>
+        </div>
+
+        <div class="background-workflow-note background-full" id="backgroundWorkflowNote">Anexe a imagem original junto com o prompt. O fundo branco será removido; o produto deverá permanecer visualmente idêntico, incluindo bordas, detalhes impressos e transparências.</div>
       </div>
     </div>
 
@@ -3653,12 +4367,54 @@ figure.svg-demo{
     </div>
   </div>
 
+  <div class="guide-sec">
+    <h2>Cenário de Produto</h2>
+    <p class="lead">Use quando já existe um produto ou objeto pronto e o trabalho da IA deve acontecer <b>somente ao redor dele</b>. A referência é a fonte da verdade; o cenário é a parte criativa.</p>
+    <div class="guide-grid guide-scenario-grid">
+      <div class="guide-card">
+        <div>
+          <h3>1. Prepare a referência</h3>
+          <p>Prefira PNG com transparência ou JPEG/PNG sobre branco uniforme, em boa resolução, sem recortes nas bordas. Quanto mais nítidos estiverem logo, rótulo, material e contorno, maior a fidelidade da composição.</p>
+        </div>
+      </div>
+      <div class="guide-card">
+        <div>
+          <h3>2. Descreva só o mundo</h3>
+          <p>No campo “Ideia do cenário”, fale de arquitetura, superfície, escala, matéria, profundidade e atmosfera. Não redescreva nem reinvente o produto; ele já vem da imagem anexada.</p>
+        </div>
+      </div>
+      <div class="guide-card">
+        <div>
+          <h3>3. Trave a integração física</h3>
+          <p>Sombra de contato, reflexo, oclusão e perspectiva fazem o produto pertencer ao ambiente. A luz do cenário deve combinar com a luz já visível no produto, sem repintar sua superfície.</p>
+        </div>
+      </div>
+      <div class="guide-card">
+        <div>
+          <h3>4. Escolha o fluxo correto</h3>
+          <p><b>Produto + cenário</b> remove apenas o fundo e compõe o objeto intacto. <b>Somente cenário vazio</b> cria o set com uma zona limpa de encaixe para composição posterior em 3D, edição ou outra ferramenta.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </section>
 
 </div>
 
 <script>
 'use strict';
+
+/* Perfil adaptativo: preserva a identidade em vídeo e reduz apenas o custo auxiliar. */
+(function(){
+  var nav = window.navigator || {};
+  var connection = nav.connection || nav.mozConnection || nav.webkitConnection;
+  var lowPower = (typeof nav.deviceMemory === 'number' && nav.deviceMemory <= 4) ||
+    (typeof nav.hardwareConcurrency === 'number' && nav.hardwareConcurrency <= 4) ||
+    !!(connection && connection.saveData);
+  window.promptStudioLowPower = lowPower;
+  if(lowPower) document.documentElement.classList.add('low-power');
+})();
 
 /* === DATA:PERSONAS START === */
 var PERSONAS = {
@@ -6589,6 +7345,127 @@ function buildCharacterSheetPrompt(state, variation){
   };
 }
 
+var BACKGROUND_PRODUCT_TYPES = {
+  generic:'a product or object, preserving its original real-world scale cues',
+  beauty:'a perfume or cosmetic product, with exact glass, cap, liquid, label and transparency details',
+  watch:'a watch or jewelry object, with exact metal, stones, dial, engraving and micro-detail',
+  eyewear:'eyewear or an accessory, with exact frame geometry, lens tint, transparency and hardware',
+  package:'packaging, bottle or container, with exact silhouette, closure, print, label and volume proportions',
+  furniture:'a finished textured 3D object or character asset, preserving the exact modeled geometry, silhouette, dimensions, UV-aligned texture maps, materials, surface details, seams, construction details, proportions and original camera-facing view',
+  tech:'an electronic or technology product, with exact industrial design, ports, controls, screen, finish and branding'
+};
+var BACKGROUND_ENVIRONMENTS = {
+  studio:'a physically built photographic studio set with controlled planes, practical depth and no generic digital gradient',
+  architectural:'an architectural environment with believable scale, structural rhythm, perspective and material junctions',
+  natural:'a controlled natural environment with physically plausible terrain, vegetation, atmosphere and daylight behavior',
+  retail:'a premium display or retail environment with deliberate merchandising space, clean circulation and refined material detailing',
+  surreal:'a surreal but physically coherent environment, driven by one clear spatial idea and continuous gravity, shadows and perspective',
+  abstract:'an abstract material set built from real surfaces, volumes and transitions rather than floating decorative graphics'
+};
+var BACKGROUND_SURFACES = {
+  matte:'a neutral matte base with restrained texture and a clean contact zone',
+  acrylic:'a translucent acrylic base with controlled transmission, edge glow and subtle internal reflection',
+  stone:'a stone or mineral base with credible weight, pores, veins and scale',
+  metal:'a brushed metal base with directional grain and controlled specular reflections',
+  glass:'a clean glass base with physically correct transmission, edge reflections and restrained glare',
+  fabric:'a fabric or paper base with real weave, folds, thickness and natural falloff',
+  liquid:'a shallow reflective liquid base with coherent ripples and a physically matched reflection',
+  floating:'no visible support; reserve clean negative space around the product and use a plausible soft grounding shadow below it'
+};
+var BACKGROUND_COMPOSITIONS = {
+  center:'centered hero placement with balanced breathing room and a single dominant focal point',
+  left_space:'place the product on the left third and preserve intentional negative space on the right',
+  right_space:'place the product on the right third and preserve intentional negative space on the left',
+  low_hero:'place the product low in frame while the environment establishes scale above and behind it',
+  close:'use a tight product-led crop while keeping every visible edge from the reference intact and uncropped unless already cropped'
+};
+var BACKGROUND_DEPTHS = {
+  seamless:'a seamless set with no visible horizon line and a smooth but physical tonal falloff',
+  layered:'a layered set with clear foreground, placement plane, midground and background separation',
+  bokeh:'a softly resolved background with optical depth and restrained bokeh, while the product remains fully sharp',
+  deep:'a deep, legible environment with coherent perspective from foreground to far background'
+};
+var BACKGROUND_LIGHTING = {
+  match:'derive the environment lighting from the direction, softness, color and contrast already visible on the reference product',
+  soft:'use broad commercial studio light with gentle falloff and clean controlled reflections in the environment',
+  hard:'use one hard graphic source with deliberate shadow geometry and crisp separation in the set',
+  lowkey:'use controlled low-key illumination with deep but detailed shadows and restrained practical highlights',
+  daylight:'use natural daylight with a believable sky contribution, directional key and neutral color response',
+  color:'use restrained colored accents in the environment while keeping neutral, accurate color on the product itself'
+};
+var BACKGROUND_INTEGRATIONS = {
+  shadow:'Create a contact shadow that follows the product footprint, elevation and the established light direction.',
+  reflection:'Create only a physically plausible reflection from the unchanged source product, matching surface roughness and viewing angle.',
+  atmosphere:'Allow subtle atmosphere or haze to exist behind and around the product, never covering its label, logo or critical edges.',
+  depth_wrap:'Use believable occlusion and depth ordering around the placement zone without painting over or deforming the product.'
+};
+
+function buildBackgroundScenePrompt(state, variation){
+  var bg = state.backgroundScene || {};
+  var task = bg.task || 'composite';
+  var productType = BACKGROUND_PRODUCT_TYPES[bg.productType] || BACKGROUND_PRODUCT_TYPES.generic;
+  var environment = BACKGROUND_ENVIRONMENTS[bg.environmentStyle] || BACKGROUND_ENVIRONMENTS.studio;
+  var surface = BACKGROUND_SURFACES[bg.surface] || BACKGROUND_SURFACES.matte;
+  var composition = BACKGROUND_COMPOSITIONS[bg.composition] || BACKGROUND_COMPOSITIONS.center;
+  var depth = BACKGROUND_DEPTHS[bg.depth] || BACKGROUND_DEPTHS.layered;
+  var lighting = BACKGROUND_LIGHTING[bg.lighting] || BACKGROUND_LIGHTING.match;
+  var idea = truncateWords(bg.idea || 'a refined, physically built product environment', 420);
+  if(task === 'scene_only' && (!bg.lighting || bg.lighting === 'match')){
+    lighting = 'use controlled neutral studio illumination with one readable direction, soft tonal separation and no implied hero object';
+  }
+  var paletteFallback = task === 'scene_only'
+    ? 'a restrained neutral palette derived only from the requested environment'
+    : 'a restrained palette derived from the product and the requested environment';
+  var palette = truncateWords(bg.palette || paletteFallback, 180);
+  var integrations = (bg.integrations || []).map(function(key){ return BACKGROUND_INTEGRATIONS[key]; }).filter(Boolean);
+  var variationLines = [
+    'Keep the scene disciplined: every environmental element must support scale, placement and product readability.',
+    'Favor physically built set logic, precise material transitions and controlled negative space over decorative clutter.',
+    'Make the environment feel photographed in one exposure, with continuous perspective, shadow direction and color response.',
+    'Use one clear spatial hierarchy and remove any element that competes with the placement zone.'
+  ];
+  var variationLine = variationLines[Math.abs(variation || 0) % variationLines.length];
+  var rows = [];
+
+  if(task === 'scene_only'){
+    rows.push('TASK: Create an EMPTY high-end product environment. Do not add, invent or imply any product, logo, packaging, text or hero object.');
+    rows.push('PLACEMENT ZONE: Reserve a clean, believable area sized for ' + productType + '. ' + cap(composition) + '. The zone must be ready for later compositing, with unobstructed edges and sufficient negative space.');
+  } else {
+    rows.push('IMAGE EDITING TASK: Use the attached image as the exact source product. Remove only the white or transparent background and composite the source product into a newly created environment.');
+    rows.push('IMMUTABLE PRODUCT LOCK: Treat the product as a locked source layer, not as a generation target. Preserve the exact same silhouette, geometry, dimensions, proportions, camera angle, perspective, crop, logo, label text, typography, colors, material, texture, transparency, reflections, micro-details and visible imperfections. Do not redraw, relight, retouch, simplify, enhance, clean up, restyle or reinterpret any pixel belonging to the product.');
+    rows.push('MASKING AND EDGES: Extract only the background. Preserve original antialiasing, fine edges, transparent or translucent areas, holes, glass, hairline parts and natural edge softness. No white halo, dark fringe, cutout edge, invented edge or missing detail.');
+    rows.push('PRODUCT TYPE: ' + cap(productType) + '.');
+    rows.push('COMPOSITION: ' + cap(composition) + '. Reposition or uniformly scale the locked layer only when needed; never warp, rotate into a new view or change its internal perspective.');
+  }
+
+  rows.push('ENVIRONMENT: ' + cap(environment) + '. Creative brief: ' + cap(idea) + '.');
+  rows.push('SURFACE AND PLACEMENT: ' + cap(surface) + '.');
+  if(task === 'scene_only'){
+    rows.push('LIGHTING: ' + cap(lighting) + '. Establish one clear light direction across the empty set and leave the placement zone evenly readable for later compositing.');
+    rows.push('COMPOSITING READINESS: Do not render a contact shadow, product reflection, silhouette, cutout or placeholder. Leave the surface physically coherent and unobstructed so those interactions can be created only after a real product is added.');
+    rows.push('DEPTH AND PERSPECTIVE: ' + cap(depth) + '. Use a coherent horizon, camera height, vanishing points and believable real-world scale across the empty environment.');
+  } else {
+    rows.push('LIGHTING INTEGRATION: ' + cap(lighting) + '. Build the environment, cast shadow and reflections around the existing product lighting; do not repaint highlights, shadows or color on the locked product layer.');
+    if(integrations.length) rows.push('PHYSICAL INTEGRATION: ' + integrations.join(' '));
+    rows.push('DEPTH AND PERSPECTIVE: ' + cap(depth) + '. Match horizon, camera height, vanishing points and scale to the reference image so the composite reads as one photograph.');
+  }
+  rows.push('PALETTE AND MATERIAL LANGUAGE: ' + cap(palette) + '. Keep material scale physically credible and avoid generic CGI smoothness.');
+  rows.push('PHOTOGRAPHIC FINISH: Natural optical sharpness, realistic surface response, controlled highlight roll-off, coherent noise and fine real-world imperfections. The final image must feel captured in one professional studio or location exposure, not assembled from separate layers. ' + variationLine);
+  rows.push(task === 'scene_only'
+    ? 'EXCLUSIONS: No product, no placeholder object, no text, no logo, no watermark, no floating decorative icon and no fake packaging.'
+    : 'EXCLUSIONS: No product redesign, no altered branding, no changed label, no invented text, no extra product, no duplicated object, no deformation, no melting, no new camera angle, no white outline, no watermark and no unrelated prop crossing the product.');
+
+  var text = rows.join('\n\n');
+  return {
+    text:text,
+    length:text.length,
+    maxLength:3200,
+    cameraLabel:'Reference-matched composite',
+    lensName:'Locked source perspective',
+    stockLabel:'Photographic environment integration'
+  };
+}
+
 function buildPrompt(state, variation){
   var lens = LENSES[state.lensId];
   var shot = SHOTTYPES[state.shotId];
@@ -7007,6 +7884,17 @@ function buildVideoPrompt(state, variation){
   var studioNoteText = document.getElementById('studioNoteText');
   var form = document.getElementById('promptForm');
   var characterSheetPanel = document.getElementById('characterSheetPanel');
+  var backgroundScenePanel = document.getElementById('backgroundScenePanel');
+  var backgroundWorkflowNote = document.getElementById('backgroundWorkflowNote');
+  var backgroundControlButtons = document.querySelectorAll('[data-bg-control][data-bg-value]');
+  var bgProductType = document.getElementById('bgProductType');
+  var bgEnvironmentStyle = document.getElementById('bgEnvironmentStyle');
+  var bgSceneIdea = document.getElementById('bgSceneIdea');
+  var bgSurface = document.getElementById('bgSurface');
+  var bgComposition = document.getElementById('bgComposition');
+  var bgDepth = document.getElementById('bgDepth');
+  var bgLighting = document.getElementById('bgLighting');
+  var bgPalette = document.getElementById('bgPalette');
   var standardSceneFields = document.getElementById('standardSceneFields');
   var characterFields = {
     presentation: document.getElementById('csPresentation'),
@@ -7041,7 +7929,7 @@ function buildVideoPrompt(state, variation){
     btnVariacao.disabled = true;
     btnVariarTudo.disabled = true;
     promptOut.innerHTML = '<span class="empty-state">Preencha o formulário e clique em "Gerar Prompt".</span>';
-    charCounter.textContent = '0 / ' + (activePersona === 'character_sheet' ? CHARACTER_SHEET_MAX_LEN : MAX_LEN);
+    charCounter.textContent = '0 / ' + (activePersona === 'character_sheet' ? CHARACTER_SHEET_MAX_LEN : (activePersona === 'background_scene' ? 3200 : MAX_LEN));
     charCounter.classList.remove('over');
     settingsReminder.textContent = '';
   }
@@ -7212,6 +8100,8 @@ function buildVideoPrompt(state, variation){
       var note = document.createElement('small');
       button.type = 'button';
       button.className = 'mobile-step-toggle';
+      if(!panel.id) panel.id = 'generator-step-' + panel.getAttribute('data-mobile-step');
+      button.setAttribute('aria-controls', panel.id);
       button.setAttribute('aria-expanded', panel.getAttribute('data-mobile-step') === '1' ? 'true' : 'false');
       index.className = 'mobile-step-toggle__index';
       index.textContent = panel.getAttribute('data-mobile-step');
@@ -7238,7 +8128,7 @@ function buildVideoPrompt(state, variation){
   }
 
   function buildCampaignSet(state){
-    if(!state || state.isCharacterSheet) return [];
+    if(!state || state.isCharacterSheet || state.isBackgroundScene) return [];
     return CAMPAIGN_BLUEPRINTS.map(function(blueprint, index){
       var shotState = cloneState(state);
       if(blueprint.shotId) shotState.shotId = blueprint.shotId;
@@ -7325,6 +8215,15 @@ function buildVideoPrompt(state, variation){
       addRecipeItem('Modo', 'Character Sheet · Nano Banana Pro');
       addRecipeItem('Estrutura', '6 vistas únicas · 16:9 · fundo branco · RAW neutro');
       addRecipeItem('Resolução', state.resolution);
+    } else if(state.isBackgroundScene){
+      var bgRecipe = state.backgroundScene || {};
+      addRecipeItem('Modo', bgRecipe.task === 'scene_only' ? 'Somente cenário vazio' : 'Produto + cenário');
+      addRecipeItem('Ambiente', bgEnvironmentStyle.options[bgEnvironmentStyle.selectedIndex].text);
+      addRecipeItem('Superfície', bgSurface.options[bgSurface.selectedIndex].text);
+      addRecipeItem('Composição', bgComposition.options[bgComposition.selectedIndex].text);
+      addRecipeItem('Profundidade', bgDepth.options[bgDepth.selectedIndex].text);
+      addRecipeItem('Luz', bgLighting.options[bgLighting.selectedIndex].text);
+      addRecipeItem('Formato', state.aspectRatio + ' · ' + state.resolution);
     } else {
       var treatment = CREATIVE_TREATMENTS[state.treatmentId];
       var intensity = CREATIVE_INTENSITIES[state.intensityId];
@@ -7378,10 +8277,10 @@ function buildVideoPrompt(state, variation){
     history.unshift({
       id:String(Date.now()),
       createdAt:new Date().toISOString(),
-      mode:state.isCharacterSheet ? 'Character Sheet' : (state.mode === 'video' ? 'Vídeo' : 'Imagem'),
-      treatment:state.isCharacterSheet ? 'Consistência' : ((CREATIVE_TREATMENTS[state.treatmentId] || {}).label || state.treatmentId),
-      subject:state.isCharacterSheet ? 'Ficha técnica de personagem' : (state.subject || state.concept || 'Projeto sem título'),
-      maxLength:state.isCharacterSheet ? CHARACTER_SHEET_MAX_LEN : MAX_LEN,
+      mode:state.isCharacterSheet ? 'Character Sheet' : (state.isBackgroundScene ? 'Cenário' : (state.mode === 'video' ? 'Vídeo' : 'Imagem')),
+      treatment:state.isCharacterSheet ? 'Consistência' : (state.isBackgroundScene ? 'Product lock' : ((CREATIVE_TREATMENTS[state.treatmentId] || {}).label || state.treatmentId)),
+      subject:state.isCharacterSheet ? 'Ficha técnica de personagem' : (state.isBackgroundScene ? ((state.backgroundScene || {}).idea || 'Cenário de produto') : (state.subject || state.concept || 'Projeto sem título')),
+      maxLength:state.isCharacterSheet ? CHARACTER_SHEET_MAX_LEN : (state.isBackgroundScene ? 3200 : MAX_LEN),
       prompt:promptText
     });
     writeHistory(history);
@@ -7505,38 +8404,46 @@ function buildVideoPrompt(state, variation){
   function applyMode(){
     var isVideo = (mode === 'video');
     var isCharacterSheet = (activePersona === 'character_sheet');
+    var isBackgroundScene = (activePersona === 'background_scene');
+    var hasOwnTechnicalFlow = isCharacterSheet || isBackgroundScene;
     form.classList.toggle('is-video', isVideo);
     form.classList.toggle('is-character-sheet', isCharacterSheet);
+    form.classList.toggle('is-background-scene', isBackgroundScene);
     modeBtns.forEach(function(b){
       var on = b.getAttribute('data-mode') === mode;
       b.classList.toggle('active', on);
       b.setAttribute('aria-selected', on ? 'true' : 'false');
     });
-    // Character Sheet tem tratamento técnico próprio; os campos cinematográficos ficam fora da validação.
-    fPlano.required = !isCharacterSheet;
-    fLente.required = !isCharacterSheet;
-    fIluminacao.required = !isCharacterSheet;
-    fFilme.required = !isCharacterSheet;
+    // Modos especiais têm gramática própria; os campos cinematográficos ficam fora da validação.
+    fPlano.required = !hasOwnTechnicalFlow;
+    fLente.required = !hasOwnTechnicalFlow;
+    fIluminacao.required = !hasOwnTechnicalFlow;
+    fFilme.required = !hasOwnTechnicalFlow;
     fModelo.required = isVideo;
     fMovimento.required = isVideo;
     fAspect.disabled = isCharacterSheet;
-    btnVariacao.textContent = isCharacterSheet ? 'Variar redação' : 'Gerar Variação';
-    modeHint.textContent = isCharacterSheet
-      ? 'Character Sheet — ficha fotográfica de seis vistas para Nano Banana Pro.'
-      : (isVideo
+    bgSceneIdea.required = isBackgroundScene;
+    btnVariacao.textContent = isCharacterSheet ? 'Variar redação' : (isBackgroundScene ? 'Variar cenário' : 'Gerar Variação');
+    if(isCharacterSheet){
+      modeHint.textContent = 'Character Sheet — ficha fotográfica de seis vistas para Nano Banana Pro.';
+      studioNoteTitle.textContent = 'Consistência nasce de decisões visuais fixas.';
+      studioNoteText.textContent = 'A ficha mantém rosto, corpo, cabelo, pele e roupa idênticos em seis ângulos. Escolha os traços; o tratamento técnico já está travado.';
+    } else if(isBackgroundScene){
+      modeHint.textContent = 'Cenário de Produto — o objeto fica bloqueado; apenas ambiente e integração física são dirigidos.';
+      studioNoteTitle.textContent = 'O produto é a fonte da verdade.';
+      studioNoteText.textContent = 'A IA não deve redesenhar o objeto. Construa perspectiva, superfície, sombra e luz ao redor da referência anexada.';
+    } else {
+      modeHint.textContent = isVideo
         ? 'Modo Vídeo — prompt fluido com movimento de câmera para Kling, Seedance ou Veo.'
-        : 'Modo Imagem — prompt detalhado para geradores de imagem.');
-    studioNoteTitle.textContent = isCharacterSheet
-      ? 'Consistência nasce de decisões visuais fixas.'
-      : 'Monte a cena como se estivesse dirigindo o frame.';
-    studioNoteText.textContent = isCharacterSheet
-      ? 'A ficha mantém rosto, corpo, cabelo, pele e roupa idênticos em seis ângulos. Escolha os traços; o tratamento técnico já está travado.'
-      : 'Se o conceito, o sujeito e o espaço estiverem fracos, não existe lente ou LUT que salve o prompt. Direção visual começa antes da técnica.';
+        : 'Modo Imagem — prompt detalhado para geradores de imagem.';
+      studioNoteTitle.textContent = 'Monte a cena como se estivesse dirigindo o frame.';
+      studioNoteText.textContent = 'Se o conceito, o sujeito e o espaço estiverem fracos, não existe lente ou LUT que salve o prompt. Direção visual começa antes da técnica.';
+    }
   }
   modeBtns.forEach(function(b){
     b.addEventListener('click', function(){
       var nextMode = b.getAttribute('data-mode');
-      if(nextMode === 'video' && activePersona === 'character_sheet'){
+      if(nextMode === 'video' && (activePersona === 'character_sheet' || activePersona === 'background_scene')){
         var clearPersona = document.querySelector('.persona-chip[data-persona=""]');
         if(clearPersona) clearPersona.click();
       }
@@ -7620,6 +8527,35 @@ function buildVideoPrompt(state, variation){
   function showEmphasisGroup(name){
     emphasisGroups.forEach(function(g){ g.classList.toggle('hidden', g.getAttribute('data-group') !== name); });
   }
+  function updateBackgroundWorkflowNote(){
+    var taskButton = document.querySelector('[data-bg-control="task"].is-active');
+    var isSceneOnly = taskButton && taskButton.getAttribute('data-bg-value') === 'scene_only';
+    backgroundWorkflowNote.textContent = isSceneOnly
+      ? 'Gere um set vazio, sem produto ou objeto inventado. O prompt reserva uma zona limpa para inserir depois o render 3D, packshot ou fotografia original.'
+      : 'Anexe a imagem original junto com o prompt. O fundo branco será removido; o produto deverá permanecer visualmente idêntico, incluindo bordas, detalhes impressos e transparências.';
+  }
+  backgroundControlButtons.forEach(function(button){
+    button.addEventListener('click', function(){
+      var control = button.getAttribute('data-bg-control');
+      var isMulti = button.getAttribute('data-bg-multi') === 'true';
+      if(isMulti){
+        button.classList.toggle('is-active');
+      } else {
+        document.querySelectorAll('[data-bg-control="' + control + '"]').forEach(function(item){ item.classList.remove('is-active'); });
+        button.classList.add('is-active');
+      }
+      document.querySelectorAll('[data-bg-control="' + control + '"]').forEach(function(item){
+        item.setAttribute('aria-pressed', item.classList.contains('is-active') ? 'true' : 'false');
+      });
+      if(control === 'task') updateBackgroundWorkflowNote();
+      invalidateGeneratedPrompt();
+    });
+  });
+  [bgProductType,bgEnvironmentStyle,bgSceneIdea,bgSurface,bgComposition,bgDepth,bgLighting,bgPalette].forEach(function(field){
+    field.addEventListener(field.tagName === 'SELECT' ? 'change' : 'input', invalidateGeneratedPrompt);
+  });
+  updateBackgroundWorkflowNote();
+
   function resetCreativeUI(){
     productEmphasisField.classList.add('hidden');
     productBgField.classList.add('hidden');
@@ -7627,6 +8563,8 @@ function buildVideoPrompt(state, variation){
     acaoField.classList.remove('hidden');
     characterSheetPanel.classList.add('hidden');
     characterSheetPanel.setAttribute('aria-hidden', 'true');
+    backgroundScenePanel.classList.add('hidden');
+    backgroundScenePanel.setAttribute('aria-hidden', 'true');
     standardSceneFields.classList.remove('hidden');
     emphasisChips.forEach(function(e){ e.classList.remove('active'); });
   }
@@ -7647,6 +8585,13 @@ function buildVideoPrompt(state, variation){
         characterSheetPanel.setAttribute('aria-hidden', 'false');
         standardSceneFields.classList.add('hidden');
         fAspect.value = '16:9';
+        if(fResolucao.value === '1k') fResolucao.value = '2k';
+      } else if(key === 'background_scene'){
+        mode = 'img';
+        backgroundScenePanel.classList.remove('hidden');
+        backgroundScenePanel.setAttribute('aria-hidden', 'false');
+        standardSceneFields.classList.add('hidden');
+        fAspect.value = '4:5';
         if(fResolucao.value === '1k') fResolucao.value = '2k';
       } else if(key === 'produto'){
         lblSujeito.textContent = 'Produto';
@@ -7675,11 +8620,12 @@ function buildVideoPrompt(state, variation){
       btnVariacao.disabled = true;
       btnVariarTudo.disabled = true;
       promptOut.innerHTML = '<span class="empty-state">Preencha o formulário e clique em "Gerar Prompt".</span>';
-      charCounter.textContent = '0 / ' + (key === 'character_sheet' ? CHARACTER_SHEET_MAX_LEN : MAX_LEN);
+      charCounter.textContent = '0 / ' + (key === 'character_sheet' ? CHARACTER_SHEET_MAX_LEN : (key === 'background_scene' ? 3200 : MAX_LEN));
       charCounter.classList.remove('over');
       settingsReminder.textContent = '';
       applyMode();
       if(key === 'character_sheet') characterFields.presentation.focus();
+      else if(key === 'background_scene') bgSceneIdea.focus();
       else fSujeito.focus();
   }
   if(personaChipGroup){
@@ -7756,14 +8702,37 @@ function buildVideoPrompt(state, variation){
     };
   }
 
+  function readBackgroundSceneState(){
+    var taskButton = document.querySelector('[data-bg-control="task"].is-active');
+    var integrations = Array.prototype.map.call(
+      document.querySelectorAll('[data-bg-control="integration"].is-active'),
+      function(button){ return button.getAttribute('data-bg-value'); }
+    );
+    return {
+      task: taskButton ? taskButton.getAttribute('data-bg-value') : 'composite',
+      productType: bgProductType.value,
+      environmentStyle: bgEnvironmentStyle.value,
+      idea: bgSceneIdea.value,
+      surface: bgSurface.value,
+      composition: bgComposition.value,
+      depth: bgDepth.value,
+      lighting: bgLighting.value,
+      palette: bgPalette.value,
+      integrations: integrations
+    };
+  }
+
   function readState(){
     var isProduct = (activePersona === 'produto');
     var isCharacterSheet = (activePersona === 'character_sheet');
+    var isBackgroundScene = (activePersona === 'background_scene');
     return {
       mode: mode,
       isProduct: isProduct,
       isCharacterSheet: isCharacterSheet,
+      isBackgroundScene: isBackgroundScene,
       character: isCharacterSheet ? readCharacterState() : null,
+      backgroundScene: isBackgroundScene ? readBackgroundSceneState() : null,
       productBg: productBg,
       subject: buildSubject(),
       concept: fConceito.value,
@@ -7789,7 +8758,9 @@ function buildVideoPrompt(state, variation){
   function renderResult(state, varSeed){
     var result = state.isCharacterSheet
       ? buildCharacterSheetPrompt(state, varSeed)
-      : ((state.mode === 'video') ? buildVideoPrompt(state, varSeed) : buildPrompt(state, varSeed));
+      : (state.isBackgroundScene
+        ? buildBackgroundScenePrompt(state, varSeed)
+        : ((state.mode === 'video') ? buildVideoPrompt(state, varSeed) : buildPrompt(state, varSeed)));
     var maxLength = result.maxLength || MAX_LEN;
     promptOut.textContent = result.text;
     charCounter.textContent = result.length + ' / ' + maxLength;
@@ -7797,6 +8768,11 @@ function buildVideoPrompt(state, variation){
     else { charCounter.classList.remove('over'); }
     if(state.isCharacterSheet){
       settingsReminder.innerHTML = 'No <b>Nano Banana Pro</b>, use este prompt sem imagem de referência. Configure: proporção <b>16:9</b> · resolução <b>' + state.resolution + '</b>.';
+    } else if(state.isBackgroundScene){
+      var sceneOnly = state.backgroundScene && state.backgroundScene.task === 'scene_only';
+      settingsReminder.innerHTML = sceneOnly
+        ? 'Gere o cenário vazio em proporção <b>' + state.aspectRatio + '</b> · resolução <b>' + state.resolution + '</b>. Não anexe a foto do produto neste fluxo.'
+        : 'Anexe a imagem original junto com este prompt. Configure: proporção <b>' + state.aspectRatio + '</b> · resolução <b>' + state.resolution + '</b>.';
     } else if(state.mode === 'video'){
       var soundTxt = result.withSound ? ' · áudio <b>ativado</b> (som ambiente, sem música)' : ' · <b>sem áudio</b>';
       settingsReminder.innerHTML = 'Em <b>' + (result.modelLabel || 'seu modelo de vídeo') +
@@ -7806,7 +8782,7 @@ function buildVideoPrompt(state, variation){
         state.aspectRatio + '</b> · resolução <b>' + state.resolution + '</b>.';
     }
     btnVariacao.disabled = false;
-    btnVariarTudo.disabled = state.isCharacterSheet;
+    btnVariarTudo.disabled = state.isCharacterSheet || state.isBackgroundScene;
     return result;
   }
 
@@ -7855,7 +8831,7 @@ function buildVideoPrompt(state, variation){
   // A ação explícita varia toda a técnica. As travas continuam controlando o Campaign Set.
   btnVariarTudo.addEventListener('click', function(){
     if(!currentState) return;
-    if(currentState.isCharacterSheet) return;
+    if(currentState.isCharacterSheet || currentState.isBackgroundScene) return;
     randomizeSelect(fPlano);
     randomizeSelect(fLente);
     randomizeSelect(fIluminacao);
@@ -7933,20 +8909,17 @@ function buildVideoPrompt(state, variation){
   var opened = false;
   if(!body || !entry || !startBtn) return;
 
-  if(!window.promptStudioLowPower){
-    [entryBackgroundVideo].forEach(function(video){
-      if(!video) return;
-      video.muted = true;
-      video.playsInline = true;
-      var playResult = video.play();
-      if(playResult && typeof playResult.catch === 'function'){
-        playResult.catch(function(){});
-      }
-    });
-  }
+  [entryBackgroundVideo].forEach(function(video){
+    if(!video) return;
+    video.muted = true;
+    video.playsInline = true;
+    var playResult = video.play();
+    if(playResult && typeof playResult.catch === 'function'){
+      playResult.catch(function(){});
+    }
+  });
 
   function startHeroAnimation(){
-    if(window.promptStudioLowPower) return;
     if(!heroMedia || !heroMediaSrc) return;
     heroMedia.classList.remove('is-running');
     heroMedia.onload = function(){
@@ -7986,6 +8959,7 @@ function buildVideoPrompt(state, variation){
 /* === UI MOTION V2 START === */
 (function(){
   var root = document.documentElement;
+  var lowPower = !!window.promptStudioLowPower;
   var amb = document.querySelector('.amb');
   var liquidCanvas = document.getElementById('liquidCanvas');
   var heroStage = document.querySelector('.hero-stage');
@@ -8004,9 +8978,18 @@ function buildVideoPrompt(state, variation){
     root.style.setProperty('--scroll-shift', Math.min(y * 0.08, 48) + 'px');
     root.style.setProperty('--hero-shift', Math.min(y * 0.035, 18) + 'px');
     root.style.setProperty('--scroll-glow', Math.min(y * 0.06, 42) + 'px');
-    if(heroStage){
+    if(heroStage && !lowPower){
       heroStage.style.filter = 'saturate(' + (1 + Math.min(y * 0.00045, 0.08)) + ')';
     }
+  }
+
+  var scrollFrame = 0;
+  function requestScrollFx(){
+    if(scrollFrame) return;
+    scrollFrame = window.requestAnimationFrame(function(){
+      scrollFrame = 0;
+      updateScrollFx();
+    });
   }
 
   if('IntersectionObserver' in window){
@@ -8025,10 +9008,10 @@ function buildVideoPrompt(state, variation){
   }
 
   updateScrollFx();
-  window.addEventListener('scroll', updateScrollFx, { passive:true });
+  window.addEventListener('scroll', requestScrollFx, { passive:true });
 
-  var reduceMotion = !!window.promptStudioLowPower || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-  if(!reduceMotion && amb && liquidCanvas){
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduceMotion && amb && liquidCanvas && !document.querySelector('.site-background-video')){
     var ctx = liquidCanvas.getContext('2d');
     var blobs = [
       { color:'rgba(100, 49, 159, 0.30)', x:0.18, y:0.24, rx:0.32, ry:0.26, sx:0.84, sy:0.61, phase:0.2 },
@@ -8039,9 +9022,10 @@ function buildVideoPrompt(state, variation){
       { color:'rgba(126, 84, 186, 0.16)', x:0.50, y:0.46, rx:0.22, ry:0.18, sx:0.57, sy:0.68, phase:5.2 },
       { color:'rgba(214, 194, 245, 0.08)', x:0.84, y:0.16, rx:0.18, ry:0.14, sx:0.91, sy:0.74, phase:1.8 }
     ];
+    var lastLiquidFrame = 0;
 
     function resizeLiquid(){
-      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var dpr = lowPower ? 1 : Math.min(window.devicePixelRatio || 1, 2);
       liquidCanvas.width = Math.floor(window.innerWidth * dpr);
       liquidCanvas.height = Math.floor(window.innerHeight * dpr);
       liquidCanvas.style.width = window.innerWidth + 'px';
@@ -8076,10 +9060,12 @@ function buildVideoPrompt(state, variation){
       ctx.globalCompositeOperation = 'screen';
       ctx.strokeStyle = 'rgba(210, 191, 243, 0.08)';
       ctx.lineWidth = 1;
-      for(var i = 0; i < 11; i++){
+      var veinCount = lowPower ? 6 : 11;
+      var veinStep = lowPower ? 24 : 14;
+      for(var i = 0; i < veinCount; i++){
         var yBase = window.innerHeight * (0.12 + i * 0.11);
         ctx.beginPath();
-        for(var x = -40; x <= window.innerWidth + 40; x += 14){
+        for(var x = -40; x <= window.innerWidth + 40; x += veinStep){
           var y = yBase + Math.sin((x * 0.008) + (t * 1.7) + i) * 18 + Math.cos((x * 0.006) - (t * 1.12) + i) * 12;
           if(x === -40) ctx.moveTo(x, y);
           else ctx.lineTo(x, y);
@@ -8090,6 +9076,11 @@ function buildVideoPrompt(state, variation){
     }
 
     function animateLiquid(now){
+      if(lowPower && now - lastLiquidFrame < 34){
+        window.requestAnimationFrame(animateLiquid);
+        return;
+      }
+      lastLiquidFrame = now;
       var t = now * 0.00042;
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
@@ -8253,7 +9244,7 @@ function buildVideoPrompt(state, variation){
 })();
 /* === UI MOTION V2 END === */
 
-/* === GUIA MOBILE: chips por secao === */
+/* === GUIA: navegação curta por seções em desktop e mobile === */
 (function(){
   var guide = document.getElementById('panel-guia');
   if(!guide) return;
@@ -8263,16 +9254,17 @@ function buildVideoPrompt(state, variation){
   });
   var groups = [
     { id:'inicio', label:'Início', sections:[0] },
-    { id:'preencher', label:'Preencher', sections:[1] },
-    { id:'personas', label:'Personas', sections:[2,3] },
-    { id:'character', label:'Character', sections:[4] },
-    { id:'exemplo', label:'Exemplo', sections:[5] },
-    { id:'termos', label:'Termos', sections:[6] },
-    { id:'planos', label:'Planos', sections:[7] },
-    { id:'lentes', label:'Lentes', sections:[8] },
-    { id:'referencia', label:'Referência', sections:[9] }
+    { id:'preencher', label:'Preencher', sections:[1,2] },
+    { id:'direcao', label:'Direção', sections:[3,4] },
+    { id:'character', label:'Character', sections:[5] },
+    { id:'exemplo', label:'Exemplo', sections:[6] },
+    { id:'termos', label:'Termos', sections:[7] },
+    { id:'planos', label:'Planos', sections:[8] },
+    { id:'lentes', label:'Lentes', sections:[9] },
+    { id:'referencia', label:'Referência', sections:[10] },
+    { id:'cenario', label:'Cenário', sections:[11] }
   ];
-  if(sections.length < 10) return;
+  if(sections.length < 12) return;
 
   var nav = document.createElement('div');
   nav.className = 'guide-mobile-nav';
