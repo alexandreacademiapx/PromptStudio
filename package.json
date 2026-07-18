@@ -7,7 +7,8 @@
     "copy": "npx cap copy",
     "sync": "npx cap sync",
     "open:ios": "npx cap open ios",
-    "doctor": "npx cap doctor"
+    "doctor": "npx cap doctor",
+    "security:check": "node scripts/security-check.cjs && npm audit --audit-level=high"
   },
   "dependencies": {
     "@capacitor/core": "^7.4.2"

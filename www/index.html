@@ -2,8 +2,8 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-8Y9gGVQ4QwYjOuPx+pMQUZ9NCN/k2GzGmuR+neY7jzI='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self' blob:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-src 'none'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
-<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-MMs/D4eOedtlqtpYMhVtIbYiDVKgMJ83qXydlY6Z7j0='; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self'; media-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; child-src 'none'; worker-src 'none'; manifest-src 'self'; trusted-types 'none'; require-trusted-types-for 'script'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="format-detection" content="telephone=no">
 <meta name="theme-color" content="#030506">
@@ -3334,7 +3334,7 @@ select:focus{
 <section id="panel-gerador" class="tabpanel active">
 <div class="studio-grid">
 <div class="studio-main">
-<form id="promptForm">
+<form id="promptForm" autocomplete="off">
 
   <div class="mode-toggle-wrap">
     <div class="tabs mode-toggle" role="tablist" aria-label="Tipo de geração">
@@ -3681,12 +3681,12 @@ select:focus{
     <div class="grid2">
       <div class="field">
         <label for="fSujeito" id="lblSujeito">Sujeito / Personagem</label>
-        <textarea id="fSujeito" placeholder="ex: modelo brasileira de 30 anos, cabelo curto, alfaiataria minimalista"></textarea>
+        <textarea id="fSujeito" maxlength="320" placeholder="ex: modelo brasileira de 30 anos, cabelo curto, alfaiataria minimalista"></textarea>
         <div class="subhint" id="hintSujeito">seja específico — idade, tipo, traços</div>
       </div>
       <div class="field">
         <label for="fAmbiente">Ambiente / Cenário <span class="hint">— onde</span></label>
-        <textarea id="fAmbiente" placeholder="ex: galeria de arte contemporânea com concreto claro e luz lateral"></textarea>
+        <textarea id="fAmbiente" maxlength="320" placeholder="ex: galeria de arte contemporânea com concreto claro e luz lateral"></textarea>
         <div class="subhint">descreva o lugar e o que tem nele</div>
       </div>
     </div>
@@ -3720,12 +3720,12 @@ select:focus{
     </div>
     <div class="field" id="acaoField">
       <label for="fAcao"><span id="lblAcaoMain">Ação</span> <span class="hint" id="hintAcaoInline">— o que está fazendo</span></label>
-      <textarea id="fAcao" placeholder="ex: caminhando lentamente, tecido acompanhando o movimento"></textarea>
+      <textarea id="fAcao" maxlength="320" placeholder="ex: caminhando lentamente, tecido acompanhando o movimento"></textarea>
       <div class="subhint" id="subhintAcao">a ação precisa caber no plano escolhido (um close não mostra o corpo inteiro)</div>
     </div>
     <div class="field">
       <label for="fClima">Clima / Atmosfera <span class="hint">— sentimento da cena</span></label>
-      <input type="text" id="fClima" placeholder="ex: luxo silencioso, tensão elegante, noite urbana">
+      <input type="text" id="fClima" maxlength="140" placeholder="ex: luxo silencioso, tensão elegante, noite urbana">
       <div class="subhint">opcional</div>
     </div>
     </div>
@@ -8007,6 +8007,27 @@ function buildVideoPrompt(state, variation){
   var treatmentInsight = document.getElementById('treatmentInsight');
   var intensityNote = document.getElementById('intensityNote');
 
+  function renderEmptyPrompt(){
+    var empty = document.createElement('span');
+    empty.className = 'empty-state';
+    empty.textContent = 'Preencha o formulário e clique em "Gerar Prompt".';
+    promptOut.textContent = '';
+    promptOut.appendChild(empty);
+  }
+
+  function renderSettingsReminder(parts){
+    settingsReminder.textContent = '';
+    parts.forEach(function(part){
+      if(part && typeof part === 'object' && Object.prototype.hasOwnProperty.call(part, 'strong')){
+        var strong = document.createElement('b');
+        strong.textContent = String(part.strong);
+        settingsReminder.appendChild(strong);
+        return;
+      }
+      settingsReminder.appendChild(document.createTextNode(String(part)));
+    });
+  }
+
   function invalidateGeneratedPrompt(){
     currentState = null;
     variation = 0;
@@ -8014,7 +8035,7 @@ function buildVideoPrompt(state, variation){
     clearRecipeOutput();
     btnVariacao.disabled = true;
     btnVariarTudo.disabled = true;
-    promptOut.innerHTML = '<span class="empty-state">Preencha o formulário e clique em "Gerar Prompt".</span>';
+    renderEmptyPrompt();
     charCounter.textContent = '0 / ' + (activePersona === 'character_sheet' ? CHARACTER_SHEET_MAX_LEN : (activePersona === 'background_scene' ? 3200 : MAX_LEN));
     charCounter.classList.remove('over');
     settingsReminder.textContent = '';
@@ -8346,10 +8367,31 @@ function buildVideoPrompt(state, variation){
     copyText(currentRecipeText, btnCopyRecipe, 'Copiar receita');
   });
 
+  function safeHistoryString(value, maxLength, fallback){
+    return typeof value === 'string' ? value.slice(0, maxLength) : fallback;
+  }
+
+  function normalizeHistoryEntry(entry){
+    if(!entry || typeof entry !== 'object') return null;
+    var prompt = safeHistoryString(entry.prompt, 4000, '');
+    if(!prompt) return null;
+    var storedMax = Number(entry.maxLength);
+    return {
+      id:safeHistoryString(entry.id, 40, String(Date.now())),
+      createdAt:safeHistoryString(entry.createdAt, 40, ''),
+      mode:safeHistoryString(entry.mode, 40, 'Prompt'),
+      treatment:safeHistoryString(entry.treatment, 80, 'Personalizado'),
+      subject:safeHistoryString(entry.subject, 240, 'Projeto sem título'),
+      maxLength:Number.isFinite(storedMax) ? Math.max(1, Math.min(4000, storedMax)) : MAX_LEN,
+      prompt:prompt
+    };
+  }
+
   function readHistory(){
     try {
       var history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
-      return Array.isArray(history) ? history : [];
+      if(!Array.isArray(history)) return [];
+      return history.slice(0, 8).map(normalizeHistoryEntry).filter(Boolean);
     } catch(error){ return []; }
   }
 
@@ -8705,7 +8747,7 @@ function buildVideoPrompt(state, variation){
       clearRecipeOutput();
       btnVariacao.disabled = true;
       btnVariarTudo.disabled = true;
-      promptOut.innerHTML = '<span class="empty-state">Preencha o formulário e clique em "Gerar Prompt".</span>';
+      renderEmptyPrompt();
       charCounter.textContent = '0 / ' + (key === 'character_sheet' ? CHARACTER_SHEET_MAX_LEN : (key === 'background_scene' ? 3200 : MAX_LEN));
       charCounter.classList.remove('over');
       settingsReminder.textContent = '';
@@ -8853,19 +8895,32 @@ function buildVideoPrompt(state, variation){
     if(result.length > maxLength){ charCounter.classList.add('over'); }
     else { charCounter.classList.remove('over'); }
     if(state.isCharacterSheet){
-      settingsReminder.innerHTML = 'No <b>Nano Banana Pro</b>, use este prompt sem imagem de referência. Configure: proporção <b>16:9</b> · resolução <b>' + state.resolution + '</b>.';
+      renderSettingsReminder([
+        'No ', {strong:'Nano Banana Pro'}, ', use este prompt sem imagem de referência. Configure: proporção ',
+        {strong:'16:9'}, ' · resolução ', {strong:state.resolution}, '.'
+      ]);
     } else if(state.isBackgroundScene){
       var sceneOnly = state.backgroundScene && state.backgroundScene.task === 'scene_only';
-      settingsReminder.innerHTML = sceneOnly
-        ? 'Gere o cenário vazio em proporção <b>' + state.aspectRatio + '</b> · resolução <b>' + state.resolution + '</b>. Não anexe a foto do produto neste fluxo.'
-        : 'Anexe a imagem original junto com este prompt. Configure: proporção <b>' + state.aspectRatio + '</b> · resolução <b>' + state.resolution + '</b>.';
+      renderSettingsReminder(sceneOnly
+        ? ['Gere o cenário vazio em proporção ', {strong:state.aspectRatio}, ' · resolução ', {strong:state.resolution}, '. Não anexe a foto do produto neste fluxo.']
+        : ['Anexe a imagem original junto com este prompt. Configure: proporção ', {strong:state.aspectRatio}, ' · resolução ', {strong:state.resolution}, '.']);
     } else if(state.mode === 'video'){
-      var soundTxt = result.withSound ? ' · áudio <b>ativado</b> (som ambiente, sem música)' : ' · <b>sem áudio</b>';
-      settingsReminder.innerHTML = 'Em <b>' + (result.modelLabel || 'seu modelo de vídeo') +
-        '</b>, configure: duração <b>' + state.duration + '</b> · proporção <b>' + state.aspectRatio + '</b>' + soundTxt + '.';
+      var videoReminder = [
+        'Em ', {strong:(result.modelLabel || 'seu modelo de vídeo')}, ', configure: duração ',
+        {strong:state.duration}, ' · proporção ', {strong:state.aspectRatio}
+      ];
+      if(result.withSound){
+        videoReminder.push(' · áudio ', {strong:'ativado'}, ' (som ambiente, sem música)');
+      } else {
+        videoReminder.push(' · ', {strong:'sem áudio'});
+      }
+      videoReminder.push('.');
+      renderSettingsReminder(videoReminder);
     } else {
-      settingsReminder.innerHTML = 'Na sua plataforma de imagem, configure: proporção <b>' +
-        state.aspectRatio + '</b> · resolução <b>' + state.resolution + '</b>.';
+      renderSettingsReminder([
+        'Na sua plataforma de imagem, configure: proporção ', {strong:state.aspectRatio},
+        ' · resolução ', {strong:state.resolution}, '.'
+      ]);
     }
     btnVariacao.disabled = false;
     btnVariarTudo.disabled = state.isCharacterSheet || state.isBackgroundScene;
