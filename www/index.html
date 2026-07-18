@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Y8BIuxE6FrtDsAamMbPUTuGh8bv1h3TRRJWOUXjJCWY='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self' blob:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-src 'none'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-BPrJvFa3vWweKUNSf+vGAWyo6gWf1HJ65x/bho6uxhU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self' blob:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-src 'none'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="format-detection" content="telephone=no">
@@ -3100,6 +3100,62 @@ select:focus{
   }
   #panel-guia .guide-scenario-grid .guide-card{margin:0;}
 }
+/* === DARK STAR IDENTITY START === */
+.app-entry__media,
+.hero-logo,
+.quick-float__toggle{
+  overflow:hidden;
+  border-radius:50%;
+  background:#020303;
+  isolation:isolate;
+}
+.app-entry__media{
+  width:min(380px, 78vw);
+  border:1px solid rgba(220,236,243,.13);
+  box-shadow:0 28px 70px rgba(0,0,0,.48),inset 0 0 0 1px rgba(255,255,255,.025);
+}
+.app-entry__video,
+.hero-logo__media,
+.quick-float__mark{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  background:#020303;
+  pointer-events:none;
+}
+.app-entry__video{
+  border-radius:50%;
+  transform:scale(1.08);
+}
+.hero-logo{
+  border:1px solid rgba(220,236,243,.13);
+  box-shadow:0 18px 44px rgba(0,0,0,.42),inset 0 0 0 1px rgba(255,255,255,.025);
+}
+.hero-logo__media{
+  border-radius:50%;
+  opacity:1;
+  transform:scale(1.1);
+  filter:contrast(1.04) brightness(1.06);
+}
+.quick-float__toggle{
+  padding:0;
+  border-color:rgba(220,236,243,.20);
+}
+.quick-float__mark{
+  border-radius:50%;
+  transform:scale(1.22);
+  filter:contrast(1.08) brightness(1.08);
+}
+.low-power .brand-motion-video{
+  transform:none;
+  filter:none;
+}
+@media(max-width:680px){
+  .app-entry__media{width:min(330px, 78vw);}
+}
+/* === DARK STAR IDENTITY END === */
 /* === DARK 3D PREVIEW END === */
 /* === CAMPAIGN LAB END === */
 </style>
@@ -3119,7 +3175,9 @@ select:focus{
     <span class="app-entry__badge">Prompt Studio Mobile</span>
     <h1><span class="app-entry__title-prompt">Prompt</span><span class="app-entry__title-studio">Studio</span></h1>
     <div class="app-entry__media" aria-hidden="true">
-      <img class="app-entry__video" src="./media/entry-liquid-alpha.webp" alt="" decoding="async">
+      <video class="app-entry__video brand-motion-video" id="entryMarkVideo" autoplay loop muted playsinline webkit-playsinline preload="metadata" poster="./media/site-background-dark-poster.jpg" aria-hidden="true">
+        <source src="./media/site-background-dark.mp4" type="video/mp4">
+      </video>
     </div>
     <p>Essa abertura segura a interface antes de carregar a bancada principal e melhora a entrada no iPhone e no iPad.</p>
     <div class="app-entry__meta" aria-hidden="true">
@@ -3137,7 +3195,9 @@ select:focus{
 
 <div class="quick-float" id="quickFloat" aria-live="polite">
   <button type="button" class="quick-float__toggle" id="quickFloatToggle" aria-expanded="true" aria-controls="quickFloatCard" aria-label="Abrir guia rápido" title="Abrir guia rápido · arraste para mover">
-    <img src="./media/entry-liquid-alpha.webp" alt="" aria-hidden="true" decoding="async">
+    <video class="quick-float__mark brand-motion-video" id="quickMarkVideo" autoplay loop muted playsinline webkit-playsinline preload="metadata" poster="./media/site-background-dark-poster.jpg" aria-hidden="true">
+      <source src="./media/site-background-dark.mp4" type="video/mp4">
+    </video>
   </button>
   <div class="quick-float__card" id="quickFloatCard">
     <div class="quick-float__handle" id="quickFloatHandle">Arraste o painel</div>
@@ -3230,9 +3290,11 @@ select:focus{
 
 <header class="hero">
   <div class="hero-stage">
-    <div class="hero-logo" id="heroLogo">
+    <div class="hero-logo" id="heroLogo" role="img" aria-label="Estrela dark do Prompt Studio em movimento">
       <span class="glow"></span>
-      <img class="hero-logo__media" data-animated-src="./media/entry-liquid-alpha.webp" alt="Forma 3D em rotação" decoding="async">
+      <video class="hero-logo__media brand-motion-video" id="heroMarkVideo" autoplay loop muted playsinline webkit-playsinline preload="metadata" poster="./media/site-background-dark-poster.jpg" aria-hidden="true">
+        <source src="./media/site-background-dark.mp4" type="video/mp4">
+      </video>
     </div>
     <div class="hero-copy">
       <span class="hero-kicker">Creative Direction Console</span>
@@ -8904,12 +8966,14 @@ function buildVideoPrompt(state, variation){
   var entry = document.getElementById('appEntry');
   var startBtn = document.getElementById('startAppButton');
   var entryBackgroundVideo = document.getElementById('entryBackgroundVideo');
-  var heroMedia = document.querySelector('.hero-logo__media');
-  var heroMediaSrc = heroMedia ? heroMedia.getAttribute('data-animated-src') : '';
+  var entryMarkVideo = document.getElementById('entryMarkVideo');
+  var heroMarkVideo = document.getElementById('heroMarkVideo');
+  var quickMarkVideo = document.getElementById('quickMarkVideo');
+  var lowPower = !!window.promptStudioLowPower;
   var opened = false;
   if(!body || !entry || !startBtn) return;
 
-  [entryBackgroundVideo].forEach(function(video){
+  function playVideo(video){
     if(!video) return;
     video.muted = true;
     video.playsInline = true;
@@ -8917,22 +8981,14 @@ function buildVideoPrompt(state, variation){
     if(playResult && typeof playResult.catch === 'function'){
       playResult.catch(function(){});
     }
-  });
-
-  function startHeroAnimation(){
-    if(!heroMedia || !heroMediaSrc) return;
-    heroMedia.classList.remove('is-running');
-    heroMedia.onload = function(){
-      heroMedia.classList.add('is-running');
-      heroMedia.onload = null;
-    };
-    heroMedia.src = heroMediaSrc + '#hero-' + Date.now();
   }
+
+  [entryBackgroundVideo, entryMarkVideo].forEach(playVideo);
+  [heroMarkVideo, quickMarkVideo].forEach(function(video){ if(video) video.pause(); });
 
   function openApp(){
     if(opened) return;
     opened = true;
-    startHeroAnimation();
     body.classList.remove('prelaunch');
     body.classList.add('app-ready');
     body.style.overflow = '';
@@ -8940,8 +8996,13 @@ function buildVideoPrompt(state, variation){
     document.documentElement.style.overflowY = 'auto';
     entry.setAttribute('aria-hidden', 'true');
     window.scrollTo({ top:0, behavior:'auto' });
+    if(!lowPower){
+      window.requestAnimationFrame(function(){
+        [heroMarkVideo, quickMarkVideo].forEach(playVideo);
+      });
+    }
     window.setTimeout(function(){
-      [entryBackgroundVideo].forEach(function(video){
+      [entryBackgroundVideo, entryMarkVideo].forEach(function(video){
         if(video) video.pause();
       });
       entry.style.display = 'none';
