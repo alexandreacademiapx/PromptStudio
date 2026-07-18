@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-7xT8xigndVNM+owJn350KW6VLOMdQwE6koP4sYzX1Sc='; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self'; media-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; child-src 'none'; worker-src 'none'; manifest-src 'self'; trusted-types 'none'; require-trusted-types-for 'script'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-+7t2rYPYvt5PiOWKk0tFkQxGBErKFyxLn3O7v13wan8='; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self'; media-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; child-src 'none'; worker-src 'none'; manifest-src 'self'; trusted-types 'none'; require-trusted-types-for 'script'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="format-detection" content="telephone=no">
@@ -2626,7 +2626,15 @@ figure.svg-demo{
 /* Mantém os vídeos, mas reduz efeitos caros em computadores com poucos recursos. */
 .low-power .amb::after{animation:none;opacity:.24;}
 .low-power #liquidCanvas{filter:saturate(112%) contrast(110%);}
-.low-power .scroll-reveal{transition:none!important;}
+.low-power .scroll-reveal{
+  filter:none;
+  transform:translateY(20px);
+  transition:transform 360ms cubic-bezier(.2,.72,.2,1),opacity 320ms ease!important;
+}
+.low-power .scroll-reveal.in-view{
+  opacity:1;
+  transform:translateY(0);
+}
 .low-power .app-entry__cta,
 .low-power .guide-mobile-nav,
 .low-power .guide-mobile-chip{
@@ -9102,6 +9110,7 @@ function buildVideoPrompt(state, variation){
         if(video) video.pause();
       });
       entry.style.display = 'none';
+      window.dispatchEvent(new Event('promptstudio:ready'));
     }, 560);
   }
 
@@ -9149,19 +9158,30 @@ function buildVideoPrompt(state, variation){
     });
   }
 
-  if('IntersectionObserver' in window){
-    var observer = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){
-          entry.target.classList.add('in-view');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold:0.12, rootMargin:'0px 0px -8% 0px' });
+  var revealStarted = false;
+  function startRevealObserver(){
+    if(revealStarted) return;
+    revealStarted = true;
+    if('IntersectionObserver' in window){
+      var observer = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){
+            entry.target.classList.add('in-view');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold:0.12, rootMargin:'0px 0px -8% 0px' });
 
-    revealTargets.forEach(function(el){ observer.observe(el); });
+      revealTargets.forEach(function(el){ observer.observe(el); });
+    } else {
+      revealTargets.forEach(function(el){ el.classList.add('in-view'); });
+    }
+  }
+
+  if(document.body.classList.contains('app-ready')){
+    startRevealObserver();
   } else {
-    revealTargets.forEach(function(el){ el.classList.add('in-view'); });
+    window.addEventListener('promptstudio:ready', startRevealObserver, { once:true });
   }
 
   updateScrollFx();
