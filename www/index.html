@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-L6XoZIfASLILhTs07fcj4t8muZMtrfnuQZTrZVB/O4Q='; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self'; media-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; child-src 'none'; worker-src 'none'; manifest-src 'self'; trusted-types 'none'; require-trusted-types-for 'script'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-/2QMuIW2brDqbSQo+FWNF1KBnyaN5PuLJ9ioKQLLPhg='; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self'; media-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; child-src 'none'; worker-src 'none'; manifest-src 'self'; trusted-types 'none'; require-trusted-types-for 'script'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="format-detection" content="telephone=no">
@@ -1737,13 +1737,16 @@ figure.svg-demo{
 }
 .scroll-reveal{
   opacity:0;
-  transform:translateY(38px) scale(.972) rotateX(8deg);
-  transition:transform 680ms cubic-bezier(.18,.78,.18,1), opacity 680ms ease, filter 680ms ease;
-  filter:blur(10px);
+  transform:translate3d(0,30px,0) scale(.985);
+  transform-origin:50% 0;
+  transition:transform 620ms cubic-bezier(.18,.78,.18,1), opacity 520ms ease-out, filter 520ms ease-out;
+  transition-delay:var(--reveal-delay,0ms);
+  filter:blur(5px);
+  backface-visibility:hidden;
 }
 .scroll-reveal.in-view{
   opacity:1;
-  transform:translateY(0) scale(1) rotateX(0deg);
+  transform:translate3d(0,0,0) scale(1);
   filter:blur(0);
 }
 .hero-stage,
@@ -2628,12 +2631,13 @@ figure.svg-demo{
 .low-power #liquidCanvas{filter:saturate(112%) contrast(110%);}
 .low-power .scroll-reveal{
   filter:none;
-  transform:translateY(20px);
-  transition:transform 360ms cubic-bezier(.2,.72,.2,1),opacity 320ms ease!important;
+  transform:translate3d(0,14px,0);
+  transition:transform 300ms cubic-bezier(.2,.72,.2,1),opacity 260ms ease-out!important;
+  transition-delay:0ms!important;
 }
 .low-power .scroll-reveal.in-view{
   opacity:1;
-  transform:translateY(0);
+  transform:translate3d(0,0,0);
 }
 .low-power .app-entry__cta,
 .low-power .guide-mobile-nav,
@@ -9665,7 +9669,29 @@ function buildVideoPrompt(state, variation){
   var floatHandle = document.getElementById('quickFloatHandle');
   var quickTabs = document.querySelectorAll('.quick-float__tab');
   var quickPanels = document.querySelectorAll('.quick-float__panel');
-  var revealTargets = document.querySelectorAll('.hero-stage, .stage-card, .guide-sec, .guide-card, .fill-card, .scene-card, .term-cat');
+  // Reveal content-sized sections instead of the two giant form wrappers.
+  // Large wrappers intersect on app launch and make the scroll effect disappear.
+  var revealTargets = document.querySelectorAll([
+    '.hero-stage',
+    '.inspiration-lab',
+    '.persona-row',
+    '.character-sheet-panel',
+    '.angle-lab-panel',
+    '.background-scene-panel',
+    '.creative-brief',
+    '.visual-dna-panel',
+    '#standardSceneFields > .grid2',
+    '#standardSceneFields > .field',
+    '.stage-card-tech > .grid2',
+    '.actions',
+    '.studio-note',
+    '.stage-card-output',
+    '.guide-sec',
+    '.guide-card',
+    '.fill-card',
+    '.scene-card',
+    '.term-cat'
+  ].join(','));
   var floatStateKey = 'promptStudio.quickFloat';
 
   revealTargets.forEach(function(el){ el.classList.add('scroll-reveal'); });
@@ -9695,13 +9721,14 @@ function buildVideoPrompt(state, variation){
     revealStarted = true;
     if('IntersectionObserver' in window){
       var observer = new IntersectionObserver(function(entries){
-        entries.forEach(function(entry){
-          if(entry.isIntersecting){
-            entry.target.classList.add('in-view');
-            observer.unobserve(entry.target);
-          }
+        var incoming = entries.filter(function(entry){ return entry.isIntersecting; });
+        incoming.sort(function(a,b){ return a.boundingClientRect.top - b.boundingClientRect.top; });
+        incoming.forEach(function(entry,index){
+          entry.target.style.setProperty('--reveal-delay', Math.min(index * 55, 165) + 'ms');
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target);
         });
-      }, { threshold:0.12, rootMargin:'0px 0px -8% 0px' });
+      }, { threshold:0.08, rootMargin:'0px 0px -10% 0px' });
 
       revealTargets.forEach(function(el){ observer.observe(el); });
     } else {
