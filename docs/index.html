@@ -2,14 +2,14 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-+7t2rYPYvt5PiOWKk0tFkQxGBErKFyxLn3O7v13wan8='; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self'; media-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; child-src 'none'; worker-src 'none'; manifest-src 'self'; trusted-types 'none'; require-trusted-types-for 'script'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-L6XoZIfASLILhTs07fcj4t8muZMtrfnuQZTrZVB/O4Q='; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self'; media-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; child-src 'none'; worker-src 'none'; manifest-src 'self'; trusted-types 'none'; require-trusted-types-for 'script'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="format-detection" content="telephone=no">
 <meta name="theme-color" content="#030506">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Prompt Studio · Preview Cenário</title>
+<title>Prompt Studio</title>
 <link rel="icon" type="image/png" sizes="64x64" href="./media/favicon-studioprompts-v2.png">
 <link rel="shortcut icon" type="image/png" href="./media/favicon-studioprompts-v2.png">
 <link rel="apple-touch-icon" sizes="180x180" href="./media/apple-touch-icon-v2.png">
@@ -3193,6 +3193,183 @@ select:focus{
   }
 }
 /* === FULLSCREEN ENTRY VIDEO END === */
+/* === ANGLE LAB PREVIEW START === */
+.angle-lab-panel{
+  position:relative;
+  margin:18px 0 4px;
+  padding:22px;
+  overflow:hidden;
+  border:1px solid rgba(213,232,240,.15);
+  border-radius:24px;
+  background:rgba(4,7,9,.82);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035);
+}
+.angle-lab-panel::before{
+  content:"";
+  position:absolute;
+  inset:0 auto 0 0;
+  width:3px;
+  background:#b7d9e7;
+  opacity:.72;
+}
+.angle-lab-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:18px;
+}
+.angle-lab-kicker{
+  display:block;
+  margin-bottom:7px;
+  color:#b7d9e7;
+  font:700 10px/1.2 "IBM Plex Mono",monospace;
+  letter-spacing:.17em;
+  text-transform:uppercase;
+}
+.angle-lab-head h3{margin:0 0 7px;color:#f1f6f7;font-size:22px;line-height:1.15;}
+.angle-lab-head p{max-width:68ch;margin:0;color:#9da9ae;font-size:13px;line-height:1.55;}
+.angle-lab-badge{
+  flex:0 0 auto;
+  padding:8px 11px;
+  border:1px solid rgba(183,217,231,.18);
+  border-radius:999px;
+  color:#d7e9f0;
+  background:rgba(183,217,231,.07);
+  font:700 10px/1 "IBM Plex Mono",monospace;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.angle-reference-head{
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  gap:16px;
+  margin:2px 0 10px;
+}
+.angle-reference-head strong{color:#e8eff1;font-size:13px;}
+.angle-reference-head span{color:#7f8d93;font-size:11px;}
+.angle-reference-grid{
+  display:grid;
+  grid-template-columns:repeat(8,minmax(110px,1fr));
+  gap:8px;
+  margin:0 0 18px;
+}
+.angle-reference-card{
+  position:relative;
+  min-height:166px;
+  padding:0;
+  overflow:hidden;
+  border:1px solid rgba(213,232,240,.11);
+  border-radius:16px;
+  background:#080b0d;
+  cursor:pointer;
+  isolation:isolate;
+  transition:transform 180ms ease-out,border-color 180ms ease-out,box-shadow 180ms ease-out;
+}
+.angle-reference-card img{width:100%;height:100%;object-fit:cover;transition:transform 240ms ease-out,filter 240ms ease-out;}
+.angle-reference-card::after{
+  content:"";
+  position:absolute;
+  inset:38% 0 0;
+  z-index:1;
+  background:linear-gradient(to bottom,transparent,rgba(2,4,5,.9));
+  pointer-events:none;
+}
+.angle-reference-card span{
+  position:absolute;
+  z-index:2;
+  right:9px;
+  bottom:9px;
+  left:9px;
+  color:#f1f6f7;
+  font:700 9px/1.25 "IBM Plex Mono",monospace;
+  letter-spacing:.08em;
+  text-align:left;
+  text-transform:uppercase;
+}
+.angle-reference-card:hover,.angle-reference-card:focus-visible{
+  transform:translateY(-2px);
+  border-color:rgba(183,217,231,.44);
+  box-shadow:0 14px 28px rgba(0,0,0,.32);
+}
+.angle-reference-card:hover img,.angle-reference-card:focus-visible img{transform:scale(1.045);filter:contrast(1.04);}
+.angle-reference-card.is-active{border-color:#b7d9e7;box-shadow:0 0 0 1px rgba(183,217,231,.22);}
+.angle-lock-strip{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-bottom:18px;
+}
+.angle-lock-strip span{
+  padding:7px 10px;
+  border:1px solid rgba(213,232,240,.12);
+  border-radius:999px;
+  color:#aebbc0;
+  background:rgba(255,255,255,.025);
+  font:600 10px/1.2 "IBM Plex Mono",monospace;
+}
+.angle-preset-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:9px;
+  margin:0 0 18px;
+}
+.angle-preset{
+  min-height:72px;
+  padding:12px;
+  text-align:left;
+  border:1px solid rgba(213,232,240,.12);
+  border-radius:16px;
+  color:#d8e2e5;
+  background:rgba(255,255,255,.025);
+  cursor:pointer;
+  transition:transform 180ms ease-out,border-color 180ms ease-out,background 180ms ease-out,color 180ms ease-out;
+}
+.angle-preset span{display:block;margin-bottom:6px;color:#78909a;font:700 9px/1 "IBM Plex Mono",monospace;letter-spacing:.12em;}
+.angle-preset strong{font-size:12px;line-height:1.25;}
+.angle-preset:hover,.angle-preset:focus-visible{
+  transform:translateY(-2px);
+  border-color:rgba(183,217,231,.38);
+  background:rgba(183,217,231,.075);
+  color:#fff;
+}
+.angle-preset:active{transform:scale(.98);}
+.angle-preset.is-active{
+  border-color:rgba(183,217,231,.54);
+  background:rgba(183,217,231,.11);
+  box-shadow:inset 0 0 0 1px rgba(183,217,231,.08);
+}
+.angle-control-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
+.angle-control-grid .field{margin:0;}
+.angle-control-grid .angle-full{grid-column:1/-1;}
+.angle-workflow-note{
+  margin-top:16px;
+  padding:13px 14px;
+  border:1px solid rgba(183,217,231,.12);
+  border-radius:14px;
+  color:#aebbc0;
+  background:rgba(183,217,231,.045);
+  font-size:12px;
+  line-height:1.55;
+}
+.is-angle-variation #inspirationLab{display:none;}
+@media(max-width:760px){
+  .angle-lab-panel{padding:17px 14px;border-radius:20px;}
+  .angle-lab-head{display:grid;gap:12px;}
+  .angle-lab-badge{justify-self:start;}
+  .angle-reference-head{align-items:start;flex-direction:column;gap:3px;}
+  .angle-reference-grid{grid-template-columns:repeat(4,minmax(112px,1fr));overflow-x:auto;padding-bottom:5px;}
+  .angle-reference-card{min-height:150px;}
+  .angle-preset-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .angle-control-grid{grid-template-columns:1fr;}
+  .angle-control-grid .angle-full{grid-column:auto;}
+}
+@media(prefers-reduced-motion:reduce){
+  .angle-preset,.angle-reference-card,.angle-reference-card img{transition:none;}
+  .angle-preset:hover,.angle-preset:focus-visible,.angle-reference-card:hover,.angle-reference-card:focus-visible{transform:none;}
+}
+/* === ANGLE LAB PREVIEW END === */
 /* === DARK 3D PREVIEW END === */
 /* === CAMPAIGN LAB END === */
 </style>
@@ -3251,6 +3428,7 @@ select:focus{
           <div class="quick-float__item"><b>2. Base visual</b><span>Defina sujeito, produto ou peça principal com aparência, material, cor e presença.</span></div>
           <div class="quick-float__item"><b>3. Espaço e gesto</b><span>Ambiente, pose e ação precisam caber no mesmo plano e reforçar a ideia central.</span></div>
           <div class="quick-float__item"><b>4. Tratamento</b><span>Comercial, Cinema ou Arte dirigem composição, materialidade e acabamento antes da técnica.</span></div>
+          <div class="quick-float__item"><b>5. Angle Lab</b><span>Quando já existe uma imagem, trave sua identidade e escolha somente a nova posição da câmera.</span></div>
         </div>
       </div>
       <div class="quick-float__panel" data-quick-panel="campanha">
@@ -3406,6 +3584,7 @@ select:focus{
         <button type="button" class="persona-chip" data-persona="retrato"><span class="dot"></span>Retrato Editorial</button>
         <button type="button" class="persona-chip" data-persona="moda"><span class="dot"></span>Moda / Lookbook</button>
         <button type="button" class="persona-chip" data-persona="produto"><span class="dot"></span>Produto</button>
+        <button type="button" class="persona-chip" data-persona="angle_variation"><span class="dot"></span>Variação de Ângulo</button>
         <button type="button" class="persona-chip" data-persona="background_scene"><span class="dot"></span>Cenário de Produto</button>
         <button type="button" class="persona-chip" data-persona="campanha"><span class="dot"></span>Campanha de Marca</button>
         <button type="button" class="persona-chip" data-persona="character_sheet"><span class="dot"></span>Character Sheet</button>
@@ -3493,6 +3672,129 @@ select:focus{
       <div class="character-locks" aria-label="Regras fixas do Character Sheet">
         <span>6 vistas únicas</span><span>mesma identidade</span><span>fundo branco</span><span>roupa sem marca</span><span>nitidez óptica</span>
       </div>
+    </div>
+
+    <div class="angle-lab-panel hidden" id="angleVariationPanel" aria-hidden="true">
+      <div class="angle-lab-head">
+        <div>
+          <span class="angle-lab-kicker">Angle Lab · Reference-to-view</span>
+          <h3>Mude a câmera. Preserve a imagem.</h3>
+          <p>Anexe a referência no seu gerador e escolha a nova posição da câmera. O prompt mantém identidade, geometria, materiais, marca, luz e cenário, alterando somente o ponto de vista.</p>
+        </div>
+        <span class="angle-lab-badge">Reference lock</span>
+      </div>
+
+      <div class="angle-reference-head">
+        <strong>Mapa visual de câmera</strong>
+        <span>Frames de produto já curados do Axis · clique para aplicar</span>
+      </div>
+      <div class="angle-reference-grid" aria-label="Referências visuais de ângulos para produto">
+        <button type="button" class="angle-reference-card" data-angle-preset="three_right" aria-pressed="false"><img src="./media/inspiration-commercial-03.webp" alt="Fones vistos em três quartos" loading="lazy" decoding="async"><span>3/4 · Produto</span></button>
+        <button type="button" class="angle-reference-card is-active" data-angle-preset="front" aria-pressed="true"><img src="./media/inspiration-commercial-05.webp" alt="Pote cosmético em vista frontal" loading="lazy" decoding="async"><span>Frontal · Clean</span></button>
+        <button type="button" class="angle-reference-card" data-angle-preset="high30" aria-pressed="false"><img src="./media/inspiration-commercial-07.webp" alt="Relógio em vista elevada de três quartos" loading="lazy" decoding="async"><span>Elevada · 30°</span></button>
+        <button type="button" class="angle-reference-card" data-angle-preset="top" aria-pressed="false"><img src="./media/inspiration-commercial-09.webp" alt="Joias fotografadas de cima" loading="lazy" decoding="async"><span>Top-down · 90°</span></button>
+        <button type="button" class="angle-reference-card" data-angle-preset="high15" aria-pressed="false"><img src="./media/inspiration-commercial-12.webp" alt="Batom em vista frontal levemente elevada" loading="lazy" decoding="async"><span>Elevada · 15°</span></button>
+        <button type="button" class="angle-reference-card" data-angle-preset="hero" aria-pressed="false"><img src="./media/inspiration-commercial-14.webp" alt="Bolsa em vista hero de três quartos" loading="lazy" decoding="async"><span>Hero · 3/4</span></button>
+        <button type="button" class="angle-reference-card" data-angle-preset="front" aria-pressed="false"><img src="./media/inspiration-commercial-16.webp" alt="Luminária em vista frontal precisa" loading="lazy" decoding="async"><span>Frontal · Simetria</span></button>
+        <button type="button" class="angle-reference-card" data-angle-preset="high30" aria-pressed="false"><img src="./media/inspiration-commercial-18.webp" alt="Xícara em vista elevada" loading="lazy" decoding="async"><span>Elevada · Contexto</span></button>
+      </div>
+
+      <div class="angle-lock-strip" aria-label="Elementos bloqueados na variação de ângulo">
+        <span>identidade</span><span>geometria</span><span>marca e texto</span><span>materiais</span><span>luz</span><span>cenário</span><span>proporções</span>
+      </div>
+
+      <div class="angle-preset-grid" id="anglePresetGrid" role="group" aria-label="Atalhos de ângulo">
+        <button type="button" class="angle-preset is-active" data-angle-preset="front" aria-pressed="true"><span>00° · BASE</span><strong>Frontal preciso</strong></button>
+        <button type="button" class="angle-preset" data-angle-preset="three_left" aria-pressed="false"><span>−45° · ÓRBITA</span><strong>3/4 esquerda</strong></button>
+        <button type="button" class="angle-preset" data-angle-preset="profile_left" aria-pressed="false"><span>−90° · ÓRBITA</span><strong>Perfil esquerdo</strong></button>
+        <button type="button" class="angle-preset" data-angle-preset="rear" aria-pressed="false"><span>180° · ÓRBITA</span><strong>Vista traseira</strong></button>
+        <button type="button" class="angle-preset" data-angle-preset="three_right" aria-pressed="false"><span>+45° · ÓRBITA</span><strong>3/4 direita</strong></button>
+        <button type="button" class="angle-preset" data-angle-preset="profile_right" aria-pressed="false"><span>+90° · ÓRBITA</span><strong>Perfil direito</strong></button>
+        <button type="button" class="angle-preset" data-angle-preset="top" aria-pressed="false"><span>90° · ELEVAÇÃO</span><strong>Top-down</strong></button>
+        <button type="button" class="angle-preset" data-angle-preset="hero" aria-pressed="false"><span>−20° · ELEVAÇÃO</span><strong>Hero baixo</strong></button>
+      </div>
+
+      <div class="angle-control-grid">
+        <div class="field">
+          <label for="angleSubjectType">Tipo de referência</label>
+          <select id="angleSubjectType">
+            <option value="product">Produto / packshot</option>
+            <option value="object3d">Render / objeto 3D</option>
+            <option value="person">Pessoa / personagem</option>
+            <option value="fashion">Moda / look</option>
+            <option value="vehicle">Veículo</option>
+            <option value="environment">Ambiente / arquitetura</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="angleOrbit">Órbita horizontal</label>
+          <select id="angleOrbit">
+            <option value="front">Frontal · 0°</option>
+            <option value="micro_left">Leve esquerda · −15°</option>
+            <option value="three_left">3/4 esquerda · −45°</option>
+            <option value="left_steep">3/4 fechado esquerda · −65°</option>
+            <option value="profile_left">Perfil esquerdo · −90°</option>
+            <option value="rear_three_left">Traseiro 3/4 esquerda · −135°</option>
+            <option value="rear">Traseira · 180°</option>
+            <option value="rear_three_right">Traseiro 3/4 direita · +135°</option>
+            <option value="profile_right">Perfil direito · +90°</option>
+            <option value="right_steep">3/4 fechado direita · +65°</option>
+            <option value="three_right">3/4 direita · +45°</option>
+            <option value="micro_right">Leve direita · +15°</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="angleElevation">Elevação da câmera</label>
+          <select id="angleElevation">
+            <option value="same">Manter altura da referência</option>
+            <option value="eye">Nível do objeto · 0°</option>
+            <option value="high15">Elevada sutil · +15°</option>
+            <option value="high30">Elevada · +30°</option>
+            <option value="high45">Mergulho · +45°</option>
+            <option value="top">Top-down · +90°</option>
+            <option value="low15">Baixa sutil · −15°</option>
+            <option value="low30">Hero baixa · −30°</option>
+            <option value="ground">Rente à base · −45°</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="angleDistance">Distância / recorte</label>
+          <select id="angleDistance">
+            <option value="same">Manter recorte original</option>
+            <option value="macro">Macro de detalhe</option>
+            <option value="close">Close fechado</option>
+            <option value="medium">Plano médio / produto inteiro</option>
+            <option value="wide">Plano aberto com contexto</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="angleLens">Perspectiva óptica</label>
+          <select id="angleLens">
+            <option value="preserve">Preservar perspectiva original</option>
+            <option value="35mm">35mm · contexto moderado</option>
+            <option value="50mm">50mm · natural</option>
+            <option value="85mm">85mm · compressão elegante</option>
+            <option value="100macro">100mm macro · detalhe técnico</option>
+            <option value="orthographic">Ortográfica · baixa distorção</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="angleFraming">Posição no quadro</label>
+          <select id="angleFraming">
+            <option value="same">Manter posição original</option>
+            <option value="center">Centralizado</option>
+            <option value="left">Terço esquerdo</option>
+            <option value="right">Terço direito</option>
+            <option value="low">Base baixa / respiro superior</option>
+          </select>
+        </div>
+        <div class="field angle-full">
+          <label for="angleNote">Observação opcional <span class="hint">— sem redesenhar o conteúdo</span></label>
+          <input type="text" id="angleNote" maxlength="180" placeholder="ex: mostrar melhor a lateral da tampa; manter o rótulo frontal legível quando fisicamente possível">
+        </div>
+      </div>
+
+      <div class="angle-workflow-note" id="angleWorkflowNote">Fluxo recomendado: anexe uma única imagem limpa, gere uma vista por vez e use sempre a mesma referência original nas próximas órbitas. Não use uma imagem já variada como nova fonte.</div>
     </div>
 
     <div class="background-scene-panel hidden" id="backgroundScenePanel" aria-hidden="true">
@@ -4454,6 +4756,19 @@ select:focus{
           <li><b>Bleach Bypass</b> — dessaturado, prata, contraste</li>
           <li><b>Ektachrome E100</b> — slide limpo e neutro</li>
           <li><b>Technicolor 3-strip</b> — hiper-saturado vintage</li>
+        </ul>
+      </div>
+      <div class="ref-col">
+        <h3>Variação de Ângulo</h3>
+        <ul>
+          <li><b>Frontal · 0°</b> — vista base, simétrica e imediatamente legível</li>
+          <li><b>3/4 · ±45°</b> — revela frente e lateral sem perder reconhecimento</li>
+          <li><b>Perfil · ±90°</b> — leitura técnica da lateral</li>
+          <li><b>Traseira · 180°</b> — constrói apenas superfícies ocultas, sem inventar marca</li>
+          <li><b>Elevada · 15–45°</b> — revela tampa, topo e profundidade</li>
+          <li><b>Top-down · 90°</b> — eixo óptico perpendicular à base</li>
+          <li><b>Hero baixa · −30°</b> — aumenta presença sem deformar proporções</li>
+          <li><b>Regra principal</b> — use sempre a referência original, nunca a última variação</li>
         </ul>
       </div>
     </div>
@@ -7559,6 +7874,126 @@ function buildBackgroundScenePrompt(state, variation){
   };
 }
 
+var ANGLE_VARIATION_PRESETS = {
+  front:{orbit:'front',elevation:'eye',distance:'same',lens:'preserve',framing:'same'},
+  high15:{orbit:'front',elevation:'high15',distance:'same',lens:'50mm',framing:'center'},
+  high30:{orbit:'three_left',elevation:'high30',distance:'medium',lens:'85mm',framing:'center'},
+  three_left:{orbit:'three_left',elevation:'eye',distance:'same',lens:'50mm',framing:'same'},
+  profile_left:{orbit:'profile_left',elevation:'eye',distance:'same',lens:'50mm',framing:'same'},
+  rear:{orbit:'rear',elevation:'eye',distance:'same',lens:'50mm',framing:'same'},
+  three_right:{orbit:'three_right',elevation:'eye',distance:'same',lens:'50mm',framing:'same'},
+  profile_right:{orbit:'profile_right',elevation:'eye',distance:'same',lens:'50mm',framing:'same'},
+  top:{orbit:'front',elevation:'top',distance:'medium',lens:'50mm',framing:'center'},
+  hero:{orbit:'three_right',elevation:'low30',distance:'medium',lens:'35mm',framing:'low'}
+};
+
+var ANGLE_PROMPT_LIBRARY = {
+  subjectType:{
+    product:'the exact product or packshot shown in the reference',
+    object3d:'the exact 3D render or object shown in the reference',
+    person:'the exact same person or character shown in the reference',
+    fashion:'the exact same person, garment and styling shown in the reference',
+    vehicle:'the exact same vehicle shown in the reference',
+    environment:'the exact same environment or architecture shown in the reference'
+  },
+  orbit:{
+    front:'front view, 0-degree horizontal orbit',
+    micro_left:'subtle left three-quarter shift, camera orbiting 15 degrees counterclockwise',
+    three_left:'left three-quarter view, camera orbiting 45 degrees counterclockwise',
+    left_steep:'steep left three-quarter view, camera orbiting 65 degrees counterclockwise',
+    profile_left:'exact left profile, camera orbiting 90 degrees counterclockwise',
+    rear_three_left:'rear left three-quarter view, camera orbiting 135 degrees counterclockwise',
+    rear:'direct rear view, 180-degree horizontal orbit',
+    rear_three_right:'rear right three-quarter view, camera orbiting 135 degrees clockwise',
+    profile_right:'exact right profile, camera orbiting 90 degrees clockwise',
+    right_steep:'steep right three-quarter view, camera orbiting 65 degrees clockwise',
+    three_right:'right three-quarter view, camera orbiting 45 degrees clockwise',
+    micro_right:'subtle right three-quarter shift, camera orbiting 15 degrees clockwise'
+  },
+  elevation:{
+    same:'preserve the original camera height and vertical angle',
+    eye:'camera level with the visual center of the subject, zero vertical tilt',
+    high15:'camera elevated 15 degrees with a subtle downward view',
+    high30:'camera elevated 30 degrees with a controlled downward view',
+    high45:'45-degree high-angle view with readable top surfaces',
+    top:'true 90-degree top-down view, optical axis perpendicular to the base plane',
+    low15:'camera lowered 15 degrees for a restrained low-angle view',
+    low30:'camera lowered 30 degrees for a confident hero view',
+    ground:'camera near the support plane with a 45-degree upward view'
+  },
+  distance:{
+    same:'preserve the original subject scale, crop and breathing room',
+    macro:'move to a precise macro detail while keeping the selected feature optically sharp',
+    close:'use a tight close view without clipping essential silhouette information',
+    medium:'show the complete subject with a controlled medium amount of surrounding space',
+    wide:'use a wider contextual view while keeping the reference subject clearly dominant'
+  },
+  lens:{
+    preserve:'preserve the apparent focal length, perspective compression and distortion of the source image',
+    '35mm':'use a natural 35mm full-frame perspective with moderate spatial context and controlled edge distortion',
+    '50mm':'use a neutral 50mm full-frame perspective with physically natural proportions',
+    '85mm':'use an 85mm full-frame perspective with elegant compression and minimal geometric distortion',
+    '100macro':'use a 100mm macro perspective with flat-field detail and realistic working distance',
+    orthographic:'use an almost orthographic product-view perspective with parallel lines and minimal convergence'
+  },
+  framing:{
+    same:'preserve the original subject position and negative-space balance',
+    center:'center the subject precisely without changing its proportions',
+    left:'place the subject on the left third while preserving its complete silhouette',
+    right:'place the subject on the right third while preserving its complete silhouette',
+    low:'place the subject lower in frame and preserve deliberate open space above'
+  },
+  precision:[
+    'Solve the new view as a physically coherent camera relocation, not as a redesign.',
+    'Maintain stable anchor points across silhouette, seams, edges, openings and printed details.',
+    'Use strict multiview consistency: every visible feature must occupy the position implied by the original geometry.',
+    'Treat the result as another photograph from the same locked set, captured seconds apart.',
+    'Preserve scale relationships and construct the unseen side conservatively from visible evidence only.',
+    'Keep the object stationary in world space; only the camera position changes.',
+    'Reproject light, shadow and perspective consistently from the new camera without changing the lighting setup.',
+    'Preserve manufacturing logic, thickness, curvature, joins and material boundaries across the new view.',
+    'Do not beautify or correct the source; retain its real asymmetries and visible imperfections.',
+    'Keep all brand assets pixel-faithful where visible and never invent text on newly revealed surfaces.',
+    'Maintain the same exposure, white balance, contrast response and depth-of-field character.',
+    'The result must register as the same subject and same shoot before it reads as a new composition.'
+  ]
+};
+
+function buildAngleVariationPrompt(state, variation){
+  var angle = state.angleVariation || {};
+  var library = ANGLE_PROMPT_LIBRARY;
+  var target = library.subjectType[angle.subjectType] || library.subjectType.product;
+  var orbit = library.orbit[angle.orbit] || library.orbit.front;
+  var elevation = library.elevation[angle.elevation] || library.elevation.same;
+  var distance = library.distance[angle.distance] || library.distance.same;
+  var lens = library.lens[angle.lens] || library.lens.preserve;
+  var framing = library.framing[angle.framing] || library.framing.same;
+  var precision = library.precision[Math.abs(variation || 0) % library.precision.length];
+  var note = truncateWords(angle.note || '', 180);
+  var rows = [];
+
+  rows.push('REFERENCE-TO-VIEW TASK: Use the single attached image as the mandatory and exclusive visual source. Generate one new standalone image of ' + target + ' from a different camera viewpoint.');
+  rows.push('CAMERA CHANGE ONLY: Keep the subject completely stationary in the same world position. Move only the camera to: ' + orbit + '; ' + elevation + '; ' + distance + '; ' + lens + '; ' + framing + '.');
+  rows.push('IMMUTABLE IDENTITY LOCK: Preserve the exact same identity, silhouette, geometry, dimensions, proportions, construction, pose, expression, wardrobe, styling, colors, materials, texture, surface finish, transparency, wear, imperfections and all visible micro-details from the reference.');
+  rows.push('BRAND AND TEXT LOCK: Preserve every visible logo, label, symbol, typography, number, graphic and placement exactly. Do not rewrite, mirror, repair, simplify or invent text. If a newly revealed surface was not visible in the source, keep it clean and structurally consistent; never fabricate branding.');
+  rows.push('WORLD LOCK: Preserve the same environment, set design, support surface, prop positions, lighting direction, light quality, exposure, white balance, color palette, atmosphere and time of day. Reconstruct only the parallax and occlusion changes physically required by the new camera position.');
+  rows.push('GEOMETRY CONTINUITY: Infer hidden surfaces conservatively from visible evidence, symmetry and real construction logic. No shape drift, swelling, melting, duplicated parts, missing parts, changed thickness, altered facial structure or changed garment cut.');
+  rows.push('OPTICAL CONSISTENCY: Preserve realistic perspective, contact, scale, focus behavior, reflections and shadow logic for the requested camera. ' + precision);
+  if(note) rows.push('USER NOTE: ' + cap(note) + '. Apply it only when it does not conflict with the identity and world locks above.');
+  rows.push('OUTPUT: One image only. No contact sheet, no split screen, no before-and-after, no captions, no labels, no border and no watermark.');
+  rows.push('EXCLUSIONS: No redesign, no restyling, no relighting concept, no recoloring, no background replacement, no new props, no subject rotation, no new pose, no expression change, no wardrobe change, no material change, no logo change, no invented text, no beauty retouching and no unrelated creative variation.');
+
+  var text = rows.join('\n\n');
+  return {
+    text:text,
+    length:text.length,
+    maxLength:3400,
+    cameraLabel:'Reference-locked camera orbit',
+    lensName:angle.lens === 'preserve' ? 'Source perspective locked' : String(angle.lens || '').toUpperCase(),
+    stockLabel:'Same shoot, new viewpoint'
+  };
+}
+
 function buildPrompt(state, variation){
   var lens = LENSES[state.lensId];
   var shot = SHOTTYPES[state.shotId];
@@ -7977,6 +8412,15 @@ function buildVideoPrompt(state, variation){
   var studioNoteText = document.getElementById('studioNoteText');
   var form = document.getElementById('promptForm');
   var characterSheetPanel = document.getElementById('characterSheetPanel');
+  var angleVariationPanel = document.getElementById('angleVariationPanel');
+  var anglePresetButtons = document.querySelectorAll('[data-angle-preset]');
+  var angleSubjectType = document.getElementById('angleSubjectType');
+  var angleOrbit = document.getElementById('angleOrbit');
+  var angleElevation = document.getElementById('angleElevation');
+  var angleDistance = document.getElementById('angleDistance');
+  var angleLens = document.getElementById('angleLens');
+  var angleFraming = document.getElementById('angleFraming');
+  var angleNote = document.getElementById('angleNote');
   var backgroundScenePanel = document.getElementById('backgroundScenePanel');
   var backgroundWorkflowNote = document.getElementById('backgroundWorkflowNote');
   var backgroundControlButtons = document.querySelectorAll('[data-bg-control][data-bg-value]');
@@ -8043,7 +8487,7 @@ function buildVideoPrompt(state, variation){
     btnVariacao.disabled = true;
     btnVariarTudo.disabled = true;
     renderEmptyPrompt();
-    charCounter.textContent = '0 / ' + (activePersona === 'character_sheet' ? CHARACTER_SHEET_MAX_LEN : (activePersona === 'background_scene' ? 3200 : MAX_LEN));
+    charCounter.textContent = '0 / ' + (activePersona === 'character_sheet' ? CHARACTER_SHEET_MAX_LEN : (activePersona === 'angle_variation' ? 3400 : (activePersona === 'background_scene' ? 3200 : MAX_LEN)));
     charCounter.classList.remove('over');
     settingsReminder.textContent = '';
   }
@@ -8235,6 +8679,18 @@ function buildVideoPrompt(state, variation){
   }
   initMobileSteps();
 
+  // Required fields can live inside a collapsed stage. Reveal the stage before
+  // native validation tries to focus the first missing control.
+  form.addEventListener('invalid', function(event){
+    var panel = event.target && event.target.closest
+      ? event.target.closest('.stage-card[data-mobile-step]')
+      : null;
+    if(!panel || !panel.classList.contains('mobile-step-collapsed')) return;
+    panel.classList.remove('mobile-step-collapsed');
+    var toggle = panel.querySelector('.mobile-step-toggle');
+    if(toggle) toggle.setAttribute('aria-expanded', 'true');
+  }, true);
+
   function cloneState(state){
     var cloned = {};
     Object.keys(state).forEach(function(key){ cloned[key] = state[key]; });
@@ -8242,7 +8698,7 @@ function buildVideoPrompt(state, variation){
   }
 
   function buildCampaignSet(state){
-    if(!state || state.isCharacterSheet || state.isBackgroundScene) return [];
+    if(!state || state.isCharacterSheet || state.isBackgroundScene || state.isAngleVariation) return [];
     return CAMPAIGN_BLUEPRINTS.map(function(blueprint, index){
       var shotState = cloneState(state);
       if(blueprint.shotId) shotState.shotId = blueprint.shotId;
@@ -8329,6 +8785,14 @@ function buildVideoPrompt(state, variation){
       addRecipeItem('Modo', 'Character Sheet · Nano Banana Pro');
       addRecipeItem('Estrutura', '6 vistas únicas · 16:9 · fundo branco · RAW neutro');
       addRecipeItem('Resolução', state.resolution);
+    } else if(state.isAngleVariation){
+      addRecipeItem('Modo', 'Variação de Ângulo · Reference lock');
+      addRecipeItem('Órbita', angleOrbit.options[angleOrbit.selectedIndex].text);
+      addRecipeItem('Elevação', angleElevation.options[angleElevation.selectedIndex].text);
+      addRecipeItem('Distância', angleDistance.options[angleDistance.selectedIndex].text);
+      addRecipeItem('Lente', angleLens.options[angleLens.selectedIndex].text);
+      addRecipeItem('Quadro', angleFraming.options[angleFraming.selectedIndex].text);
+      addRecipeItem('Formato', state.aspectRatio + ' · ' + state.resolution);
     } else if(state.isBackgroundScene){
       var bgRecipe = state.backgroundScene || {};
       addRecipeItem('Modo', bgRecipe.task === 'scene_only' ? 'Somente cenário vazio' : 'Produto + cenário');
@@ -8412,10 +8876,10 @@ function buildVideoPrompt(state, variation){
     history.unshift({
       id:String(Date.now()),
       createdAt:new Date().toISOString(),
-      mode:state.isCharacterSheet ? 'Character Sheet' : (state.isBackgroundScene ? 'Cenário' : (state.mode === 'video' ? 'Vídeo' : 'Imagem')),
-      treatment:state.isCharacterSheet ? 'Consistência' : (state.isBackgroundScene ? 'Product lock' : ((CREATIVE_TREATMENTS[state.treatmentId] || {}).label || state.treatmentId)),
-      subject:state.isCharacterSheet ? 'Ficha técnica de personagem' : (state.isBackgroundScene ? ((state.backgroundScene || {}).idea || 'Cenário de produto') : (state.subject || state.concept || 'Projeto sem título')),
-      maxLength:state.isCharacterSheet ? CHARACTER_SHEET_MAX_LEN : (state.isBackgroundScene ? 3200 : MAX_LEN),
+      mode:state.isCharacterSheet ? 'Character Sheet' : (state.isAngleVariation ? 'Variação de Ângulo' : (state.isBackgroundScene ? 'Cenário' : (state.mode === 'video' ? 'Vídeo' : 'Imagem'))),
+      treatment:state.isCharacterSheet ? 'Consistência' : (state.isAngleVariation ? 'Reference lock' : (state.isBackgroundScene ? 'Product lock' : ((CREATIVE_TREATMENTS[state.treatmentId] || {}).label || state.treatmentId))),
+      subject:state.isCharacterSheet ? 'Ficha técnica de personagem' : (state.isAngleVariation ? 'Nova vista da referência' : (state.isBackgroundScene ? ((state.backgroundScene || {}).idea || 'Cenário de produto') : (state.subject || state.concept || 'Projeto sem título'))),
+      maxLength:state.isCharacterSheet ? CHARACTER_SHEET_MAX_LEN : (state.isAngleVariation ? 3400 : (state.isBackgroundScene ? 3200 : MAX_LEN)),
       prompt:promptText
     });
     writeHistory(history);
@@ -8539,10 +9003,12 @@ function buildVideoPrompt(state, variation){
   function applyMode(){
     var isVideo = (mode === 'video');
     var isCharacterSheet = (activePersona === 'character_sheet');
+    var isAngleVariation = (activePersona === 'angle_variation');
     var isBackgroundScene = (activePersona === 'background_scene');
-    var hasOwnTechnicalFlow = isCharacterSheet || isBackgroundScene;
+    var hasOwnTechnicalFlow = isCharacterSheet || isAngleVariation || isBackgroundScene;
     form.classList.toggle('is-video', isVideo);
     form.classList.toggle('is-character-sheet', isCharacterSheet);
+    form.classList.toggle('is-angle-variation', isAngleVariation);
     form.classList.toggle('is-background-scene', isBackgroundScene);
     modeBtns.forEach(function(b){
       var on = b.getAttribute('data-mode') === mode;
@@ -8558,11 +9024,15 @@ function buildVideoPrompt(state, variation){
     fMovimento.required = isVideo;
     fAspect.disabled = isCharacterSheet;
     bgSceneIdea.required = isBackgroundScene;
-    btnVariacao.textContent = isCharacterSheet ? 'Variar redação' : (isBackgroundScene ? 'Variar cenário' : 'Gerar Variação');
+    btnVariacao.textContent = isCharacterSheet ? 'Variar redação' : (isAngleVariation ? 'Variar precisão' : (isBackgroundScene ? 'Variar cenário' : 'Gerar Variação'));
     if(isCharacterSheet){
       modeHint.textContent = 'Character Sheet — ficha fotográfica de seis vistas para Nano Banana Pro.';
       studioNoteTitle.textContent = 'Consistência nasce de decisões visuais fixas.';
       studioNoteText.textContent = 'A ficha mantém rosto, corpo, cabelo, pele e roupa idênticos em seis ângulos. Escolha os traços; o tratamento técnico já está travado.';
+    } else if(isAngleVariation){
+      modeHint.textContent = 'Variação de Ângulo — a referência fica bloqueada; somente a câmera muda.';
+      studioNoteTitle.textContent = 'Mova a câmera, não o sujeito.';
+      studioNoteText.textContent = 'Use sempre a imagem original como fonte. Gere uma vista por vez para impedir que pequenas alterações se acumulem entre as órbitas.';
     } else if(isBackgroundScene){
       modeHint.textContent = 'Cenário de Produto — o objeto fica bloqueado; apenas ambiente e integração física são dirigidos.';
       studioNoteTitle.textContent = 'O produto é a fonte da verdade.';
@@ -8578,7 +9048,7 @@ function buildVideoPrompt(state, variation){
   modeBtns.forEach(function(b){
     b.addEventListener('click', function(){
       var nextMode = b.getAttribute('data-mode');
-      if(nextMode === 'video' && (activePersona === 'character_sheet' || activePersona === 'background_scene')){
+      if(nextMode === 'video' && (activePersona === 'character_sheet' || activePersona === 'angle_variation' || activePersona === 'background_scene')){
         var clearPersona = document.querySelector('.persona-chip[data-persona=""]');
         if(clearPersona) clearPersona.click();
       }
@@ -8691,6 +9161,35 @@ function buildVideoPrompt(state, variation){
   });
   updateBackgroundWorkflowNote();
 
+  function applyAnglePreset(key){
+    var preset = ANGLE_VARIATION_PRESETS[key];
+    if(!preset) return;
+    angleOrbit.value = preset.orbit;
+    angleElevation.value = preset.elevation;
+    angleDistance.value = preset.distance;
+    angleLens.value = preset.lens;
+    angleFraming.value = preset.framing;
+    anglePresetButtons.forEach(function(button){
+      var on = button.getAttribute('data-angle-preset') === key;
+      button.classList.toggle('is-active', on);
+      button.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    invalidateGeneratedPrompt();
+  }
+  anglePresetButtons.forEach(function(button){
+    button.addEventListener('click', function(){ applyAnglePreset(button.getAttribute('data-angle-preset')); });
+  });
+  [angleSubjectType,angleOrbit,angleElevation,angleDistance,angleLens,angleFraming].forEach(function(field){
+    field.addEventListener('change', function(){
+      anglePresetButtons.forEach(function(button){
+        button.classList.remove('is-active');
+        button.setAttribute('aria-pressed', 'false');
+      });
+      invalidateGeneratedPrompt();
+    });
+  });
+  angleNote.addEventListener('input', invalidateGeneratedPrompt);
+
   function resetCreativeUI(){
     productEmphasisField.classList.add('hidden');
     productBgField.classList.add('hidden');
@@ -8698,6 +9197,8 @@ function buildVideoPrompt(state, variation){
     acaoField.classList.remove('hidden');
     characterSheetPanel.classList.add('hidden');
     characterSheetPanel.setAttribute('aria-hidden', 'true');
+    angleVariationPanel.classList.add('hidden');
+    angleVariationPanel.setAttribute('aria-hidden', 'true');
     backgroundScenePanel.classList.add('hidden');
     backgroundScenePanel.setAttribute('aria-hidden', 'true');
     standardSceneFields.classList.remove('hidden');
@@ -8720,6 +9221,13 @@ function buildVideoPrompt(state, variation){
         characterSheetPanel.setAttribute('aria-hidden', 'false');
         standardSceneFields.classList.add('hidden');
         fAspect.value = '16:9';
+        if(fResolucao.value === '1k') fResolucao.value = '2k';
+      } else if(key === 'angle_variation'){
+        mode = 'img';
+        angleVariationPanel.classList.remove('hidden');
+        angleVariationPanel.setAttribute('aria-hidden', 'false');
+        standardSceneFields.classList.add('hidden');
+        fAspect.value = '4:5';
         if(fResolucao.value === '1k') fResolucao.value = '2k';
       } else if(key === 'background_scene'){
         mode = 'img';
@@ -8755,11 +9263,12 @@ function buildVideoPrompt(state, variation){
       btnVariacao.disabled = true;
       btnVariarTudo.disabled = true;
       renderEmptyPrompt();
-      charCounter.textContent = '0 / ' + (key === 'character_sheet' ? CHARACTER_SHEET_MAX_LEN : (key === 'background_scene' ? 3200 : MAX_LEN));
+      charCounter.textContent = '0 / ' + (key === 'character_sheet' ? CHARACTER_SHEET_MAX_LEN : (key === 'angle_variation' ? 3400 : (key === 'background_scene' ? 3200 : MAX_LEN)));
       charCounter.classList.remove('over');
       settingsReminder.textContent = '';
       applyMode();
       if(key === 'character_sheet') characterFields.presentation.focus();
+      else if(key === 'angle_variation') angleSubjectType.focus();
       else if(key === 'background_scene') bgSceneIdea.focus();
       else fSujeito.focus();
   }
@@ -8857,16 +9366,31 @@ function buildVideoPrompt(state, variation){
     };
   }
 
+  function readAngleVariationState(){
+    return {
+      subjectType:angleSubjectType.value,
+      orbit:angleOrbit.value,
+      elevation:angleElevation.value,
+      distance:angleDistance.value,
+      lens:angleLens.value,
+      framing:angleFraming.value,
+      note:angleNote.value
+    };
+  }
+
   function readState(){
     var isProduct = (activePersona === 'produto');
     var isCharacterSheet = (activePersona === 'character_sheet');
+    var isAngleVariation = (activePersona === 'angle_variation');
     var isBackgroundScene = (activePersona === 'background_scene');
     return {
       mode: mode,
       isProduct: isProduct,
       isCharacterSheet: isCharacterSheet,
+      isAngleVariation: isAngleVariation,
       isBackgroundScene: isBackgroundScene,
       character: isCharacterSheet ? readCharacterState() : null,
+      angleVariation: isAngleVariation ? readAngleVariationState() : null,
       backgroundScene: isBackgroundScene ? readBackgroundSceneState() : null,
       productBg: productBg,
       subject: buildSubject(),
@@ -8893,9 +9417,11 @@ function buildVideoPrompt(state, variation){
   function renderResult(state, varSeed){
     var result = state.isCharacterSheet
       ? buildCharacterSheetPrompt(state, varSeed)
-      : (state.isBackgroundScene
-        ? buildBackgroundScenePrompt(state, varSeed)
-        : ((state.mode === 'video') ? buildVideoPrompt(state, varSeed) : buildPrompt(state, varSeed)));
+      : (state.isAngleVariation
+        ? buildAngleVariationPrompt(state, varSeed)
+        : (state.isBackgroundScene
+          ? buildBackgroundScenePrompt(state, varSeed)
+          : ((state.mode === 'video') ? buildVideoPrompt(state, varSeed) : buildPrompt(state, varSeed))));
     var maxLength = result.maxLength || MAX_LEN;
     promptOut.textContent = result.text;
     charCounter.textContent = result.length + ' / ' + maxLength;
@@ -8905,6 +9431,11 @@ function buildVideoPrompt(state, variation){
       renderSettingsReminder([
         'No ', {strong:'Nano Banana Pro'}, ', use este prompt sem imagem de referência. Configure: proporção ',
         {strong:'16:9'}, ' · resolução ', {strong:state.resolution}, '.'
+      ]);
+    } else if(state.isAngleVariation){
+      renderSettingsReminder([
+        'Anexe a imagem original junto com este prompt. Gere uma vista por vez em proporção ', {strong:state.aspectRatio},
+        ' · resolução ', {strong:state.resolution}, '. Use novamente a referência original na próxima órbita.'
       ]);
     } else if(state.isBackgroundScene){
       var sceneOnly = state.backgroundScene && state.backgroundScene.task === 'scene_only';
@@ -8930,7 +9461,7 @@ function buildVideoPrompt(state, variation){
       ]);
     }
     btnVariacao.disabled = false;
-    btnVariarTudo.disabled = state.isCharacterSheet || state.isBackgroundScene;
+    btnVariarTudo.disabled = state.isCharacterSheet || state.isAngleVariation || state.isBackgroundScene;
     return result;
   }
 
@@ -8979,7 +9510,7 @@ function buildVideoPrompt(state, variation){
   // A ação explícita varia toda a técnica. As travas continuam controlando o Campaign Set.
   btnVariarTudo.addEventListener('click', function(){
     if(!currentState) return;
-    if(currentState.isCharacterSheet || currentState.isBackgroundScene) return;
+    if(currentState.isCharacterSheet || currentState.isAngleVariation || currentState.isBackgroundScene) return;
     randomizeSelect(fPlano);
     randomizeSelect(fLente);
     randomizeSelect(fIluminacao);
