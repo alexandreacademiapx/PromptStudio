@@ -23,3 +23,174 @@ window.INSPIRATION_SOURCE_PROMPTS = Object.freeze({
   "49": "motoqueiro fantasma fazendo ifood",
   "50": "dinossauro gordo"
 });
+
+window.INSPIRATION_SOURCE_DIRECTIONS = Object.freeze({
+  "1": {
+    "subject": "silhueta preta, suave e desfocada de uma jovem adulta com cabelo chanel na altura do queixo, vista de costas",
+    "environment": "margem de água completamente calma ao entardecer, horizonte baixo e promontório escuro surgindo na borda direita",
+    "action": "permanece imóvel diante da água enquanto um evento luminoso se espalha horizontalmente pelo horizonte",
+    "mood": "liminar, contemplativo, silencioso e discretamente apocalíptico",
+    "palette": "azul-petróleo saturado, ciano elétrico, branco incandescente, magenta, vermelho-alaranjado e âmbar",
+    "materials": "água espelhada, areia escura, névoa luminosa, grão analógico cromático e halation de filme expirado"
+  },
+  "2": {
+    "subject": "frasco de BLEU DE CHANEL PARFUM íntegro e perfeitamente legível, fotografado como objeto hero premium",
+    "environment": "deserto noturno de areia grafite escura, com fundo profundo e nenhum elemento competindo com o frasco",
+    "action": "permanece estático sobre a areia enquanto a luz fria revela sua geometria e acabamento",
+    "mood": "luxo noturno, precisão publicitária e mistério controlado",
+    "palette": "grafite, preto profundo, azul frio e reflexos prateados",
+    "materials": "vidro escuro, areia mineral fina, metal polido e reflexos ópticos controlados"
+  },
+  "3": {
+    "subject": "homem adulto centralizado com guitarra pendurada por uma correia, expressão serena e desarmada",
+    "environment": "interior de bar no início da manhã, janelas ao fundo atravessadas por fumaça espessa de cigarro",
+    "action": "permanece parado no centro do bar segurando a guitarra de forma relaxada enquanto a fumaça deriva pela luz",
+    "mood": "redenção silenciosa, cansaço da noite e paz contida",
+    "palette": "âmbar de luminária, azul neutro de manhã, tons de madeira e sombras profundas",
+    "materials": "madeira envelhecida, fumaça volumétrica, pele natural, tecido gasto, vidro e grão orgânico"
+  },
+  "5": {
+    "subject": "duas estátuas de mármore renascentistas posicionadas de forma íntima dentro de um SUV moderno",
+    "environment": "interior espaçoso de SUV premium com bancos, iluminação ambiente e porta-malas visíveis",
+    "action": "as duas figuras permanecem próximas como passageiros, compondo um encontro impossível dentro do veículo",
+    "mood": "intimista, sofisticado, elegante e levemente surreal",
+    "palette": "marfim, cinza mineral, preto, luz ambiente quente e reflexos frios",
+    "materials": "mármore esculpido, couro automotivo, vidro, metal escovado e superfícies internas detalhadas"
+  },
+  "7": {
+    "subject": "homem adulto em cardigan preto oversized, camisa branca, gravata estampada, calça cinza ampla, sapatos sociais e boina texturizada",
+    "environment": "quadra de tênis de saibro vazia, vista de um ponto elevado com linhas geométricas e rede ao fundo",
+    "action": "senta reclinado em cadeira dobrável, pernas cruzadas e mãos sobre o abdômen, olhando para baixo em contemplação",
+    "mood": "sofisticado, melancólico, contemplativo e editorial",
+    "palette": "laranja queimado do saibro, verde azulado, preto, branco e cinza neutro",
+    "materials": "saibro, lã fria, algodão, couro polido, metal pintado e textura de filme analógico"
+  },
+  "8": {
+    "subject": "personagem adulto em uma cena publicitária premium de interior, com pele natural e presença silenciosa",
+    "environment": "sala acolhedora com cortinas translúcidas ao fundo, sofá e objetos pontuais recebendo luz de fim de tarde",
+    "action": "permanece integrado ao ambiente enquanto a luz atravessa as cortinas e organiza a profundidade da cena",
+    "mood": "acolhedor, juvenil, nostálgico e sonhador",
+    "palette": "dourado quente, âmbar, amarelo queimado, azul-petróleo e verde-azulado profundo",
+    "materials": "cortina translúcida, tecido de sofá, madeira, pele natural, vidro e grão cinematográfico suave"
+  },
+  "9": {
+    "subject": "viajante arcturiano montado em um cavalo-marinho de escala fantástica",
+    "environment": "arquipélago alienígena de ilhas ainda não exploradas, com fauna, frutas e cultura nativa",
+    "action": "viaja entre as ilhas e observa de perto frutas, animais e manifestações culturais locais",
+    "mood": "descoberta, curiosidade, encantamento e aventura contemplativa",
+    "palette": "azul oceânico, turquesa, coral, verde tropical e luz perolada",
+    "materials": "água translúcida, pele orgânica do cavalo-marinho, vegetação exótica, frutas e elementos artesanais"
+  },
+  "10": {
+    "subject": "astronauta em traje técnico sem marcas segurando um boneco antigo encontrado em uma gaveta",
+    "environment": "oficina espacial usada, cheia de ferramentas, gavetas metálicas e vestígios de trabalho manual",
+    "action": "abre uma gaveta e encontra um boneco envelhecido, interrompendo o trabalho para observá-lo",
+    "mood": "nostalgia, surpresa silenciosa, memória e ficção científica íntima",
+    "palette": "grafite, alumínio, branco envelhecido, azul frio e pequenos acentos âmbar",
+    "materials": "metal riscado, tecido técnico, plástico envelhecido, poeira, borracha e luz de oficina"
+  },
+  "11": {
+    "subject": "modelo negra adulta de cabelo liso usando vestido prateado curto, montada sobre um cavalo",
+    "environment": "deserto aberto durante o crepúsculo, horizonte limpo e grande espaço negativo",
+    "action": "permanece montada no cavalo enquanto um flash frontal recorta sua presença contra o entardecer",
+    "mood": "icônico, ousado, elegante e cinematográfico",
+    "palette": "prata, azul de crepúsculo, areia fria, preto e pele natural",
+    "materials": "tecido metálico, pelagem do cavalo, areia seca, couro neutro e luz dura de flash"
+  },
+  "12": {
+    "subject": "grupo de crianças em linguagem 3D estilizada, com formas expressivas e roupas neutras sem marcas",
+    "environment": "o mesmo espaço visível na referência, preservado em arquitetura, escala, luz e composição",
+    "action": "ocupam o ambiente de forma espontânea, interagindo entre si sem alterar a estrutura do local",
+    "mood": "lúdico, acolhedor, curioso e cinematográfico",
+    "palette": "cores vivas equilibradas com os tons originais do ambiente",
+    "materials": "superfícies 3D táteis, tecido neutro, pele estilizada e materiais originais do cenário"
+  },
+  "13": {
+    "subject": "dançarinos contemporâneos em streetwear experimental colorido, caindo através de nuvens volumosas",
+    "environment": "céu amplo e pictórico composto por nuvens macias em escala monumental",
+    "action": "os corpos caem e se dobram no ar em gestos coreográficos expressivos",
+    "mood": "emocional, sublime, caótico, belo e transcendente",
+    "palette": "azul celeste, branco de nuvem, cores saturadas de moda e sombras pictóricas",
+    "materials": "tecidos de streetwear, vapor de nuvem, tinta gestual e textura de pintura contemporânea"
+  },
+  "14": {
+    "subject": "grupo diverso de oito modelos adultos Gen-Z em streetwear anos 1990 e tênis retrô, junto a um motociclista de motocross",
+    "environment": "esquina urbana desgastada com banca de jornal vintage, concreto molhado e jornais presos às paredes",
+    "action": "uma moto executa um wheelie enquanto os modelos reagem e folhas de jornal atravessam o quadro em movimento",
+    "mood": "cinético, aspiracional, espontâneo, urbano e publicitário",
+    "palette": "tabaco, oliva, creme, camel, azul ardósia, marinho e denim lavado",
+    "materials": "denim, algodão, borracha, metal, concreto molhado, papel de jornal e grão de filme médio formato"
+  },
+  "15": {
+    "subject": "personagem adulto sentado diante de uma mesa de escritório simples",
+    "environment": "grande campo de grama aberto, sem paredes, sob céu amplo e horizonte distante",
+    "action": "trabalha ou espera sozinho à mesa no meio da paisagem",
+    "mood": "absurdo silencioso, isolamento, contemplação e humor sutil",
+    "palette": "verde de grama, azul de céu, cinza de escritório e tons neutros",
+    "materials": "grama natural, madeira ou metal da mesa, papel, tecido neutro e luz difusa"
+  },
+  "16": {
+    "subject": "robô doméstico de desenho funcional preparando o café da manhã",
+    "environment": "cozinha contemporânea organizada, com bancada e utensílios cotidianos",
+    "action": "prepara e organiza o café da manhã com gestos precisos e cuidadosos",
+    "mood": "cotidiano futurista, acolhedor, leve e observacional",
+    "palette": "aço, branco, madeira clara, âmbar de manhã e pequenos acentos coloridos",
+    "materials": "metal escovado, cerâmica, vidro, alimentos, madeira e vapor"
+  },
+  "17": {
+    "subject": "calçados Crocs apresentados como produto hero em uma campanha publicitária colorida",
+    "environment": "set gráfico vibrante construído para destacar forma, cor e identidade do produto",
+    "action": "os calçados aparecem em composição dinâmica, podendo flutuar ou se repetir sem perder sua geometria",
+    "mood": "divertido, pop, energético e comercial",
+    "palette": "cores saturadas, contrastes limpos e fundo gráfico complementar",
+    "materials": "espuma moldada, borracha, superfícies coloridas foscas e elementos cenográficos lisos"
+  },
+  "18": {
+    "subject": "mulher adulta usando fones de ouvido durante uma viagem de metrô",
+    "environment": "vagão de metrô urbano com barras metálicas, assentos e reflexos nas janelas",
+    "action": "ouve música enquanto permanece isolada emocionalmente do movimento ao redor",
+    "mood": "intimidade urbana, independência, movimento e concentração",
+    "palette": "metal frio, grafite, azul de janela e tons naturais de pele",
+    "materials": "alumínio, vidro, plástico, tecido de roupa, couro dos fones e luz fluorescente"
+  },
+  "19": {
+    "subject": "o mesmo sujeito da imagem de referência, preservado integralmente em identidade e aparência",
+    "environment": "mar profundo subaquático com água escura, partículas suspensas e profundidade visível",
+    "action": "desloca-se lateralmente enquanto a câmera acompanha em paralelo na mesma profundidade",
+    "mood": "imersivo, silencioso, misterioso e contemplativo",
+    "palette": "azul profundo, ciano escuro, preto e reflexos aquáticos discretos",
+    "materials": "água, partículas suspensas, pele ou superfície original do sujeito e luz subaquática difusa"
+  },
+  "20": {
+    "subject": "mulher adulta esperando um trem sob chuva constante",
+    "environment": "plataforma ferroviária molhada, trilhos, cobertura parcial e luz urbana refletida no piso",
+    "action": "aguarda imóvel enquanto a chuva cai e o trem ainda não chega",
+    "mood": "melancolia, espera, solidão e tensão narrativa",
+    "palette": "azul-petróleo, cinza, preto, âmbar distante e reflexos frios",
+    "materials": "concreto molhado, metal, vidro, tecido encharcado, água e névoa"
+  },
+  "21": {
+    "subject": "homem adulto com roupa western neutra, presença autêntica e expressão contida",
+    "environment": "bar tradicional no Texas com balcão de madeira, bancos, garrafas e luz prática quente",
+    "action": "permanece junto ao balcão observando o ambiente ou segurando um copo de forma natural",
+    "mood": "western contemporâneo, intimista, maduro e cinematográfico",
+    "palette": "âmbar, tabaco, madeira escura, denim e preto",
+    "materials": "madeira envelhecida, denim, couro, vidro, metal e fumaça leve"
+  },
+  "49": {
+    "subject": "motoqueiro fantasma em veículo de entrega, com aparência sobrenatural e equipamento sem marcas",
+    "environment": "rua urbana noturna transformada por fogo, fumaça e luzes de cidade",
+    "action": "realiza uma entrega em alta velocidade deixando um rastro de fogo controlado",
+    "mood": "irreverente, sobrenatural, acelerado e cinematográfico",
+    "palette": "preto, laranja de fogo, vermelho, asfalto grafite e azul noturno",
+    "materials": "metal da moto, couro, asfalto molhado, fogo, fumaça e embalagem de entrega neutra"
+  },
+  "50": {
+    "subject": "dinossauro grande e corpulento, com anatomia coerente e expressão marcante",
+    "environment": "paisagem ampla dimensionada para sua escala, com chão natural e horizonte legível",
+    "action": "permanece em pé ou avança lentamente, deslocando seu peso de forma fisicamente convincente",
+    "mood": "monumental, curioso, bem-humorado e fotorrealista",
+    "palette": "verde terroso, oliva, marrom, cinza mineral e luz natural",
+    "materials": "pele reptiliana detalhada, terra, rocha, vegetação e poeira atmosférica"
+  }
+});

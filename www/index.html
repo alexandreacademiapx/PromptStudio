@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-7PAiC+Ba5gMg3qRM0EpumzcJEzGXPW4XPXQ4XbQ8zOA='; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self'; media-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; child-src 'none'; worker-src 'none'; manifest-src 'self'; trusted-types 'none'; require-trusted-types-for 'script'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-HfyZ/u7f9wzhgpRHofyueuahp+QrPOquvOL+GqF71ek='; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self'; media-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; child-src 'none'; worker-src 'none'; manifest-src 'self'; trusted-types 'none'; require-trusted-types-for 'script'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="format-detection" content="telephone=no">
@@ -4039,7 +4039,7 @@ select:focus{
       <div class="creative-brief-grid">
         <div class="field">
           <label for="fConceito">Conceito visual <span class="hint">— a ideia central em uma frase</span></label>
-          <textarea id="fConceito" maxlength="240" placeholder="ex: um perfume como uma aurora líquida presa dentro do vidro"></textarea>
+          <textarea id="fConceito" maxlength="2400" placeholder="ex: um perfume como uma aurora líquida presa dentro do vidro"></textarea>
           <div class="subhint">opcional, mas é o campo que mais ajuda a sair do genérico</div>
         </div>
         <div class="field">
@@ -5314,6 +5314,76 @@ var INSPIRATION_EXPANSION = {
   ]
 };
 
+var INSPIRATION_MOOD_BY_TYPE = {
+  Tech:'precisão tecnológica, silêncio e sofisticação contemporânea',
+  Beauty:'sensualidade tátil, desejo e acabamento premium',
+  Skincare:'pureza, cuidado e confiança clínica',
+  Footwear:'leveza, energia e inovação funcional',
+  Watch:'precisão, exclusividade e tensão silenciosa',
+  Beverage:'frescor, desejo e presença sensorial',
+  Jewelry:'luxo íntimo, brilho controlado e contemplação',
+  Furniture:'calma, conforto e sofisticação espacial',
+  Eyewear:'clareza gráfica, atitude e modernidade',
+  Fashion:'presença editorial, elegância e confiança',
+  Design:'precisão formal, serenidade e fascínio material',
+  Food:'aconchego, desejo e prazer silencioso',
+  Mobility:'movimento, precisão e liberdade urbana',
+  Fragrance:'mistério, desejo e sofisticação noturna',
+  Portrait:'intimidade, presença e autenticidade',
+  Campaign:'impacto narrativo, desejo e reconhecimento de marca',
+  Lifestyle:'proximidade, conforto e espontaneidade editorial',
+  Business:'tensão contida, ordem e decisão',
+  Concept:'humor sofisticado, estranheza e memorabilidade',
+  Material:'precisão tátil, abstração e pesquisa de superfície'
+};
+
+var INSPIRATION_ACTION_OVERRIDES = {
+  street_interruption:'as duas figuras interrompem o passo e reagem ao acontecimento impossível que atravessa a rua',
+  lived_in_blue:'acomoda-se no sofá em um gesto natural enquanto a luz percorre o ambiente',
+  stone_stance:'sustenta uma postura firme no eixo da rua e encara a câmera sem rigidez',
+  mirror_portal:'alinha o corpo ao arco espelhado e avança um passo em direção ao reflexo',
+  night_creator:'digita concentrada enquanto a luz da tela recorta o rosto e as mãos',
+  red_double:'as duas modelos mantêm poses espelhadas com pequenas diferenças de gesto',
+  sunroom_release:'abre o corpo em direção à claraboia enquanto o tecido responde à luz',
+  street_reflection:'caminha junto à vitrine enquanto o reflexo acompanha sua trajetória',
+  violet_ascent:'sobe a escadaria e faz uma pausa breve antes de olhar para a câmera',
+  empty_decision:'a sala permanece vazia enquanto a luz recortada avança sobre a mesa e as cadeiras',
+  formal_amphibian:'ajusta o punho do smoking e encara a câmera com absoluta seriedade',
+  slatted_light:'atravessa lentamente as faixas de luz mantendo o look legível',
+  midnight_reserve:'eleva o copo até a luz e observa o líquido antes do primeiro gole',
+  red_petal_portrait:'mantém o olhar frontal enquanto as pétalas se abrem ao redor do rosto',
+  blue_shrine:'a esfera permanece suspensa enquanto as flores metálicas se orientam ao seu redor',
+  smoke_body:'permanece de pé enquanto partes do corpo se desfazem em fumaça contínua',
+  solar_crown:'sustenta uma pose frontal serena enquanto a coroa radial captura a luz',
+  carpet_dream:'permanece sob o tapete enquanto ele flutua e ondula sobre o ambiente',
+  clay_panic:'pressiona o próprio rosto de argila com as duas mãos, deformando a matéria',
+  material_choir:'as formas permanecem alinhadas enquanto reflexos e texturas criam um ritmo comum',
+  mirror_fracture:'mantém o rosto imóvel enquanto os fragmentos revelam ângulos diferentes da mesma identidade',
+  infinite_ribbon:'a fita se dobra em uma curva contínua e impossível sem tocar o chão',
+  amber_mask:'aproxima a máscara do rosto sem ocultar completamente a expressão',
+  forest_within:'a silhueta permanece imóvel enquanto a luz atravessa a floresta contida no corpo',
+  red_knot:'a corda tensiona suas curvas e sustenta o nó monumental no centro da galeria',
+  mercury_fruit:'as frutas permanecem organizadas enquanto reflexos líquidos percorrem suas superfícies',
+  cloud_figure:'avança lentamente enquanto o volume branco se expande ao redor do corpo',
+  frozen_roses:'as rosas permanecem suspensas no gelo enquanto gotas começam a surgir na superfície',
+  white_velocity:'a pista atravessa o vazio em uma curva contínua que conduz o olhar',
+  masked_commute:'os passageiros permanecem sentados e voltam as máscaras em direções diferentes',
+  botanical_twins:'as duas modelos sustentam poses simétricas entre a vegetação',
+  glass_procession:'as figuras atravessam a passarela em ritmo lento e cerimonial',
+  floor_break:'os dançarinos dobram o corpo em direções opostas como se alterassem a perspectiva da sala',
+  hand_of_mist:'a mão se forma na névoa, estende os dedos e começa a desaparecer',
+  golden_profile:'mantém o perfil imóvel enquanto o acessório dourado intercepta a luz lateral',
+  paper_cosmos:'equilibra-se sobre o pequeno planeta e observa o céu de papel',
+  soft_panic:'o rosto de argila comprime a expressão como se a matéria reagisse à ansiedade',
+  warm_embrace:'as duas formas se aproximam até compor uma única silhueta contínua',
+  edge_architecture:'permanece no limite da plataforma enquanto acompanha a curva monumental com o olhar',
+  marble_frequency:'o busto permanece imóvel enquanto os fones introduzem um contraste tecnológico preciso',
+  lunar_swim:'a arraia cruza lentamente o disco lunar sem alterar sua silhueta',
+  coastal_double:'as duas figuras ocupam pontos distintos da margem e sustentam poses complementares',
+  color_fold:'os planos se dobram e deslizam uns sobre os outros como matéria macia',
+  gravity_cut:'a figura corta o vazio em um salto extremo acima da formação rochosa'
+};
+
 var INSPIRATION_TECH_ROTATIONS = {
   commercial:[
     ['commercial','refined','detail','makro65','spotlight','kodak_2383','4:5'],
@@ -5349,15 +5419,22 @@ var INSPIRATION_SOURCE_IDS = {
 Object.keys(INSPIRATION_PRESETS).forEach(function(id){
   var preset = INSPIRATION_PRESETS[id];
   preset.sourcePrompt = (window.INSPIRATION_SOURCE_PROMPTS && window.INSPIRATION_SOURCE_PROMPTS[preset.sourceId]) || '';
+  preset.sourceDirection = (window.INSPIRATION_SOURCE_DIRECTIONS && window.INSPIRATION_SOURCE_DIRECTIONS[preset.sourceId]) || null;
 });
 
 Object.keys(INSPIRATION_EXPANSION).forEach(function(category){
   INSPIRATION_EXPANSION[category] = INSPIRATION_EXPANSION[category].map(function(row,index){
     var tech = INSPIRATION_TECH_ROTATIONS[category][index % INSPIRATION_TECH_ROTATIONS[category].length];
     var sourceId = INSPIRATION_SOURCE_IDS[category][index];
+    var compactCommercial = category === 'commercial' && row.length === 9;
+    var action = compactCommercial ? '' : row[7];
+    var mood = compactCommercial ? (INSPIRATION_MOOD_BY_TYPE[row[2]] || 'sofisticação, clareza e impacto comercial') : row[8];
+    var palette = compactCommercial ? row[7] : row[9];
+    var materials = compactCommercial ? row[8] : row[10];
+    action = action || INSPIRATION_ACTION_OVERRIDES[row[0]] || (row[3] === 'produto' ? '' : 'mantém uma presença controlada que materializa o conceito no ambiente');
     var item = {
       id:row[0], label:row[1], type:row[2], persona:row[3], subject:row[4], concept:row[5], environment:row[6],
-      action:row[7], mood:row[8], palette:row[9], materials:row[10], category:category,
+      action:action, mood:mood, palette:palette, materials:materials, category:category,
       sourceId:sourceId,
       image:'./media/inspiration-' + category + '-' + String(index + 3).padStart(2,'0') + '.webp'
     };
@@ -5366,7 +5443,8 @@ Object.keys(INSPIRATION_EXPANSION).forEach(function(category){
       environment:item.environment, action:item.action, mood:item.mood, palette:item.palette, materials:item.materials,
       treatment:tech[0], intensity:tech[1], shotId:tech[2], lensId:tech[3], lightId:tech[4], stockId:tech[5], aspectRatio:tech[6],
       sourceId:sourceId,
-      sourcePrompt:(window.INSPIRATION_SOURCE_PROMPTS && window.INSPIRATION_SOURCE_PROMPTS[sourceId]) || ''
+      sourcePrompt:(window.INSPIRATION_SOURCE_PROMPTS && window.INSPIRATION_SOURCE_PROMPTS[sourceId]) || '',
+      sourceDirection:(window.INSPIRATION_SOURCE_DIRECTIONS && window.INSPIRATION_SOURCE_DIRECTIONS[sourceId]) || null
     };
     return item;
   });
@@ -8771,19 +8849,20 @@ function buildVideoPrompt(state, variation){
     if(!preset) return;
     var sourcePrompt = String(preset.sourcePrompt || '').replace(/\s+/g, ' ').trim();
     var useSourceDirection = sourcePrompt && preset.sourceId !== 4 && preset.sourceId !== 6;
+    var sourceDirection = preset.sourceDirection || {};
     selectedInspiration = id;
     selectPersonaByKey(preset.persona || '');
     setCreativeTreatment(preset.treatment, true);
     setCreativeIntensity(preset.intensity, true);
     if(useSourceDirection){
       var firstSentence = (sourcePrompt.match(/^.*?[.!?](?:\s|$)/) || [sourcePrompt])[0].trim();
-      fSujeito.value = firstSentence.length > 360 ? firstSentence.slice(0, 357).trim() + '...' : firstSentence;
+      fSujeito.value = sourceDirection.subject || (firstSentence.length > 360 ? firstSentence.slice(0, 357).trim() + '...' : firstSentence);
       fConceito.value = sourcePrompt;
-      fAmbiente.value = '';
-      fAcao.value = '';
-      fClima.value = '';
-      fPalette.value = '';
-      fMaterials.value = '';
+      fAmbiente.value = sourceDirection.environment || preset.environment || '';
+      fAcao.value = sourceDirection.action || preset.action || '';
+      fClima.value = sourceDirection.mood || preset.mood || '';
+      fPalette.value = sourceDirection.palette || preset.palette || '';
+      fMaterials.value = sourceDirection.materials || preset.materials || '';
     } else {
       fSujeito.value = preset.subject;
       fConceito.value = preset.concept;
