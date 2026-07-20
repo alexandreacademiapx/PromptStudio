@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-5jPfJCBvUWYX6fHWo31573h1LNjp+fJRoABKdDDkDsU='; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self'; media-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; child-src 'none'; worker-src 'none'; manifest-src 'self'; trusted-types 'none'; require-trusted-types-for 'script'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-7PAiC+Ba5gMg3qRM0EpumzcJEzGXPW4XPXQ4XbQ8zOA='; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self'; media-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; child-src 'none'; worker-src 'none'; manifest-src 'self'; trusted-types 'none'; require-trusted-types-for 'script'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="format-detection" content="telephone=no">
@@ -1441,6 +1441,12 @@ body.app-ready .app-entry{
   flex-direction:column;
   min-height:0;
   max-height:100%;
+}
+.stage-card-output .output-head,
+.stage-card-output .output-tabs{
+  position:relative;
+  z-index:3;
+  flex:0 0 auto;
 }
 .stage-card-output .output-view.is-active{
   flex:1 1 auto;
@@ -3254,14 +3260,55 @@ select:focus{
 }
 .angle-reference-head strong{color:#e8eff1;font-size:13px;}
 .angle-reference-head span{color:#7f8d93;font-size:11px;}
-.angle-reference-grid{
+.angle-reference-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.angle-reference-actions > span{margin-right:4px;}
+.angle-scroll-button{
   display:grid;
-  grid-template-columns:repeat(8,minmax(110px,1fr));
+  width:38px;
+  min-height:38px;
+  padding:0;
+  place-items:center;
+  border:1px solid rgba(213,232,240,.14);
+  border-radius:50%;
+  color:#dce9ed;
+  background:rgba(255,255,255,.035);
+  cursor:pointer;
+  transition:color 180ms ease,border-color 180ms ease,background 180ms ease,transform 180ms ease;
+}
+.angle-scroll-button:hover,.angle-scroll-button:focus-visible{
+  color:#fff;
+  border-color:rgba(183,217,231,.44);
+  background:rgba(183,217,231,.10);
+}
+.angle-scroll-button:active{transform:scale(.96);}
+.angle-scroll-button:disabled{opacity:.28;cursor:default;transform:none;}
+.angle-reference-grid{
+  display:flex;
   gap:8px;
   margin:0 0 18px;
+  padding:2px 2px 10px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scroll-snap-type:x proximity;
+  scroll-padding-inline:2px;
+  overscroll-behavior-x:contain;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(183,217,231,.34) rgba(255,255,255,.035);
+  -webkit-overflow-scrolling:touch;
 }
+.angle-reference-grid::-webkit-scrollbar{height:6px;}
+.angle-reference-grid::-webkit-scrollbar-track{background:rgba(255,255,255,.035);border-radius:999px;}
+.angle-reference-grid::-webkit-scrollbar-thumb{background:rgba(183,217,231,.34);border-radius:999px;}
+.angle-reference-grid::-webkit-scrollbar-thumb:hover{background:rgba(183,217,231,.54);}
+.angle-reference-grid.is-dragging{cursor:grabbing;scroll-snap-type:none;}
+.angle-reference-grid.is-dragging .angle-reference-card{pointer-events:none;}
 .angle-reference-card{
   position:relative;
+  flex:0 0 clamp(126px,15vw,152px);
   min-height:166px;
   padding:0;
   overflow:hidden;
@@ -3270,6 +3317,7 @@ select:focus{
   background:#080b0d;
   cursor:pointer;
   isolation:isolate;
+  scroll-snap-align:start;
   transition:transform 180ms ease-out,border-color 180ms ease-out,box-shadow 180ms ease-out;
 }
 .angle-reference-card img{width:100%;height:100%;object-fit:cover;transition:transform 240ms ease-out,filter 240ms ease-out;}
@@ -3363,17 +3411,56 @@ select:focus{
   .angle-lab-panel{padding:17px 14px;border-radius:20px;}
   .angle-lab-head{display:grid;gap:12px;}
   .angle-lab-badge{justify-self:start;}
-  .angle-reference-head{align-items:start;flex-direction:column;gap:3px;}
-  .angle-reference-grid{grid-template-columns:repeat(4,minmax(112px,1fr));overflow-x:auto;padding-bottom:5px;}
-  .angle-reference-card{min-height:150px;}
+  .angle-reference-head{align-items:start;flex-direction:column;gap:8px;}
+  .angle-reference-actions{width:100%;justify-content:space-between;}
+  .angle-reference-actions > span{max-width:24ch;}
+  .angle-reference-grid{padding-bottom:9px;}
+  .angle-reference-card{flex-basis:122px;min-height:150px;}
   .angle-preset-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
   .angle-control-grid{grid-template-columns:1fr;}
   .angle-control-grid .angle-full{grid-column:auto;}
 }
 @media(prefers-reduced-motion:reduce){
-  .angle-preset,.angle-reference-card,.angle-reference-card img{transition:none;}
+  .angle-preset,.angle-reference-card,.angle-reference-card img,.angle-scroll-button{transition:none;}
   .angle-preset:hover,.angle-preset:focus-visible,.angle-reference-card:hover,.angle-reference-card:focus-visible{transform:none;}
 }
+
+/* Main creative presets: quiet by default, unmistakable when selected. */
+#personaChipsMain .persona-chip:not(.clear){
+  color:#9ba7ac;
+  background:rgba(4,7,8,.50);
+  border-color:rgba(215,232,240,.10);
+  box-shadow:none;
+  opacity:.62;
+  transition:opacity 180ms ease,color 180ms ease,border-color 180ms ease,background 180ms ease,box-shadow 180ms ease,transform 180ms ease;
+}
+#personaChipsMain .persona-chip:not(.clear) .dot{
+  background:#f3f6f7 !important;
+  box-shadow:none !important;
+  opacity:.76;
+  transition:background 180ms ease,box-shadow 180ms ease,opacity 180ms ease,transform 180ms ease;
+}
+#personaChipsMain .persona-chip:not(.clear):hover,
+#personaChipsMain .persona-chip:not(.clear):focus-visible{
+  color:#eaf1f3;
+  border-color:rgba(215,232,240,.24);
+  background:rgba(201,228,239,.07);
+  opacity:.86;
+}
+#personaChipsMain .persona-chip.active:not(.clear){
+  color:#f7fbfd;
+  background:rgba(206,231,240,.12);
+  border-color:rgba(220,239,246,.34);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.035),0 10px 26px rgba(0,0,0,.24);
+  opacity:1;
+}
+#personaChipsMain .persona-chip.active:not(.clear) .dot{
+  background:#70f08b !important;
+  box-shadow:0 0 0 3px rgba(112,240,139,.10),0 0 13px rgba(112,240,139,.58) !important;
+  opacity:1;
+  transform:scale(1.08);
+}
+#personaChipsMain .persona-chip.clear{opacity:.68;}
 /* === ANGLE LAB PREVIEW END === */
 /* === DARK 3D PREVIEW END === */
 /* === CAMPAIGN LAB END === */
@@ -3691,9 +3778,13 @@ select:focus{
 
       <div class="angle-reference-head">
         <strong>Mapa visual de câmera</strong>
-        <span>Frames de produto para referência visual · clique para aplicar</span>
+        <div class="angle-reference-actions">
+          <span>Arraste, role ou use as setas · clique para aplicar</span>
+          <button type="button" class="angle-scroll-button" id="angleScrollPrev" aria-label="Ver referências anteriores" title="Referências anteriores">&#8592;</button>
+          <button type="button" class="angle-scroll-button" id="angleScrollNext" aria-label="Ver próximas referências" title="Próximas referências">&#8594;</button>
+        </div>
       </div>
-      <div class="angle-reference-grid" aria-label="Referências visuais de ângulos para produto">
+      <div class="angle-reference-grid" id="angleReferenceGrid" tabindex="0" aria-label="Referências visuais de ângulos para produto">
         <button type="button" class="angle-reference-card" data-angle-preset="three_right" aria-pressed="false"><img src="./media/inspiration-commercial-03.webp" alt="Fones vistos em três quartos" loading="lazy" decoding="async"><span>3/4 · Produto</span></button>
         <button type="button" class="angle-reference-card is-active" data-angle-preset="front" aria-pressed="true"><img src="./media/inspiration-commercial-05.webp" alt="Pote cosmético em vista frontal" loading="lazy" decoding="async"><span>Frontal · Clean</span></button>
         <button type="button" class="angle-reference-card" data-angle-preset="high30" aria-pressed="false"><img src="./media/inspiration-commercial-07.webp" alt="Relógio em vista elevada de três quartos" loading="lazy" decoding="async"><span>Elevada · 30°</span></button>
@@ -4814,6 +4905,7 @@ select:focus{
 
 </div>
 
+<script src="./media/inspiration-source-prompts.js"></script>
 <script>
 'use strict';
 
@@ -5039,7 +5131,7 @@ var CREATIVE_CONCEPT_PLACEHOLDERS = {
 
 var INSPIRATION_PRESETS = {
   orbital_glass:{
-    label:'Orbital Glass', category:'commercial', persona:'produto',
+    label:'Orbital Glass', category:'commercial', persona:'produto', sourceId:108,
     subject:'frasco de perfume sem marca em vidro violeta fumê, forma orgânica escultural, tampa transparente e acabamento impecável',
     concept:'um perfume tratado como um objeto orbital suspenso sobre matéria líquida',
     environment:'estúdio preto profundo com uma lâmina rasa de cromo líquido perfeitamente refletivo',
@@ -5049,7 +5141,7 @@ var INSPIRATION_PRESETS = {
     treatment:'commercial', intensity:'expressive', shotId:'detail', lensId:'makro65', lightId:'spotlight', stockId:'kodak_2383', aspectRatio:'4:5'
   },
   amber_matter:{
-    label:'Amber Matter', category:'commercial', persona:'produto',
+    label:'Amber Matter', category:'commercial', persona:'produto', sourceId:100,
     subject:'pote cosmético cilíndrico sem marca em acabamento marfim fosco, novo, íntegro e minimalista',
     concept:'o produto protegido por uma onda de matéria âmbar translúcida',
     environment:'cenário mineral de travertino claro com espaço negativo e luz suave de manhã',
@@ -5059,7 +5151,7 @@ var INSPIRATION_PRESETS = {
     treatment:'commercial', intensity:'refined', shotId:'cu', lensId:'otus85', lightId:'window_soft', stockId:'portra_400', aspectRatio:'4:5'
   },
   after_rain:{
-    label:'After Rain', category:'cinematic', persona:'moda',
+    label:'After Rain', category:'cinematic', persona:'moda', sourceId:42,
     subject:'modelo brasileira adulta de cabelo preto curto molhado, usando alfaiataria preta escultural sem marcas',
     concept:'o instante silencioso depois de uma decisão irreversível',
     environment:'sob um viaduto brutalista depois da chuva, asfalto molhado e pilares desaparecendo na névoa',
@@ -5070,7 +5162,7 @@ var INSPIRATION_PRESETS = {
     treatment:'cinematic', intensity:'expressive', shotId:'cowboy', lensId:'k35_55', lightId:'practical_neon', stockId:'v3_500t_5219', aspectRatio:'4:5'
   },
   blue_passage:{
-    label:'Blue Passage', category:'cinematic', persona:'campanha',
+    label:'Blue Passage', category:'cinematic', persona:'campanha', sourceId:1,
     subject:'figura adulta solitária em roupa neutra grafite sem marcas, silhueta alongada e gesto contido',
     concept:'um caminho azul costura o corpo à arquitetura e conduz a narrativa para o horizonte',
     environment:'estrutura monumental de concreto pálido atravessando um deserto amplo ao entardecer',
@@ -5081,7 +5173,7 @@ var INSPIRATION_PRESETS = {
     treatment:'cinematic', intensity:'expressive', shotId:'ews', lensId:'k35_24', lightId:'blue_hour', stockId:'ektachrome_e100', aspectRatio:'4:5'
   },
   crimson_bloom:{
-    label:'Crimson Bloom', category:'art', persona:'moda',
+    label:'Crimson Bloom', category:'art', persona:'moda', sourceId:58,
     subject:'modelo adulta andrógina de cabelo preto curto usando roupa branca minimalista sem marcas',
     concept:'o tecido se transforma em um organismo carmesim que floresce ao redor do corpo',
     environment:'estúdio seamless cinza-claro sem objetos ou horizonte visível',
@@ -5092,7 +5184,7 @@ var INSPIRATION_PRESETS = {
     treatment:'art', intensity:'radical', shotId:'cowboy', lensId:'otus85', lightId:'hard_flash', stockId:'ektachrome_e100', aspectRatio:'4:5'
   },
   chrome_ritual:{
-    label:'Chrome Ritual', category:'art', persona:'',
+    label:'Chrome Ritual', category:'art', persona:'', sourceId:19,
     subject:'esfera de vidro cobalto perfeitamente lisa flutuando entre flores monumentais de cromo líquido',
     concept:'a gravidade se dobra em torno de um núcleo azul tratado como um objeto ritual',
     environment:'câmara brutalista de concreto escuro com piso espelhado e abertura circular no teto',
@@ -5247,18 +5339,34 @@ var INSPIRATION_TECH_ROTATIONS = {
   ]
 };
 
+// Asset provenance keeps each curated card tied to the exact source frame.
+var INSPIRATION_SOURCE_IDS = {
+  commercial:[85,109,95,97,75,35,84,80,74,63,104,110,16,81,77,82,57,106,2,7,21,22,43,45,53,55,70,71,72,73,76,78,79,86,91,96],
+  cinematic:[23,8,13,46,20,32,14,37,18,49,30,64,36,10,51,4,41,5,3,24,26,34,39,47,60,66,89,90,92,93,98,99,103,107,112,120],
+  art:[9,44,6,25,61,29,48,52,28,56,59,50,12,38,65,54,62,33,11,15,27,40,67,68,69,83,101,94,102,117,113,114,115,116,118,119]
+};
+
+Object.keys(INSPIRATION_PRESETS).forEach(function(id){
+  var preset = INSPIRATION_PRESETS[id];
+  preset.sourcePrompt = (window.INSPIRATION_SOURCE_PROMPTS && window.INSPIRATION_SOURCE_PROMPTS[preset.sourceId]) || '';
+});
+
 Object.keys(INSPIRATION_EXPANSION).forEach(function(category){
   INSPIRATION_EXPANSION[category] = INSPIRATION_EXPANSION[category].map(function(row,index){
     var tech = INSPIRATION_TECH_ROTATIONS[category][index % INSPIRATION_TECH_ROTATIONS[category].length];
+    var sourceId = INSPIRATION_SOURCE_IDS[category][index];
     var item = {
       id:row[0], label:row[1], type:row[2], persona:row[3], subject:row[4], concept:row[5], environment:row[6],
       action:row[7], mood:row[8], palette:row[9], materials:row[10], category:category,
+      sourceId:sourceId,
       image:'./media/inspiration-' + category + '-' + String(index + 3).padStart(2,'0') + '.webp'
     };
     INSPIRATION_PRESETS[item.id] = {
       label:item.label, category:category, persona:item.persona, subject:item.subject, concept:item.concept,
       environment:item.environment, action:item.action, mood:item.mood, palette:item.palette, materials:item.materials,
-      treatment:tech[0], intensity:tech[1], shotId:tech[2], lensId:tech[3], lightId:tech[4], stockId:tech[5], aspectRatio:tech[6]
+      treatment:tech[0], intensity:tech[1], shotId:tech[2], lensId:tech[3], lightId:tech[4], stockId:tech[5], aspectRatio:tech[6],
+      sourceId:sourceId,
+      sourcePrompt:(window.INSPIRATION_SOURCE_PROMPTS && window.INSPIRATION_SOURCE_PROMPTS[sourceId]) || ''
     };
     return item;
   });
@@ -8473,6 +8581,10 @@ function buildVideoPrompt(state, variation){
   var characterSheetPanel = document.getElementById('characterSheetPanel');
   var angleVariationPanel = document.getElementById('angleVariationPanel');
   var anglePresetButtons = document.querySelectorAll('[data-angle-preset]');
+  var angleReferenceGrid = document.getElementById('angleReferenceGrid');
+  var angleScrollPrev = document.getElementById('angleScrollPrev');
+  var angleScrollNext = document.getElementById('angleScrollNext');
+  var refreshAngleReferenceControls = function(){};
   var angleSubjectType = document.getElementById('angleSubjectType');
   var angleOrbit = document.getElementById('angleOrbit');
   var angleElevation = document.getElementById('angleElevation');
@@ -8657,17 +8769,30 @@ function buildVideoPrompt(state, variation){
   function applyInspiration(id){
     var preset = INSPIRATION_PRESETS[id];
     if(!preset) return;
+    var sourcePrompt = String(preset.sourcePrompt || '').replace(/\s+/g, ' ').trim();
+    var useSourceDirection = sourcePrompt && preset.sourceId !== 4 && preset.sourceId !== 6;
     selectedInspiration = id;
     selectPersonaByKey(preset.persona || '');
     setCreativeTreatment(preset.treatment, true);
     setCreativeIntensity(preset.intensity, true);
-    fSujeito.value = preset.subject;
-    fConceito.value = preset.concept;
-    fAmbiente.value = preset.environment;
-    fAcao.value = preset.action || '';
-    fClima.value = preset.mood;
-    fPalette.value = preset.palette;
-    fMaterials.value = preset.materials;
+    if(useSourceDirection){
+      var firstSentence = (sourcePrompt.match(/^.*?[.!?](?:\s|$)/) || [sourcePrompt])[0].trim();
+      fSujeito.value = firstSentence.length > 360 ? firstSentence.slice(0, 357).trim() + '...' : firstSentence;
+      fConceito.value = sourcePrompt;
+      fAmbiente.value = '';
+      fAcao.value = '';
+      fClima.value = '';
+      fPalette.value = '';
+      fMaterials.value = '';
+    } else {
+      fSujeito.value = preset.subject;
+      fConceito.value = preset.concept;
+      fAmbiente.value = preset.environment;
+      fAcao.value = preset.action || '';
+      fClima.value = preset.mood;
+      fPalette.value = preset.palette;
+      fMaterials.value = preset.materials;
+    }
     fPlano.value = preset.shotId;
     fLente.value = preset.lensId;
     fIluminacao.value = preset.lightId;
@@ -8679,10 +8804,14 @@ function buildVideoPrompt(state, variation){
       card.classList.toggle('is-selected', on);
       card.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
-    inspirationStatus.textContent = preset.label + ' aplicado. Ajuste os campos ou gere a campanha.';
+    inspirationStatus.textContent = preset.label + (useSourceDirection
+      ? ' aplicado com a direção visual original. Ajuste os campos ou gere a campanha.'
+      : ' aplicado com direção curada. Ajuste os campos ou gere a campanha.');
     inspirationStatus.classList.add('is-ready');
     studioNoteTitle.textContent = 'Direção aplicada: ' + preset.label + '.';
-    studioNoteText.textContent = 'A receita visual já preencheu conceito, paleta, materiais e técnica. Use o Campaign Set para desdobrar o mesmo mundo em cinco shots.';
+    studioNoteText.textContent = useSourceDirection
+      ? 'A descrição visual ligada a este frame foi aplicada sem inventar outro conceito. Faça apenas os ajustes que quiser antes de gerar.'
+      : 'A receita visual preencheu conceito, paleta, materiais e técnica. Use o Campaign Set para desdobrar o mesmo mundo em cinco shots.';
     invalidateGeneratedPrompt();
     var scenePanel = document.querySelector('.stage-card-scene');
     if(scenePanel) scenePanel.classList.remove('mobile-step-collapsed');
@@ -9238,6 +9367,78 @@ function buildVideoPrompt(state, variation){
   anglePresetButtons.forEach(function(button){
     button.addEventListener('click', function(){ applyAnglePreset(button.getAttribute('data-angle-preset')); });
   });
+  if(angleReferenceGrid && angleScrollPrev && angleScrollNext){
+    var angleDrag = { active:false, startX:0, startScroll:0, moved:false };
+    var reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    function updateAngleScrollButtons(){
+      var maxScroll = Math.max(0, angleReferenceGrid.scrollWidth - angleReferenceGrid.clientWidth);
+      angleScrollPrev.disabled = angleReferenceGrid.scrollLeft <= 2;
+      angleScrollNext.disabled = angleReferenceGrid.scrollLeft >= maxScroll - 2;
+    }
+    refreshAngleReferenceControls = updateAngleScrollButtons;
+    function scrollAngleReferences(direction){
+      angleReferenceGrid.scrollBy({
+        left:direction * Math.max(220, angleReferenceGrid.clientWidth * .72),
+        behavior:reducedMotionQuery.matches ? 'auto' : 'smooth'
+      });
+    }
+    angleScrollPrev.addEventListener('click', function(){ scrollAngleReferences(-1); });
+    angleScrollNext.addEventListener('click', function(){ scrollAngleReferences(1); });
+    angleReferenceGrid.addEventListener('scroll', updateAngleScrollButtons, { passive:true });
+    angleReferenceGrid.addEventListener('wheel', function(event){
+      if(Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+      var maxScroll = angleReferenceGrid.scrollWidth - angleReferenceGrid.clientWidth;
+      var next = Math.max(0, Math.min(maxScroll, angleReferenceGrid.scrollLeft + event.deltaY));
+      if(next !== angleReferenceGrid.scrollLeft){
+        event.preventDefault();
+        angleReferenceGrid.scrollLeft = next;
+      }
+    }, { passive:false });
+    angleReferenceGrid.addEventListener('keydown', function(event){
+      if(event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      event.preventDefault();
+      scrollAngleReferences(event.key === 'ArrowLeft' ? -1 : 1);
+    });
+    angleReferenceGrid.addEventListener('pointerdown', function(event){
+      if(event.pointerType === 'touch' || event.button !== 0) return;
+      angleDrag.active = true;
+      angleDrag.startX = event.clientX;
+      angleDrag.startScroll = angleReferenceGrid.scrollLeft;
+      angleDrag.moved = false;
+      angleReferenceGrid.setPointerCapture(event.pointerId);
+    });
+    angleReferenceGrid.addEventListener('pointermove', function(event){
+      if(!angleDrag.active) return;
+      var distance = event.clientX - angleDrag.startX;
+      if(Math.abs(distance) > 5){
+        angleDrag.moved = true;
+        angleReferenceGrid.classList.add('is-dragging');
+      }
+      angleReferenceGrid.scrollLeft = angleDrag.startScroll - distance;
+    });
+    function endAngleDrag(event){
+      if(!angleDrag.active) return;
+      angleDrag.active = false;
+      if(angleReferenceGrid.hasPointerCapture(event.pointerId)) angleReferenceGrid.releasePointerCapture(event.pointerId);
+      angleReferenceGrid.classList.remove('is-dragging');
+      window.setTimeout(function(){ angleDrag.moved = false; }, 0);
+    }
+    angleReferenceGrid.addEventListener('pointerup', endAngleDrag);
+    angleReferenceGrid.addEventListener('pointercancel', endAngleDrag);
+    angleReferenceGrid.addEventListener('click', function(event){
+      if(angleDrag.moved){
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    }, true);
+    angleReferenceGrid.querySelectorAll('img').forEach(function(image){
+      if(!image.complete) image.addEventListener('load', updateAngleScrollButtons, { once:true });
+    });
+    window.addEventListener('resize', updateAngleScrollButtons, { passive:true });
+    updateAngleScrollButtons();
+    window.requestAnimationFrame(updateAngleScrollButtons);
+    window.setTimeout(updateAngleScrollButtons, 400);
+  }
   [angleSubjectType,angleOrbit,angleElevation,angleDistance,angleLens,angleFraming].forEach(function(field){
     field.addEventListener('change', function(){
       anglePresetButtons.forEach(function(button){
@@ -9272,7 +9473,11 @@ function buildVideoPrompt(state, variation){
       if(PERSONA_TREATMENT_DEFAULTS[key]){
         setCreativeTreatment(PERSONA_TREATMENT_DEFAULTS[key], true);
       }
-      personaChips.forEach(function(c){ c.classList.toggle('active', c === chip && !!key); });
+      personaChips.forEach(function(c){
+        var selected = c === chip && !!key;
+        c.classList.toggle('active', selected);
+        c.setAttribute('aria-pressed', selected ? 'true' : 'false');
+      });
       resetCreativeUI();
       if(key === 'character_sheet'){
         mode = 'img';
@@ -9288,6 +9493,8 @@ function buildVideoPrompt(state, variation){
         standardSceneFields.classList.add('hidden');
         fAspect.value = '4:5';
         if(fResolucao.value === '1k') fResolucao.value = '2k';
+        window.requestAnimationFrame(refreshAngleReferenceControls);
+        window.setTimeout(refreshAngleReferenceControls, 120);
       } else if(key === 'background_scene'){
         mode = 'img';
         backgroundScenePanel.classList.remove('hidden');
