@@ -2292,16 +2292,22 @@ function buildVideoPrompt(state, variation){
       charCounter.classList.remove('over');
       settingsReminder.textContent = '';
       applyMode();
-      if(key === 'character_sheet') characterFields.presentation.focus();
-      else if(key === 'angle_variation') angleSubjectType.focus();
-      else if(key === 'background_scene') bgSceneIdea.focus();
-      else fSujeito.focus();
   }
   if(personaChipGroup){
     personaChipGroup.addEventListener('click', function(event){
       var chip = event.target.closest('.persona-chip[data-persona]');
       if(!chip || !personaChipGroup.contains(chip)) return;
+      var scrollX = window.scrollX;
+      var scrollY = window.scrollY;
       activatePersonaChip(chip);
+      var preserveUntil = performance.now() + 180;
+      function preservePresetPosition(){
+        window.scrollTo({ left:scrollX, top:scrollY, behavior:'auto' });
+        if(performance.now() < preserveUntil){
+          window.requestAnimationFrame(preservePresetPosition);
+        }
+      }
+      preservePresetPosition();
     });
   }
 
