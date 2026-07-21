@@ -253,6 +253,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   align-items:center!important;
   justify-content:flex-start!important;
   gap:0!important;
+  overflow:visible!important;
 }
 .hero>.tabs .tab-btn::before{display:none!important;}
 .clean-nav-icon{position:absolute;left:21px;width:20px;height:20px;object-fit:contain;}
@@ -261,20 +262,20 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .hero>.tabs .tab-btn.active::after{
   content:"";
   position:absolute;
-  left:0;
+  left:4px;
   top:50%;
   width:7px;
   height:7px;
   border-radius:50%;
   transform:translateY(-50%);
   background:var(--accent)!important;
-  box-shadow:0 0 12px rgba(216,255,62,.48);
+  box-shadow:0 0 8px rgba(216,255,62,.42);
   opacity:1!important;
 }
 .tabpanel{grid-column:2;min-width:0;}
 body.clean-sidebar-collapsed .wrap{grid-template-columns:70px minmax(0,1fr);}
 body.clean-sidebar-collapsed .hero>.tabs .tab-btn{padding-inline:0!important;justify-content:center!important;font-size:0!important;}
-body.clean-sidebar-collapsed .hero>.tabs .tab-btn.active::after{left:3px;}
+body.clean-sidebar-collapsed .hero>.tabs .tab-btn.active::after{left:7px;}
 body.clean-sidebar-collapsed .hero>.tabs .clean-nav-icon{left:50%;transform:translateX(-50%);}
 
 .clean-sidebar-divider{height:1px;margin:18px 4px 18px;background:var(--border);}
@@ -295,10 +296,11 @@ body.clean-sidebar-collapsed .hero>.tabs .clean-nav-icon{left:50%;transform:tran
   gap:0!important;
   border:1px solid var(--border)!important;
   border-radius:5px!important;
-  background:#090b0a!important;
+  background:#0a0e0f!important;
   overflow:hidden!important;
   box-sizing:border-box!important;
 }
+.hero .mode-toggle::before,.hero .mode-toggle::after{display:none!important;content:none!important;}
 .hero .mode-toggle .tab-btn{
   width:100%!important;
   min-width:0!important;
