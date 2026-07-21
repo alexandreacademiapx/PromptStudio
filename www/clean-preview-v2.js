@@ -359,23 +359,23 @@
 
   var guideVisuals = {
     planos: [
-      {src:'./media/guide-plan-extreme-wide.webp',alt:'Still artistico em plano geral extremo, com figura pequena dominada pela paisagem',label:'EXTREME WIDE',position:'center'},
-      {src:'./media/inspiration-cinematic-27.webp',alt:'Still cinematografico em plano aberto com personagem inteiro dentro de um corredor urbano',label:'WIDE SHOT',position:'center 44%'},
-      {src:'./media/inspiration-commercial-17.webp',alt:'Still editorial enquadrado aproximadamente das coxas para cima, caracteristico do plano americano',label:'COWBOY SHOT',position:'center 42%'},
-      {src:'./media/inspiration-commercial-31.webp',alt:'Still editorial em plano medio, enquadrando a personagem aproximadamente da cintura para cima',label:'MEDIUM SHOT',position:'center 34%'},
-      {src:'./media/guide-plan-medium.webp',alt:'Retrato fotografico em meio primeiro plano, do peito para cima',label:'MEDIUM CLOSE-UP',position:'center 42%'},
-      {src:'./media/guide-plan-medium-close.webp',alt:'Retrato fotografico em primeiro plano com foco na expressao',label:'CLOSE-UP',position:'center 48%'},
-      {src:'./media/guide-plan-extreme-close.webp',alt:'Primeirissimo plano isolando nariz, boca e microtextura da pele',label:'EXTREME CLOSE-UP',position:'center'},
-      {src:'./media/guide-plan-detail.webp',alt:'Plano detalhe isolando forma, textura e acabamento de um pequeno objeto',label:'DETAIL SHOT',position:'center'}
+      {src:'./media/guide-plan-01-general.webp',alt:'Plano geral extremo com figura pequena dominada pela paisagem',label:'EXTREME WIDE',position:'center'},
+      {src:'./media/guide-plan-02-aberto.webp',alt:'Plano aberto com personagem de corpo inteiro dentro da paisagem',label:'WIDE SHOT',position:'center'},
+      {src:'./media/guide-plan-03-americano.webp',alt:'Plano americano enquadrando o personagem aproximadamente das coxas para cima',label:'COWBOY SHOT',position:'center 42%'},
+      {src:'./media/guide-plan-04-medio.webp',alt:'Plano medio enquadrando o personagem aproximadamente da cintura para cima',label:'MEDIUM SHOT',position:'center 34%'},
+      {src:'./media/guide-plan-05-meio-primeiro.webp',alt:'Meio primeiro plano enquadrado do peito para cima',label:'MEDIUM CLOSE-UP',position:'center 38%'},
+      {src:'./media/guide-plan-06-primeiro.webp',alt:'Primeiro plano com rosto e ombros dominando o enquadramento',label:'CLOSE-UP',position:'center 36%'},
+      {src:'./media/guide-plan-07-primeirissimo.webp',alt:'Primeirissimo plano isolando o olho e a microtextura da pele',label:'EXTREME CLOSE-UP',position:'center'},
+      {src:'./media/guide-plan-08-detalhe.webp',alt:'Plano detalhe isolando forma, textura e acabamento de um anel',label:'DETAIL SHOT',position:'center'}
     ],
     lentes: [
-      {src:'./media/inspiration-cinematic-34.webp',alt:'Still arquitetonico com perspectiva expandida, linhas convergentes e forte leitura de profundidade',label:'ULTRA-WIDE DEPTH',position:'center'},
-      {src:'./media/inspiration-cinematic-03.webp',alt:'Still de rua com perspectiva natural e equilibrio entre sujeitos e ambiente',label:'NATURAL PERSPECTIVE',position:'center 38%'},
-      {src:'./media/inspiration-commercial-19.webp',alt:'Retrato editorial com compressao suave e separacao do fundo',label:'TELE PORTRAIT',position:'center 30%'},
-      {src:'./media/guide-lens-anamorphic.webp',alt:'Still cinematografico horizontal com flare alongado, bokeh oval e composicao de carater anamorfica',label:'ANAMORPHIC FEEL',position:'center'},
-      {src:'./media/guide-lens-fisheye.webp',alt:'Retrato editorial com campo circular e forte curvatura radial de uma lente fisheye',label:'FISHEYE · RADIAL BEND',position:'center',fit:'contain'},
-      {src:'./media/inspiration-commercial-15.webp',alt:'Still macro revelando microtextura, reflexos e acabamento de um pequeno objeto',label:'MACRO DETAIL',position:'center 46%'},
-      {src:'./media/guide-lens-vintage-swirl.webp',alt:'Retrato com bokeh giratorio claramente visivel ao redor do sujeito',label:'VINTAGE · SWIRL BOKEH',position:'center',fit:'contain'}
+      {src:'./media/guide-lens-01-ultra-wide.webp',alt:'Ambiente interno com perspectiva expandida, linhas convergentes e distorcao nas bordas de uma lente ultra wide',label:'ULTRA-WIDE DEPTH',position:'center'},
+      {src:'./media/guide-lens-02-normal-wide.webp',alt:'Retrato ambiental com perspectiva natural de uma lente normal wide',label:'NATURAL PERSPECTIVE',position:'center'},
+      {src:'./media/guide-lens-03-tele-retrato.webp',alt:'Cena com forte compressao de planos e fundo aproximado caracteristica de uma teleobjetiva',label:'TELE PORTRAIT',position:'center'},
+      {src:'./media/guide-lens-04-anamorfica.webp',alt:'Still cinematografico horizontal com flare alongado caracteristico de lente anamorfica',label:'ANAMORPHIC FEEL',position:'center'},
+      {src:'./media/guide-lens-05-fisheye.webp',alt:'Arquitetura com forte curvatura radial caracteristica de uma lente fisheye',label:'FISHEYE · RADIAL BEND',position:'center'},
+      {src:'./media/guide-lens-06-macro-probe.webp',alt:'Macro extremo revelando microtextura e detalhes de insetos',label:'MACRO DETAIL',position:'center'},
+      {src:'./media/guide-lens-07-vintage.webp',alt:'Retrato com contraste suave e carater optico vintage',label:'VINTAGE CHARACTER',position:'center 42%'}
     ]
   };
 

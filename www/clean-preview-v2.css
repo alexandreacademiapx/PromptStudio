@@ -178,11 +178,15 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .hero{
   grid-column:1;
   grid-row:1 / span 2;
-  position:sticky!important;
+  position:fixed!important;
   top:0;
+  bottom:0;
+  left:0;
   z-index:35;
+  width:154px!important;
   min-height:100vh;
   height:100vh;
+  margin:0!important;
   padding:18px 10px!important;
   border-right:1px solid var(--border);
   display:flex!important;
