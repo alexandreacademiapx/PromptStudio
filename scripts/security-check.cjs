@@ -1,11 +1,9 @@
-const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 
 const root = path.resolve(__dirname, '..');
 const sourcePath = path.join(root, 'www', 'index.html');
 const publishedPath = path.join(root, 'docs', 'index.html');
-const previewPath = path.join(root, 'docs', 'social-preview.html');
 const failures = [];
 
 function read(file) {
@@ -18,16 +16,41 @@ function requireCheck(condition, message) {
 
 const source = read(sourcePath);
 const published = read(publishedPath);
-const preview = read(previewPath);
-const scripts = [...source.matchAll(/<script>([\s\S]*?)<\/script>/g)];
+const inlineScripts = [...source.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g)];
+const modularFiles = [
+  'assets/data/inspiration-source-prompts.js',
+  'assets/js/bootstrap.js',
+  'assets/data/prompt-library.js',
+  'assets/js/app.js',
+  'assets/js/ui-polish.js',
+  'assets/css/app-core.css',
+  'assets/css/app-theme.css'
+];
+const expectedScripts = modularFiles.filter((file) => file.endsWith('.js'));
+const scriptSources = [...source.matchAll(/<script\s+[^>]*src=["']\.\/([^"'?]+)(?:\?[^"']*)?["'][^>]*><\/script>/g)]
+  .map((match) => match[1]);
 
 requireCheck(source === published, 'www/index.html e docs/index.html precisam ser idênticos.');
-requireCheck(scripts.length === 1, 'A aplicação deve manter exatamente um script inline auditado.');
+requireCheck(inlineScripts.length === 0, 'A aplicação modular não deve conter JavaScript inline.');
+requireCheck(source.includes("script-src 'self';"), 'A CSP deve permitir somente scripts locais externos.');
+requireCheck(
+  JSON.stringify(scriptSources) === JSON.stringify(expectedScripts),
+  'A ordem ou a lista de scripts modulares do index.html foi alterada.'
+);
 
-if (scripts.length === 1) {
-  const hash = `sha256-${crypto.createHash('sha256').update(scripts[0][1], 'utf8').digest('base64')}`;
-  requireCheck(source.includes(`script-src 'self' '${hash}'`), 'O hash CSP do JavaScript inline está desatualizado.');
-}
+modularFiles.forEach((relativePath) => {
+  const sourceFile = path.join(root, 'www', relativePath);
+  const publishedFile = path.join(root, 'docs', relativePath);
+  requireCheck(fs.existsSync(sourceFile), `Módulo ausente em www: ${relativePath}`);
+  requireCheck(fs.existsSync(publishedFile), `Módulo ausente em docs: ${relativePath}`);
+  if (fs.existsSync(sourceFile) && fs.existsSync(publishedFile)) {
+    requireCheck(read(sourceFile) === read(publishedFile), `Módulo divergente entre www e docs: ${relativePath}`);
+  }
+});
+
+const auditedCode = [source]
+  .concat(modularFiles.map((relativePath) => read(path.join(root, 'www', relativePath))))
+  .join('\n');
 
 [
   "script-src-attr 'none'",
@@ -52,17 +75,16 @@ if (scripts.length === 1) {
   /\beval\s*\(/,
   /new\s+Function\s*\(/
 ].forEach((pattern) => {
-  requireCheck(!pattern.test(source), `Operação DOM insegura encontrada: ${pattern}`);
+  requireCheck(!pattern.test(auditedCode), `Operação DOM insegura encontrada: ${pattern}`);
 });
 
 requireCheck(!/<[^>]+\son[a-z]+\s*=/i.test(source), 'Manipulador JavaScript inline encontrado no HTML.');
 requireCheck(!/(?:src|href)\s*=\s*["']http:\/\//i.test(source), 'Recurso HTTP inseguro encontrado.');
 requireCheck(source.includes('<meta name="referrer" content="no-referrer">'), 'Política de referrer forte ausente.');
-requireCheck(preview.includes('Content-Security-Policy'), 'A página auxiliar de preview está sem CSP.');
 requireCheck(read(path.join(root, 'docs', 'CNAME')).trim() === 'www.studioprompts.com.br', 'CNAME publicado foi alterado.');
 requireCheck(fs.existsSync(path.join(root, 'docs', '.nojekyll')), 'docs/.nojekyll está ausente.');
 
-const repositoryText = [source, published, preview, read(path.join(root, 'package.json'))].join('\n');
+const repositoryText = [auditedCode, published, read(path.join(root, 'package.json'))].join('\n');
 [
   /AKIA[0-9A-Z]{16}/,
   /gh[pousr]_[A-Za-z0-9]{30,}/,

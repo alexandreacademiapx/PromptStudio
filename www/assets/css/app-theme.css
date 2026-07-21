@@ -105,7 +105,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   height:clamp(128px,17vw,260px)!important;
   margin:0!important;
   border:0!important;
-  background:url("./media/clean-star.svg") center/contain no-repeat!important;
+  background:url("../../media/clean-star.svg") center/contain no-repeat!important;
   opacity:1!important;
   transform:translate(-50%,-50%) rotate(-1deg)!important;
   animation:editorialStarWiggle 6s ease-in-out infinite!important;
@@ -225,7 +225,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   height:54px!important;
   min-width:54px!important;
   border:0!important;
-  background:url("./media/clean-star.svg") center/64% no-repeat!important;
+  background:url("../../media/clean-star.svg") center/64% no-repeat!important;
   box-shadow:none!important;
   transform:none!important;
 }
@@ -278,6 +278,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 }
 .tabpanel{grid-column:2;min-width:0;}
 body.clean-sidebar-collapsed .wrap{grid-template-columns:70px minmax(0,1fr);}
+body.clean-sidebar-collapsed .hero{width:70px!important;}
 body.clean-sidebar-collapsed .hero>.tabs .tab-btn{padding-inline:0!important;justify-content:center!important;font-size:0!important;}
 body.clean-sidebar-collapsed .hero>.tabs .tab-btn.active::after{left:7px;}
 body.clean-sidebar-collapsed .hero>.tabs .clean-nav-icon{left:50%;transform:translateX(-50%);}
@@ -352,7 +353,7 @@ body.clean-sidebar-collapsed .hero>.tabs .clean-nav-icon{left:50%;transform:tran
   margin:auto auto 0;
   border:0;
   color:var(--muted);
-  background:transparent url("./media/icon-collapse.svg") center/22px no-repeat;
+  background:transparent url("../../media/icon-collapse.svg") center/22px no-repeat;
   cursor:pointer;
   transition:color 160ms ease,background-color 160ms ease,transform 180ms ease;
 }
@@ -767,7 +768,7 @@ textarea:focus,input:focus,select:focus{
   height:54px!important;
   border:1px solid var(--border)!important;
   border-radius:50%!important;
-  background:#0a0c0c url("./media/clean-star.svg") center/58% no-repeat!important;
+  background:#0a0c0c url("../../media/clean-star.svg") center/58% no-repeat!important;
   box-shadow:0 12px 30px rgba(0,0,0,.28)!important;
 }
 .quick-float__toggle:hover{border-color:var(--accent)!important;background-color:#101411!important;transform:translateY(-2px)!important;}

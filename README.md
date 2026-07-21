@@ -31,11 +31,27 @@ O site vai abrir em:
 
 `https://SEU-USUARIO.github.io/SEU-REPO/`
 
-## O que ja ficou separado aqui
+## Estrutura modular
 
-- `www/index.html`: copia da V3 com ajustes para uso mobile e iPhone
-- `capacitor.config.json`: configuracao base do app
-- `package.json`: comandos do projeto
+As pastas `www/` e `docs/` mantêm cópias idênticas da aplicação:
+
+- `index.html`: marcação das telas Gerador e Guia.
+- `assets/css/app-core.css`: estrutura e responsividade.
+- `assets/css/app-theme.css`: identidade visual e polimento.
+- `assets/js/bootstrap.js`: perfil adaptativo de desempenho.
+- `assets/js/app.js`: gerador, Angle Lab, Guia e interações.
+- `assets/js/ui-polish.js`: componentes e acabamento visual.
+- `assets/data/prompt-library.js`: bancos e regras de prompts.
+- `assets/data/inspiration-source-prompts.js`: dados do Inspiration Deck.
+- `media/`: somente imagens, ícones e vídeos efetivamente utilizados.
+
+O site continua sendo uma única aplicação. A separação existe para melhorar cache, manutenção e auditoria sem quebrar o estado entre Gerador e Guia.
+
+Outros arquivos importantes:
+
+- `capacitor.config.json`: configuração base do app.
+- `package.json`: comandos do projeto.
+- `scripts/security-check.cjs`: valida a CSP, os módulos e a paridade entre `www` e `docs`.
 
 ## Fluxo local
 
