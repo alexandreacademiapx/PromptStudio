@@ -2300,7 +2300,8 @@ function buildVideoPrompt(state, variation){
       var scrollX = window.scrollX;
       var scrollY = window.scrollY;
       activatePersonaChip(chip);
-      var preserveUntil = performance.now() + 180;
+      var hasDeferredPanel = chip.getAttribute('data-persona') === 'angle_variation' || chip.getAttribute('data-persona') === 'background_scene';
+      var preserveUntil = performance.now() + (hasDeferredPanel ? 700 : 180);
       function preservePresetPosition(){
         window.scrollTo({ left:scrollX, top:scrollY, behavior:'auto' });
         if(performance.now() < preserveUntil){
