@@ -65,6 +65,43 @@
   addHeader(doc.getElementById('panel-gerador'),'Prompt Studio','Creative direction system');
   addHeader(doc.getElementById('panel-guia'),'Guia de dire\u00e7\u00e3o','Biblioteca pr\u00e1tica');
 
+  var sidebar = doc.querySelector('.hero');
+  var modeWrap = doc.querySelector('.mode-toggle-wrap');
+  if(sidebar && modeWrap && !sidebar.querySelector(':scope > .mode-toggle-wrap')){
+    sidebar.querySelectorAll(':scope > .tabs [data-tab]').forEach(function(button){
+      var icon = doc.createElement('img');
+      icon.className = 'clean-nav-icon';
+      icon.alt = '';
+      icon.setAttribute('aria-hidden','true');
+      icon.src = button.dataset.tab === 'guia' ? './media/icon-guide.svg' : './media/icon-generator.svg';
+      button.insertBefore(icon,button.firstChild);
+    });
+    var divider = make('div','clean-sidebar-divider');
+    divider.setAttribute('aria-hidden','true');
+    sidebar.appendChild(divider);
+    sidebar.appendChild(modeWrap);
+    var collapse = make('button','clean-sidebar-collapse');
+    collapse.type = 'button';
+    collapse.setAttribute('aria-label','Recolher navega\u00e7\u00e3o lateral');
+    collapse.setAttribute('aria-expanded','true');
+    sidebar.appendChild(collapse);
+    if(window.matchMedia('(max-width:860px)').matches){
+      body.classList.add('clean-sidebar-collapsed');
+      collapse.setAttribute('aria-expanded','false');
+      collapse.setAttribute('aria-label','Abrir navega\u00e7\u00e3o lateral');
+    }
+    collapse.addEventListener('click',function(){
+      var collapsed = body.classList.toggle('clean-sidebar-collapsed');
+      collapse.setAttribute('aria-expanded',String(!collapsed));
+      collapse.setAttribute('aria-label',collapsed ? 'Abrir navega\u00e7\u00e3o lateral' : 'Recolher navega\u00e7\u00e3o lateral');
+    });
+    sidebar.querySelectorAll('[data-tab],[data-mode]').forEach(function(button){
+      button.addEventListener('click',function(){
+        if(window.matchMedia('(max-width:860px)').matches) body.classList.add('clean-sidebar-collapsed');
+      });
+    });
+  }
+
   var sceneCard = doc.querySelector('.stage-card-scene');
   var techCard = doc.querySelector('.stage-card-tech');
   addSectionHead(sceneCard,'01','Ideia e dire\u00e7\u00e3o');
@@ -108,6 +145,23 @@
     quickFloat.style.top = 'auto';
     quickFloat.style.right = window.innerWidth <= 860 ? '16px' : '22px';
     quickFloat.style.bottom = window.innerWidth <= 860 ? '96px' : '22px';
+    var quickToggle = doc.getElementById('quickFloatToggle');
+    function constrainQuickFloat(){
+      if(quickFloat.classList.contains('is-minimized')) return;
+      var margin = 12;
+      var rect = quickFloat.getBoundingClientRect();
+      var left = Math.min(Math.max(margin,rect.left),Math.max(margin,window.innerWidth - rect.width - margin));
+      var top = Math.min(Math.max(margin,rect.top),Math.max(margin,window.innerHeight - rect.height - margin));
+      quickFloat.style.left = left + 'px';
+      quickFloat.style.top = top + 'px';
+      quickFloat.style.right = 'auto';
+      quickFloat.style.bottom = 'auto';
+    }
+    if(quickToggle){
+      quickToggle.addEventListener('click',function(){ window.requestAnimationFrame(constrainQuickFloat); });
+    }
+    window.addEventListener('pointerup',function(){ window.requestAnimationFrame(constrainQuickFloat); });
+    window.addEventListener('resize',function(){ window.requestAnimationFrame(constrainQuickFloat); });
   }
 
   var palettes = [
@@ -306,21 +360,21 @@
   var guideVisuals = {
     planos: [
       {src:'./media/guide-plan-extreme-wide.webp',alt:'Still artistico em plano geral extremo, com figura pequena dominada pela paisagem',label:'EXTREME WIDE',position:'center'},
-      {src:'./media/inspiration-cinematic-27.webp',alt:'Still cinematografico em plano aberto com personagem inteiro dentro de um corredor urbano',label:'WIDE SHOT',position:'center',fit:'contain'},
-      {src:'./media/inspiration-commercial-22.webp',alt:'Still editorial enquadrado aproximadamente das coxas para cima, caracteristico do plano americano',label:'COWBOY SHOT',position:'center 38%'},
-      {src:'./media/inspiration-commercial-18.webp',alt:'Still editorial em plano medio, enquadrando a personagem aproximadamente da cintura para cima',label:'MEDIUM SHOT',position:'center 12%'},
-      {src:'./media/inspiration-cinematic-29.webp',alt:'Retrato cinematografico em meio primeiro plano, do peito para cima',label:'MEDIUM CLOSE-UP',position:'center 32%'},
-      {src:'./media/inspiration-cinematic-25.webp',alt:'Still cinematografico em primeiro plano com foco na expressao',label:'CLOSE-UP',position:'center 28%'},
+      {src:'./media/inspiration-cinematic-27.webp',alt:'Still cinematografico em plano aberto com personagem inteiro dentro de um corredor urbano',label:'WIDE SHOT',position:'center 44%'},
+      {src:'./media/inspiration-commercial-17.webp',alt:'Still editorial enquadrado aproximadamente das coxas para cima, caracteristico do plano americano',label:'COWBOY SHOT',position:'center 42%'},
+      {src:'./media/inspiration-commercial-31.webp',alt:'Still editorial em plano medio, enquadrando a personagem aproximadamente da cintura para cima',label:'MEDIUM SHOT',position:'center 34%'},
+      {src:'./media/guide-plan-medium.webp',alt:'Retrato fotografico em meio primeiro plano, do peito para cima',label:'MEDIUM CLOSE-UP',position:'center 42%'},
+      {src:'./media/guide-plan-medium-close.webp',alt:'Retrato fotografico em primeiro plano com foco na expressao',label:'CLOSE-UP',position:'center 48%'},
       {src:'./media/guide-plan-extreme-close.webp',alt:'Primeirissimo plano isolando nariz, boca e microtextura da pele',label:'EXTREME CLOSE-UP',position:'center'},
       {src:'./media/guide-plan-detail.webp',alt:'Plano detalhe isolando forma, textura e acabamento de um pequeno objeto',label:'DETAIL SHOT',position:'center'}
     ],
     lentes: [
-      {src:'./media/inspiration-cinematic-27.webp',alt:'Still com perspectiva expandida, linhas convergentes e forte leitura de profundidade',label:'WIDE CHARACTER',position:'center',fit:'contain'},
-      {src:'./media/inspiration-cinematic-03.webp',alt:'Still de rua com perspectiva natural e equilibrio entre sujeitos e ambiente',label:'NATURAL PERSPECTIVE',position:'center',fit:'contain'},
+      {src:'./media/inspiration-cinematic-34.webp',alt:'Still arquitetonico com perspectiva expandida, linhas convergentes e forte leitura de profundidade',label:'ULTRA-WIDE DEPTH',position:'center'},
+      {src:'./media/inspiration-cinematic-03.webp',alt:'Still de rua com perspectiva natural e equilibrio entre sujeitos e ambiente',label:'NATURAL PERSPECTIVE',position:'center 38%'},
       {src:'./media/inspiration-commercial-19.webp',alt:'Retrato editorial com compressao suave e separacao do fundo',label:'TELE PORTRAIT',position:'center 30%'},
       {src:'./media/guide-lens-anamorphic.webp',alt:'Still cinematografico horizontal com flare alongado, bokeh oval e composicao de carater anamorfica',label:'ANAMORPHIC FEEL',position:'center'},
       {src:'./media/guide-lens-fisheye.webp',alt:'Retrato editorial com campo circular e forte curvatura radial de uma lente fisheye',label:'FISHEYE · RADIAL BEND',position:'center',fit:'contain'},
-      {src:'./media/guide-plan-detail.webp',alt:'Still macro revelando microtextura, reflexos e acabamento de um pequeno objeto',label:'MACRO DETAIL',position:'center'},
+      {src:'./media/inspiration-commercial-15.webp',alt:'Still macro revelando microtextura, reflexos e acabamento de um pequeno objeto',label:'MACRO DETAIL',position:'center 46%'},
       {src:'./media/guide-lens-vintage-swirl.webp',alt:'Retrato com bokeh giratorio claramente visivel ao redor do sujeito',label:'VINTAGE · SWIRL BOKEH',position:'center',fit:'contain'}
     ]
   };
@@ -349,7 +403,6 @@
       image.height = 450;
       image.addEventListener('error',function(){ figure.classList.add('guide-photo--fallback'); });
       figure.classList.add('guide-photo');
-      if(visual.fit === 'contain') figure.classList.add('guide-photo--contain');
       figure.dataset.visualLabel = visual.label;
       figure.style.setProperty('--guide-photo-position',visual.position);
       figure.style.setProperty('--guide-photo-source','url("' + visual.src + '")');

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <pattern id="grid" width="52" height="52" patternUnits="userSpaceOnUse">
+      <path d="M52 0H0V52" fill="none" stroke="#1c2220" stroke-width="1"/>
+    </pattern>
+    <radialGradient id="glow" cx="78%" cy="48%" r="42%">
+      <stop offset="0" stop-color="#d8ff3e" stop-opacity=".14"/>
+      <stop offset="1" stop-color="#d8ff3e" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#050707"/>
+  <rect width="1200" height="630" fill="url(#grid)" opacity=".52"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <rect x="44" y="44" width="1112" height="542" rx="2" fill="none" stroke="#303735"/>
+  <text x="82" y="118" fill="#d8ff3e" font-family="monospace" font-size="19" font-weight="700" letter-spacing="6">CREATIVE DIRECTION SYSTEM</text>
+  <text x="78" y="286" fill="#f2f4ef" font-family="Arial, sans-serif" font-size="112" font-weight="800" letter-spacing="-6">PROMPT</text>
+  <text x="78" y="390" fill="#f2f4ef" font-family="Arial, sans-serif" font-size="112" font-weight="800" letter-spacing="-6">STUDIO</text>
+  <text x="84" y="474" fill="#9ca5a1" font-family="Arial, sans-serif" font-size="27">Direção criativa para prompts de imagem e vídeo.</text>
+  <text x="84" y="535" fill="#d8ff3e" font-family="monospace" font-size="18" font-weight="700" letter-spacing="2">STUDIOPROMPTS.COM.BR</text>
+  <g transform="translate(858 148) scale(2.05)">
+    <path fill="#d8ff3e" d="M62 10 70 48 96 25 78 55 116 52 80 64 109 90 74 73 78 116 63 78 47 109 53 72 18 93 49 64 11 53 51 55Z"/>
+    <path d="M77 46 100 20" fill="none" stroke="#d8ff3e" stroke-width="2.4" stroke-linecap="round" opacity=".8"/>
+    <circle cx="105" cy="14" r="6" fill="#d8ff3e"/>
+    <circle cx="63" cy="64" r="4" fill="#080a0a" opacity=".82"/>
+  </g>
+</svg>
